@@ -1,0 +1,25 @@
+Package: homedesign
+Title: This package forms the design of a sustainable home in Valencia, Spain
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Ian", 
+           family = "Salter",
+           role = c("aut", "cre"),
+           email = "iansaltergit@gmail.com")
+Description: What the package does (one paragraph).
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.2
+Imports:
+    tibble,
+    dplyr,
+    assertthat,
+    logger,
+    ggplot2
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
+Depends: 
+    R (>= 2.10)
+LazyData: true
