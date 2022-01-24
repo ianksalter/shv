@@ -40,16 +40,16 @@ The following will NOT be part of the architects role:
 -   Engaging Contractors or Suppliers
 
 The project is being run in the same manner as an open source software project. 
-[Jira](https://www.atlassian.com/software/jira) is being used for project
-management. Requirements, design and analysis are being developed in the [R
-statistical programming](https://www.r-project.org/) language using
+Requirements, design and analysis are being developed in the
+[R statistical programming](https://www.r-project.org/) language using
 [R Studio](https://www.rstudio.com/) and [git](https://git-scm.com/) for version
 control. Designs are being rendered from data to 2d representations and 3d
 Blender models. The language of the project is English.
 
 The architect will be working with the following team members:
 
-* Ian - the owner. Ian has 30 + years experience in software architecture,
+* Ian - the owner. Ian is a mathematician with a Phd in Human Factors
+Engineering. He has 30 + years experience in software architecture,
 software engineering and software project management in an investment banking
 environment. He also has build experience for clubs and festivals events.
 
@@ -58,6 +58,9 @@ industry. He also has build experience for clubs and festivals events.
 
 * Samuel - the owners son. Samuel is a mathematician who will be helping with
 software and calculations and may help with on site build.
+
+* Tegan - the owners daughter an aeronautical and software engineer who will
+be helping with software and calculations and may help with on site build.
 
 * Carol - the owners friend. Carolina is a Valenciana with 20 years
 administrative experience. She will be helping with Spanish translation,

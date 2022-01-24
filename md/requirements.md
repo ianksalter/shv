@@ -173,13 +173,19 @@ The bathroom should function as a wet room.
 
 ## Security Systems
 
-A security system should be considered. At minimum this should detect fire and maybe carbon monoxide but perhaps also unauthorised entry.
+A security system should be considered. At minimum this should detect fire and
+maybe carbon monoxide but perhaps also unauthorised entry.
 
 \newpage
 
 # Finishing
 
-The property should be finished with simple materials. A simple coat of plaster could be sufficient. More sophisticated 
+The property should be finished with simple materials. A simple coat of plaster
+could be sufficient. More sophisticated coatings could be considered.
 
 
 # Regulations and Certifications
+
+The build needs to provide all of Valencias building regulations and provide
+all of the certifications mentioned in the license. In addition the renovation
+should aim to achieve PassiveHause refit standard Enerphit.
