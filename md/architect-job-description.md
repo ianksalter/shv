@@ -46,7 +46,7 @@ Requirements, design and analysis are being developed in the
 control. Designs are being rendered from data to 2d representations and 3d
 Blender models. The language of the project is English.
 
-The architect will be working with the following team members:
+The following describes the team involved in the project so far::
 
 * Ian - the owner. Ian is a mathematician with a Phd in Human Factors
 Engineering. He has 30 + years experience in software architecture,
