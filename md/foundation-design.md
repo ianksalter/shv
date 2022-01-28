@@ -12,37 +12,96 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-General links (for moving to other docs):
-
-Insulation:
-
-https://www.google.com/search?q=pladur+con+aislamiento+t%C3%A9rmico+incorporado&rlz=1C5CHFA_enES920ES920&sxsrf=AOaemvKvL10lBaqSCMPkzCpP88lsX5Miog:1639760193609&source=lnms&tbm=shop&sa=X&ved=2ahUKEwju-uzepuv0AhWvzoUKHYzqDQgQ_AUoAnoECAEQBA&biw=1920&bih=880&dpr=1
-
-Loft ladders
-
-* https://lecasaprofesional.com/producto/re-102-escalera-escamoteable-para-pared-en-acero-galvanizado-2/
-* https://idealkit.es/escaleras-escamoteables/escalera-escamoteable-flexa-altillo.html#/1055-medidas_escalera_fle-70_x_100/1052-altura_de_suelo_a_su-de_251_a_275_cm_10_p
-* https://www.atocha-jc.com/escam7.htm
-* https://idealkit.es/escaleras-escamoteables/escalera-escamoteable-flexa-pared.html?gclid=Cj0KCQiAzMGNBhCyARIsANpUkzMhZNlonVzu0pqGy-RXrA0mFgb7GEWasG9gS6H63ljhzvehPioJYnkaAnKaEALw_wcB#/736-altura_techo_flexa_p-de_251_a_275_cm_10_p/731-medidas_hueco_flexa_-80_x_100_cm
-* https://www.google.com/search?q=Escaleras+escamoteables+vertical&tbm=isch&chips=q:escaleras+escamoteables+vertical,online_chips:pared:gnGPWTihRfw%3D&rlz=1C5CHFA_enES920ES920&hl=en-GB&sa=X&ved=2ahUKEwjn9qTW5tT0AhUP8BoKHZxXCH0Q4lYoBHoECAEQJA&biw=1920&bih=881
-* https://www.loftcentre.co.uk/loft-ladders/vertical-wall-access
-* https://www.premierloftladders.co.uk/vertical-installation-applications/
-
-
 
 #   Repairs to Structural Pillars
 
+Give anti oxides treatment and cover with foam. Check regs on what might happen with the foam.
+
+Shutter and concrete.
+
+Mix would be
+
+Sharp sand (66%), & cement (33%) - probably no room for stones. 
+
 #   Drainage
+
+40 to 1 drop on the drainage.
+
+4inch - 10cm pipe for wc and poss bathroom sink.
+
+3inch 7.5 cm for shower and kitchen wastes. Shower and kitchen stuff to go into 3 inch. Maybe also
+the bathroom sink with a trap - see bathroom design.
+
+Arqueta is the name for manhole there are various but they are odd sizes. Examples are:
+
+https://www.bauhaus.es/arquetas-canaletas-y-sumideros/dakota-arqueta-seventy/p/24758831
+
+May be best to make a custom one from bricks and pipes - would still need to buy
+manhole cover. Can get covers that take tiles e.g:
+
+https://es.aliexpress.com/item/10000335355584.html?gatewayAdapt=glo2esp&_randl_currency=EUR&_randl_shipto=ES&src=google&aff_fcid=90dd8f8c92164a6a8916c01e2e7a1dee-1643100941602-03492-UneMJZVf&aff_fsk=UneMJZVf&aff_platform=aaf&sk=UneMJZVf&aff_trace_key=90dd8f8c92164a6a8916c01e2e7a1dee-1643100941602-03492-UneMJZVf&terminal_id=cb67255f2f6b4886be144c800a930c1d
+
+Need to check whether drainage requires inspection.
+
+Can do French drain as  a channel. Use sharp sand. Round off the corners. Can do same time as wall building which save on cement mixer hire. Membrane can be glued together with contact adhesive and can also run into a ceramic pipe.
+
+Make sure the pipers are supported pea shingle may be best. When its not in a trench
+may need bricks either side to keep the pea shingle in place. Could use bricks at a pinch.
 
 
 #   Damp Proofing
 
+One option is permaguard (may need Spanish Equivalent) https://www.permagard.co.uk/damp-proof-membrane-kit-10m
 
-#   Floor Levelling
+Floors we would use normal damp course DPM Damp proof membrane and that goes up the wall so they overlap.
+
+There would be damp courses for the walls - a DPC made from a different material.
+
+See wikipedia page on Damp Proofing (and find Spanish Equivalents: https://en.wikipedia.org/wiki/Damp_proofing#:~:text=A%20damp%2Dproof%20course%20(DPC,phenomenon%20known%20as%20rising%20damp.&text=A%20common%20example%20is%20polyethylene,gaining%20moisture%20through%20capillary%20action.
+
+
+
+# Bathoorm wall/ Entrance Wall and foundations
+
+Foundations would be  be 40omm wide and 500 deep but need to check. Need DPC on the wall different from the one on a floor.
+
+These footings could be poured at the same time as the garden concrete!!!!
+
+Concrete block/thermolite blocks for a wall Could use a wall starter - something you screw into the wall
+and gives you the ties for the bricks. Generally stainless steel. Can use on pillar for
+bathroom And against the wall for the entrance wall.
+
+Building the wall on the bathroom can put in joist hangers as you go. Take care
+with measurements - can also use engineering bricks to giver finer grain. Can 
+also leave space for the joists as an alternative.
+
+As part of this need to remove shutter and create secure entrance with sterling board.
+
+Going to look the area to see how other sites are secured.
+
+
+#   Floor Levelling floor insulation and underfloor heating pipes:
+
+Process
+
+Before this foundations and wall. Foundations would be  be 40omm wide and 500 deep but need to check.
+Concrete blocks/ Thermolite blocks.
+
+- level the floor
+- DPM course
+- PIR/ insulation
+- underfloor heating (if done)
+- screed
+
+Will need to contact contractors to lay outside concrete. Make sure shuttering is 
+supporting properly as it can pour out. Stakes are not enough use blocks or stays.
+
+Later in  the process put the screed inside. Take care that the concrete poouring process
+
 
 One option is: https://www.caviti.es
 
-Could we just put insulation on the floor:
+A possible option is insulation.
 
 saerch here: https://www.google.com/search?q=Floor+Insulation&rlz=1C5CHFA_enES920ES920&sxsrf=AOaemvItli5Ac4yohYIpJyNnqKoDoieFHw%3A1639510389129&ei=dfG4YYapB5Lhgwfhz6K4Dw&ved=0ahUKEwjGt-WShOT0AhWS8OAKHeGnCPcQ4dUDCA4&uact=5&oq=Floor+Insulation&gs_lcp=Cgdnd3Mtd2l6EAMyBQgAEIAEMgUIABCABDIKCAAQgAQQhwIQFDIFCAAQgAQyBQgAEIAEMgUIABCABDIFCAAQgAQyBQgAEIAEMgoIABCABBCHAhAUMgUIABCABDoECCMQJzoFCAAQkQI6BAgAEEM6CgguEMcBENEDEEM6CwguEIAEEMcBEKMCOgsILhCABBDHARDRAzoHCCMQsQIQJzoLCC4QgAQQxwEQrwE6BwgjEOoCECc6BAguEEM6BQguEIAEOgoILhCABBCHAhAUOggIABCABBDJAzoFCAAQkgM6CggAEIAEEEYQ_wFKBAhBGABKBAhGGABQAFjyLWC3MWgFcAB4AIABa4gBnQySAQQxMS42mAEAoAEBsAEKwAEB&sclient=gws-wiz
 
@@ -51,7 +110,6 @@ saerch here: https://www.google.com/search?q=Floor+Insulation&rlz=1C5CHFA_enES92
 Also search outside underfloor heating
 
 #   Plumbing
-
 
 
 | Space    | Location        | Type |
@@ -72,3 +130,9 @@ Also search outside underfloor heating
 : Plumbing Inlets
 
 #   Electricial
+
+
+Any of the brick walls will need condultes chasing in with angle grinder.
+
+Conduits for the kitchen island will need to be run through the screed. Probably
+in the underfloor heating  structure/ mat bot not crossing the pipes.
