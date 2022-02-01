@@ -136,3 +136,5 @@ Any of the brick walls will need condultes chasing in with angle grinder.
 
 Conduits for the kitchen island will need to be run through the screed. Probably
 in the underfloor heating  structure/ mat bot not crossing the pipes.
+
+Don't forget doorbell and electricity for systems - air con water & ventilation
