@@ -225,8 +225,8 @@ generate_existing_walls <- function(){
   wall_10_z_rotation <- 90
 
   space_2_3_x_difference <-
-    distance(existing, "space_2", "y_direction") -
-    distance(existing, "space_3", "y_direction")
+    distance(existing, "space_2", "x_direction") -
+    distance(existing, "space_3", "x_direction")
   wall_11_width <- east_wall_width
   wall_11_length <- space_2_3_x_difference + east_wall_width
   wall_11_x_start <- wall_10_x_start
@@ -335,15 +335,11 @@ generate_existing_walls <- function(){
      wall_13_z_rotation,
      wall_14_z_rotation)
 
-  wall_z_rotations_rad <- pi * wall_z_rotations / 180
+  wall_x_locations <-  wall_loc_x(wall_x_starts,
+                                  wall_lengths, wall_widths, wall_z_rotations)
 
-  wall_x_locations <- wall_x_starts +
-    cos(wall_z_rotations_rad - 90) * wall_widths / 2 +
-    cos(wall_z_rotations_rad) * wall_lengths / 2
-
-  wall_y_locations <- wall_y_starts +
-    sin(wall_z_rotations_rad + 90) * wall_widths / 2 +
-    sin(wall_z_rotations_rad) * wall_lengths / 2
+  wall_y_locations <- wall_loc_y(wall_y_starts,
+                                 wall_lengths, wall_widths, wall_z_rotations)
 
   wall_z_locations <- wall_z_starts + wall_heights /2
 
@@ -384,11 +380,12 @@ generate_existing_walls <- function(){
 #'
 #' @return A vector giving the corresponding x locations for the walls.
 #' @export
-#' #' @examples
-#' #' start_x <- c(0, 0, 2, 18, 20, 20)
-#' #' length <- c(18, 18, 18, 18, 20, 20)
-#' #' width <- c(2, 2, 2, 2, 2,,2)
-#' #' wall_loc_x(0, 90, 0, 90, 60, -30)
+#' @examples
+#' start_x <- c(0, 0, 2, 18, 20, 20)
+#' wall_length <- c(18, 18, 18, 18, 20, 20)
+#' wall_width <- c(2, 2, 2, 2, 2, 2)
+#' rotation_z <- c(0, 90, 0, 90, 60, -30)
+#' wall_loc_x(start_x, wall_length, wall_width, rotation_z)
 wall_loc_x <- function(start_x, wall_length, wall_width, rotation_z){
   assertthat::assert_that(
     all(rotation_z > -90),
@@ -402,8 +399,60 @@ wall_loc_x <- function(start_x, wall_length, wall_width, rotation_z){
   assertthat::assert_that(
     all(wall_width > 0),
     msg = "wall_width must be positive")
+
+
+  wall_z_rotations_rad <- pi * rotation_z / 180
+
   wall_x_location <-
-    (start_x + wall_length /2)
+    start_x +
+    cos(wall_z_rotations_rad - 90) * wall_width / 2 +
+    cos(wall_z_rotations_rad) * wall_length / 2
+  return(wall_x_location)
+}
+
+
+#' wall_loc_y
+#'
+#' Calculate a walls y location given the start_y, length, width and
+#' rotation_z
+#'
+#' @param start_y a vector of wall x starts. Note that the x_start of a wall
+#' is the y coordinate of the least_vertex of a wall. The least_vertex is least
+#' when ordered by x coordinate, then y coordinate and then z coordinate.
+#' @param wall_length a vector of positive wall lengths.
+#' @param wall_width a vector of wall widths.
+#' @param rotation_z - a vector of rotations in degrees where each rotation is
+#' > -90 and l<= 90
+#'
+#' @return A vector giving the corresponding y locations for the walls.
+#' @export
+#' @examples
+#' start_y <- c(0, 0, 2, 18, 20, 20)
+#' wall_length <- c(18, 18, 18, 18, 20, 20)
+#' wall_width <- c(2, 2, 2, 2, 2, 2)
+#' rotation_z <- c(0, 90, 0, 90, 60, -30)
+#' wall_loc_y(start_y, wall_length, wall_width, rotation_z)
+wall_loc_y <- function(start_y, wall_length, wall_width, rotation_z){
+  assertthat::assert_that(
+    all(rotation_z > -90),
+    msg = "rotation_z must be greater than -90")
+  assertthat::assert_that(
+    all(rotation_z <= 90),
+    msg = "rotation_z must be less than or equal to 90")
+  assertthat::assert_that(
+    all(wall_length > 0),
+    msg = "wall_length must be positive")
+  assertthat::assert_that(
+    all(wall_width > 0),
+    msg = "wall_width must be positive")
+
+  wall_z_rotations_rad <- pi * rotation_z / 180
+
+  wall_y_location <-
+    start_y +
+    sin(wall_z_rotations_rad + 90) * wall_width / 2 +
+    sin(wall_z_rotations_rad) * wall_length / 2
+  return(wall_y_location)
 }
 
 
