@@ -416,7 +416,7 @@ wall_loc_x <- function(start_x, wall_length, wall_width, rotation_z){
 #' Calculate a walls y location given the start_y, length, width and
 #' rotation_z
 #'
-#' @param start_y a vector of wall x starts. Note that the x_start of a wall
+#' @param start_y a vector of wall y starts. Note that the start_y of a wall
 #' is the y coordinate of the least_vertex of a wall. The least_vertex is least
 #' when ordered by x coordinate, then y coordinate and then z coordinate.
 #' @param wall_length a vector of positive wall lengths.
