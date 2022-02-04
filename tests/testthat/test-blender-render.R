@@ -37,22 +37,4 @@ describe("create_blender_pillar_code", {
      }
   )
 
-  # it("Fails if the no of rows of pillar_tibble is not equal to 1",
-  #    {
-  #      test_pillars <-
-  #        tibble::tibble(
-  #          name = c("Pillar_1", "Pillar_1"),
-  #          location_x = c(1, 2),
-  #          location_y = c(1, 2),
-  #          location_z = c(0, 0),
-  #          length = c(0.2, 0.2),
-  #          width = c(0.2, 0.2),
-  #          height = c(3, 3)
-  #        )
-  #
-  #      expect_error(create_blender_pillar(test_pillars),
-  #                   "pillars_tbl must have exactly 1 row")
-  #    }
-  # )
-
 })

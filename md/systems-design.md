@@ -41,6 +41,15 @@ Underfloor heating option €100 - €150 per sq meter -
 
 THis is long pipes set into floor. with topology.
 
+See this article about underfloor cooling with ALTHERMA system from Daikin:
+https://www.architectsjournal.co.uk/archive/underfloor-heating-and-cooling-2
+
+
+See the following brochure about altherma air to water heat pump systems from Daikin - note they also do ventilation systems
+and have software tools for whole system design.
+https://www.daikin.eu/content/dam/document-library/catalogues/heat/air-to-water-heat-pump-high-temperature/ekhbh-a/Altherma%20technical%20catalogue%20for%20installers_EPCEN08-721_Catalogues_English.pdf
+
+
 ## Ventilation
 
 Need to specify a ventilation system that provides fresh air. This system, If

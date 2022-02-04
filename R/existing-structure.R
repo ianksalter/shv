@@ -96,12 +96,12 @@ generate_existing_pillars <- function(){
 
   basic_pillar_tbl <- tibble::tibble(
     name = pillar_names,
-    location_x = pillar_x_locations,
-    location_y = pillar_y_locations,
-    location_z = pillar_z_locations,
     length = pillar_lengths,
     width = pillar_widths,
-    height = pillar_heights
+    height = pillar_heights,
+    location_x = pillar_x_locations,
+    location_y = pillar_y_locations,
+    location_z = pillar_z_locations
   )
 
   created_pillar_tbl <- structure(

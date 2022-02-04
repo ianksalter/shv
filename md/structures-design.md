@@ -44,6 +44,10 @@ another layer. Two pieces of rebar side by side.
 May need to consider supporting the walls above windows with acros and wood
 or strong boys (tm) supports.. Strong boys only need the acros on one side.
 
+Note see the following video about lintel construction in Spain:
+
+https://www.youtube.com/watch?v=8TQ1FZttW4o
+
 
 May be able to get front door and window above created as a single unit.
 
