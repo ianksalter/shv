@@ -6,7 +6,7 @@ utils::globalVariables(c("measurements"))
 
 #' generate_existing_pillars
 #'
-#' Function used to generate a tibbles of existing pillars. This data is saved
+#' Function used to generate a tibble of existing pillars. This data is saved
 #' as package data in data-raw/DATASET.R. The fields of the tibbles are
 #' documented in R/data.R.
 #'
@@ -101,7 +101,10 @@ generate_existing_pillars <- function(){
     height = pillar_heights,
     location_x = pillar_x_locations,
     location_y = pillar_y_locations,
-    location_z = pillar_z_locations
+    location_z = pillar_z_locations,
+    x_start = pillar_x_starts,
+    y_start = pillar_y_starts,
+    z_start = pillar_z_starts
   )
 
   created_pillar_tbl <- structure(
@@ -403,6 +406,8 @@ wall_loc_x <- function(start_x, wall_length, wall_width, rotation_z){
 
   wall_z_rotations_rad <- pi * rotation_z / 180
 
+
+  # correct calculations (TRIANGLES!)
   wall_x_location <-
     start_x +
     cos(wall_z_rotations_rad - 90) * wall_width / 2 +
