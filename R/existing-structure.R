@@ -379,7 +379,7 @@ generate_existing_walls <- function(){
 #' @param wall_length a vector of positive wall lengths.
 #' @param wall_width a vector of wall widths.
 #' @param rotation_z - a vector of rotations in degrees where each rotation is
-#' > -90 and l<= 90
+#' is greater than -90 degrees and no more than 90 degrees.
 #'
 #' @return A vector giving the corresponding x locations for the walls.
 #' @export
@@ -410,8 +410,8 @@ wall_loc_x <- function(start_x, wall_length, wall_width, rotation_z){
   # correct calculations (TRIANGLES!)
   wall_x_location <-
     start_x +
-    cos(wall_z_rotations_rad - 90) * wall_width / 2 +
-    cos(wall_z_rotations_rad) * wall_length / 2
+    cos(wall_z_rotations_rad) * wall_length / 2 +
+    sin(wall_z_rotations_rad) * wall_width / 2
   return(wall_x_location)
 }
 
@@ -427,7 +427,7 @@ wall_loc_x <- function(start_x, wall_length, wall_width, rotation_z){
 #' @param wall_length a vector of positive wall lengths.
 #' @param wall_width a vector of wall widths.
 #' @param rotation_z - a vector of rotations in degrees where each rotation is
-#' > -90 and l<= 90
+#' is greater than -90 degrees and no more than 90 degrees.
 #'
 #' @return A vector giving the corresponding y locations for the walls.
 #' @export
@@ -452,14 +452,16 @@ wall_loc_y <- function(start_y, wall_length, wall_width, rotation_z){
     msg = "wall_width must be positive")
 
   wall_z_rotations_rad <- pi * rotation_z / 180
+  opp_rotation_sign <- -1 * sign(rotation_z) * pi / 2
 
   wall_y_location <-
     start_y +
-    sin(wall_z_rotations_rad + 90) * wall_width / 2 +
-    sin(wall_z_rotations_rad) * wall_length / 2
+    sin(wall_z_rotations_rad) * wall_length / 2 +
+    sin(wall_z_rotations_rad +
+          opp_rotation_sign +
+          pi / 2 * (1 - abs(sign(rotation_z)))) *
+    wall_width  / 2
   return(wall_y_location)
 }
-
-
 
 

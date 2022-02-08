@@ -79,7 +79,7 @@ describe("wall_loc_x", {
        actual_wall_loc_x <-
          wall_loc_x(start_x, wall_length, wall_width, rotation_z)
 
-       # expect_equal(actual_wall_loc_x, expected_wall_loc_x)
+       expect_equal(actual_wall_loc_x, expected_wall_loc_x)
      }
   )
 
@@ -105,13 +105,13 @@ describe("wall_loc_y", {
            start_y[3] +
              sin(rotaion_z_rad[3]) * wall_length[3] / 2 -
              cos(rotaion_z_rad[3]) * wall_width[3] /2,
-           start_y[4] -
-             sin(rotaion_z_rad[4]) * wall_length[4] / 2 -
+           start_y[4] +
+             sin(rotaion_z_rad[4]) * wall_length[4] / 2 +
              cos(rotaion_z_rad[4]) * wall_width[4] /2
          )
        actual_wall_loc_y <-
          wall_loc_y(start_y, wall_length, wall_width, rotation_z)
-       # expect_equal(actual_wall_loc_y, expected_wall_loc_y)
+       expect_equal(actual_wall_loc_y, expected_wall_loc_y)
      }
   )
 
