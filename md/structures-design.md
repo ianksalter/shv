@@ -58,7 +58,30 @@ Here we need to consider the following:
 
 - Window/   Door suppliers
 
+
+Windows and Suppliers from The PassivHaus Website Component Data Base:
+
+1. Uw of 0.78 [A84 Passivehaus HI](https://www.cortizo.com/en/sistemas/quenecesitas/aislamiento_termico/119/a-84-passivhaus-hi--1.0.html) from Aluminos Cortizo S.A.U - Near Santiago de Comnpostela. Also see [Technical Sheet](file:///Users/ian/Downloads/A%2084%20Passivhaus%20HI%20_%201.0.pdf) They may be able to be fitted  by [Talleres Zorio](http://www.tallereszorio.com/index.html), [Mayfer S. L.](https://www.mayfer.com/carpinteria-metalica-mayfer/), 
+[Alucamp Valentia](http://alucampvalentia.com) and [Eco Ventanas](http://scgrupo.es/) who are actually in/near Patraix
+
+
+2. Uw of 0.96 [RE 80/PVC/301/PREMIUM](https://replus.es/productos/ventanas/re80pvc301premium/) from [Replus](https://replus.es/)
+can be supplied by Eco Ventanas - see above.
+
+3. Really Efficient Windows Uw o.42 with Price and Energy calculator from [Enersign in Germany](https://enersign.com/en/darum-enersign/)
+
+4 [Alugom Group](https://alugom.es/) has a base in Valencia
+
+5. [Kommerling](https://www.kommerling.es/) looks interesting and could possibly solicit a quote online.
+
+6. [deceuninck](https://www.deceuninck.es/es-es/productos/ventanas/elegant) has window elegant infinity thermofibre has supplier Conforwin off Blasco Ibanez
+
+7. See also [smartwin](https://www.passivhausfenster.com/en/homeowners) who do smartwin windows and smartshell insulation
+and have a partner in Spain though it looks like Galicia.
+
 - Window / Door sizes and locations from spatial design
+
+
 
 ## Ceilings, Attic and Crawl Space
 
