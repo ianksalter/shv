@@ -22,7 +22,7 @@ hole_2_height = 1
 bpy.ops.mesh.primitive_cube_add(
     enter_editmode=False,
     align='WORLD',   
-    location=wall_1_location
+    location=wall_1_location,
     scale=wall_1_scale)
     
 bpy.context.object.name = "Wall 1"
