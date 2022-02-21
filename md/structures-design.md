@@ -3,8 +3,12 @@ title: "Structures Design"
 author: "Ian Salter"
 date: "22/01/2022"
 output:
+  html_document:
+    toc: yes
+    toc_depth: '3'
+    df_print: paged
   pdf_document:
-    toc: true
+    toc: yes
     toc_depth: 3
 ---
 
