@@ -44,6 +44,48 @@ pillars_2d <- function(pillar_tbl){
   return(created_grammar)
 }
 
+#' Creates ggplot2 code for drawing a walls for ultimately saving to png file
+#'
+#' Uses a tibble of python wall data to generate ggplot code for wall
+#' generation
+#'
+#' @param wall_tbl a object of type wall_tbl
+#' @return ggplot grammar for drawing the walls described in wall_tbl
+#'
+#' @export
+#' @examples
+#' walls <-
+#'   tibble::tibble(
+#'     name = "wall",
+#'     location_x = 1,
+#'     location_y = 0.1,
+#'     location_z = 1.5,
+#'     length = 2,
+#'     width = 0.2,
+#'     height = 3,
+#'     rotation_z = 0,
+#'     start_x = 0,
+#'     start_y = 0,
+#'     start_z = 0,
+#'   )
+#'
+#' walls_2d(walls)
+walls_2d <- function(wall_tbl){
+  created_grammar <-
+    ggplot2::geom_tile(
+      data = wall_tbl,
+      color = "darkgray",
+      fill = "lightgray",
+      ggplot2::aes(
+        x = location_x,
+        y = location_y,
+        height = length,
+        width = width,
+        rotation = rotation_z
+      )
+    )
+  return(created_grammar)
+}
 
 #' Creates a png file for the 2d representation of shell of the existing
 #' structure
@@ -61,10 +103,12 @@ pillars_2d <- function(pillar_tbl){
 #' unlink("png", recursive = TRUE) # For check which has its own working directory.
 create_shell_2d <- function(){
   utils::data("existing_pillars", envir = environment())
+  utils::data("existing_walls", envir = environment())
   created_ggplot <-
     ggplot2::ggplot(data = NULL) +
     ggplot2::coord_fixed(ratio = 1) +
     pillars_2d(existing_pillars) +
+    walls_2d(existing_walls) +
     ggplot2::theme(
       legend.position = "none",
       panel.grid = ggplot2::element_blank(),

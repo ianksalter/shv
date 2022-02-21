@@ -48,7 +48,7 @@ create_blender_pillar_code <- function(pillar_tbl){
         "align='WORLD',",
         paste("location=(",
               paste(pillar_location, collapse = ","), "))", sep = ""),
-        paste("bpy.context.object.name = '", pillar_tbl$name, "'", sep = ""),
+        paste("bpy.context.object.name = '", pillar_tbl$name[i], "'", sep = ""),
         paste("bpy.context.object.dimensions = (",
               paste(pillar_dimensions, collapse = ","), ")", sep = ""),
         ""
@@ -58,7 +58,68 @@ create_blender_pillar_code <- function(pillar_tbl){
   return(pillar_code)
 }
 
+#' Creates lines of python code to generate a set of walls in blender
+#'
+#' Uses a tibble of python wall data to generate the python code that
+#' can generate the walls in blender.
+#'
+#' @param wall_tbl the tibble containing the wall data
+#'
+#' @return A vector of strings containing the lines of code to be generated.
+#'
+#' @export
+#' @examples
+#' wall <-
+#' tibble::tibble(
+#'   name = c("Wall_1", "Wall_2"),
+#'   location_x = c(1.1, 2.1),
+#'   location_y = c(1.1, 2.1),
+#'   location_z = c(1.5, 1.5),
+#'   length = c(0.2, 0.2),
+#'   width = c(0.2, 0.2),
+#'   height = c(3, 3)
+#'   rotation_z = c(0, 90)
+#' )
+#'
+#' create_blender_wall_code(wall)
+create_blender_wall_code <- function(wall_tbl){
+  # assertthat::assert_that(nrow(wall_tbl) == 1,
+  #                         msg = "walls_tbl must have exactly 1 row")
 
+  wall_code <- c()
+  no_rows <- nrow(wall_tbl)
+  for (i in 1:no_rows){
+    tbl_row <- wall_tbl[i,]
+    wall_location <-
+      c(tbl_row$location_x,
+        tbl_row$location_y,
+        tbl_row$location_z)
+    wall_scale <-
+      c(tbl_row$length,
+        tbl_row$width,
+        tbl_row$height)
+    wall_rotation <-
+      c(0,
+        0,
+        tbl_row$rotation_z * pi / 180)
+    next_wall_code <-
+      c("bpy.ops.mesh.primitive_cube_add(",
+        "size=1,",
+        "enter_editmode=False,",
+        "align='WORLD',",
+        paste("location=(",
+              paste(wall_location, collapse = ","), "),", sep = ""),
+        paste("scale=(",
+              paste(wall_scale, collapse = ","), "),", sep = ""),
+        paste("rotation=(",
+              paste(wall_rotation, collapse = ","), "))", sep = ""),
+        paste("bpy.context.object.name = '", wall_tbl$name[i], "'", sep = ""),
+        ""
+      )
+    wall_code <- c(wall_code, next_wall_code)
+  }
+  return(wall_code)
+}
 
 #' Creates a blender file for the shell of the existing structure
 #'
@@ -92,12 +153,15 @@ create_shell_blend <- function(){
   # shell.blend
   utils::data("existing_pillars", envir = environment())
   create_pillar_code <- create_blender_pillar_code(existing_pillars)
-  create_shell_body <- c(create_pillar_code)
+  utils::data("existing_walls", envir = environment())
+  create_wall_code <- create_blender_wall_code(existing_walls)
+  create_shell_body <- c(create_pillar_code, create_wall_code)
 
   create_shell_footer <-
     c(
       "# Save the generated file",
       "bpy.ops.wm.save_as_mainfile(filepath='blender/shell.blend')",
+      "bpy.context.space_data.params.filename = 'shell.stl'",
       ""
     )
   create_shell <- c(create_shell_header, create_shell_body, create_shell_footer)
@@ -107,5 +171,6 @@ create_shell_blend <- function(){
   writeLines(create_shell, "python/create_shell.py")
 
   # Generate blend file using blender in headless mode
+  # system("Blender -b --python python/create_shell.py")
   system("Blender -b --python python/create_shell.py")
 }
