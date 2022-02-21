@@ -77,7 +77,7 @@ create_blender_pillar_code <- function(pillar_tbl){
 #'   location_z = c(1.5, 1.5),
 #'   length = c(0.2, 0.2),
 #'   width = c(0.2, 0.2),
-#'   height = c(3, 3)
+#'   height = c(3, 3),
 #'   rotation_z = c(0, 90)
 #' )
 #'

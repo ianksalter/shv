@@ -3,7 +3,7 @@
 # no visible binding for global variable ‘existing-pillars'/'location_x'/
 # 'location_y'/'width'
 utils::globalVariables(c("existing_pillars", "location_x", "location_y",
-                         "width"))
+                         "width", "existing_walls"))
 
 
 #' Creates ggplot2 code for drawing a pillars for ultimately saving to png file
@@ -49,7 +49,7 @@ pillars_2d <- function(pillar_tbl){
 #' Uses a tibble of python wall data to generate ggplot code for wall
 #' generation
 #'
-#' @param wall_tbl a object of type wall_tbl
+#' @param walls_tbl a object of type wall_tbl
 #' @return ggplot grammar for drawing the walls described in wall_tbl
 #'
 #' @export
@@ -70,21 +70,37 @@ pillars_2d <- function(pillar_tbl){
 #'   )
 #'
 #' walls_2d(walls)
-walls_2d <- function(wall_tbl){
-  created_grammar <-
-    ggplot2::geom_tile(
-      data = wall_tbl,
-      color = "darkgray",
-      fill = "lightgray",
-      ggplot2::aes(
-        x = location_x,
-        y = location_y,
-        height = length,
-        width = width,
-        rotation = rotation_z
+walls_2d <- function(walls_tbl){
+
+  created_geom <- ggplot2::geom_blank()
+  no_rows <- nrow(walls_tbl)
+  for(i in 1:no_rows){
+    wall <- walls_tbl[i,]
+    angle <- (pi * wall$rotation_z / 180)
+    start_x <- wall$start_x
+    start_y <- wall$start_y
+    length <- wall$length
+    width <- wall$width
+    x_coord = c(start_x,
+                 start_x + length * cos(angle),
+                 start_x + length * cos(angle) + width * sin(angle),
+                 start_x + width * sin(angle))
+
+    y_coord = c(start_y,
+                 start_y + length * sin(angle),
+                 start_y + length * sin(angle) + width * cos(angle),
+                 start_y + width * cos(angle))
+    df <- data.frame(x_coord,
+                     y_coord)
+    created_geom <-
+      c(created_geom,
+        ggplot2::geom_polygon(
+          data = df,
+          ggplot2::aes(x = x_coord, y = y_coord),
+          fill = "lightgrey", colour = "darkgrey")
       )
-    )
-  return(created_grammar)
+  }
+  return(created_geom)
 }
 
 #' Creates a png file for the 2d representation of shell of the existing
