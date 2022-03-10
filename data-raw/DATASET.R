@@ -3,6 +3,19 @@
 devtools::load_all()
 
 
+
+
+
+#' save_all
+#'
+#' Generates and saves all of the data
+save_all <- function(){
+  save_measurements()
+  save_existing_pillars()
+  save_existing_walls()
+}
+
+
 #' save_measurements
 #'
 #' Generates and saves the set of existing building measurements
