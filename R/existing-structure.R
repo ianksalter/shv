@@ -41,7 +41,7 @@ generate_existing_pillars <- function(){
 
 
   pillar_6_x_start <- distance(existing, "pillar_6", "x_distance") +
-    (pillar_length - pillar_2_x_obtrusion)
+    + distance(existing, "west_wall", "width")
   pillar_7_x_start <- pillar_width +
     distance(existing, "pillar_5_7", "x_distance")
   pillar_8_x_start <- pillar_width +
@@ -50,7 +50,7 @@ generate_existing_pillars <- function(){
     distance(existing, "wall_14", "length")
   pillar_10_x_start <- pillar_9_x_start
   pillar_x_starts <-
-    c(0, 0, 0, 0, 0, pillar_6_x_start, pillar_7_x_start,
+    c(-0.14, -0.14, -0.14, -0.14, -0.14, pillar_6_x_start, pillar_7_x_start,
       pillar_8_x_start, pillar_9_x_start, pillar_10_x_start)
 
   pillar_1_y_start <- 0
@@ -144,9 +144,9 @@ generate_existing_walls <- function(){
   pillar_2_x_obtrusion <- distance(existing, "pillar_2", "x_obtrusion")
 
   # Wall widths
-  west_wall_width <- pillar_length -
-    distance(existing, "pillar_2", "x_obtrusion") * 2
-  east_wall_width <- west_wall_width
+  west_wall_width <- distance(existing, "west_wall", "width")
+  north_wall_width <- distance(existing, "north_wall", "width")
+  east_wall_width <- distance(existing, "west_wall", "width")
 
   # Space dimensions
   space_4_x_direction <- distance(existing, "space_4", "x_direction")
@@ -182,25 +182,24 @@ generate_existing_walls <- function(){
   wall_5_x_start <- 0
   wall_5_y_start <- wall_4_y_start + wall_4_length + pillar_width
   wall_5_width <- west_wall_width
-  wall_5_length <- distance(existing, "wall_5", "length")
+  wall_5_length <- distance(existing, "wall_5", "length") + north_wall_width
   wall_5_z_rotation <- 90
 
-  wall_6_x_start <- 0
-  wall_6_y_start <- wall_5_y_start + wall_5_length
-  wall_6_width <- distance(existing, "pillar_6", "width") -
-    distance(existing, "pillar_6", "y_obtrusion")
-  wall_6_length <- west_wall_width +
-    distance(existing, "pillar_6", "x_distance")
+  wall_6_x_start <- wall_5_width
+  wall_6_width <- north_wall_width
+  wall_6_y_start <- wall_5_y_start + wall_5_length - wall_6_width
+  wall_6_length <- distance(existing, "pillar_6", "x_distance")
   wall_6_z_rotation <- 0
 
-  wall_7_x_start <- wall_6_length  +
+  wall_7_x_start <- west_wall_width +
+    wall_6_length  +
     distance(existing, "pillar_6", "length")
   wall_7_y_start <- wall_6_y_start
-  wall_7_width <- wall_6_width
+  wall_7_width <- north_wall_width
   wall_7_length <-
-    space_4_x_direction +
-    east_wall_width -
-    wall_7_x_start
+    space_4_x_direction -
+    wall_6_length -
+    distance(existing, "pillar_6", "length")
   wall_7_z_rotation <- 0
 
   wall_8_x_start <- west_wall_width +
@@ -208,14 +207,15 @@ generate_existing_walls <- function(){
   wall_8_y_start <- wall_7_y_start -
     distance(existing, "space_4", "y_direction")
   wall_8_width <- east_wall_width
-  wall_8_length <- distance(existing, "space_4", "y_direction")
+  wall_8_length <- distance(existing, "space_4", "y_direction") +
+    north_wall_width
   wall_8_z_rotation <- 90
 
   space_3_4_x_difference <-
     space_4_x_direction - distance(existing, "space_3", "x_direction")
   wall_9_width <- east_wall_width
-  wall_9_length <- space_3_4_x_difference + east_wall_width
-  wall_9_x_start <- wall_8_x_start - space_3_4_x_difference
+  wall_9_length <- space_3_4_x_difference - east_wall_width * 2
+  wall_9_x_start <- wall_8_x_start - space_3_4_x_difference + east_wall_width * 2
   wall_9_y_start <- wall_8_y_start
   wall_9_z_rotation <- 0
 

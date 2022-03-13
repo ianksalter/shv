@@ -1,4 +1,4 @@
-# Work around used to pass package checks
+                                                                                                                               # Work around used to pass package checks
 # Without this line the following is a note for the package check
 # no visible binding for global variable ‘measure’/'dimension'
 utils::globalVariables(c("measure"))
@@ -46,16 +46,15 @@ generate_measurements <- function(){
       ~measure,      ~dimension,       ~value, ~note,
       "pillar",      "length",        0.38,    "",
       "pillar",      "width",         0.38,    "",
-      "pillar_6",    "length",        0.38,    "Need to check", # TODO check!!!
-      "pillar_6",    "width",         0.38,    "Need to check", # TODO check!!!
+      "pillar_6",    "length",        0.26,    "",
+      "pillar_6",    "width",         0.26,    "",
       "pillar_2",    "x_obtrusion",   0.14,    "Amount pillar 2 sticks out from the wall",
-      "pillar_9",    "x_obtrusion",   0.14,    "Amount pillar 9 sticks out from the wall", # TODO check!!!
-      "pillar_6",    "y_obtrusion",   0.14,    "Amount pillar 6 sticks out from the wall", # TODO check!!! YOU ARE HERE!!!!
+      "pillar_9",    "x_obtrusion",   0.28,    "Amount pillar 9 sticks out from the wall on the south side",
+      "pillar_6",    "y_obtrusion",   0.14,    "Amount pillar 6 sticks out from the wall",
       "pillar_4_8",  "x_distance",    3.44,    "Distance between pillars 4 and 8 in x direction",
       "pillar_5_7",  "x_distance",    3.26,    "Distance between pillars 5 and 7 in x direction",
-      "pillar_6",    "x_distance",    2.00,    "Distance between the left/west wall and pillar 6" # TODO check!!! This is a guess!!!
-    )
-
+      "pillar_6",    "x_distance",    2.30,    "Distance between the left/west wall and pillar 6"
+)
 
   # Wall Dimensions
   # Note walls are numbered clockwise from the origin (south west corner)
@@ -66,8 +65,12 @@ generate_measurements <- function(){
       "wall_2",  "length",   3.37,   "",
       "wall_3",  "length",   4.10,   "",
       "wall_4",  "length",   3.34,   "",
-      "wall_5",  "length",   0.90,   "", # TODO check!!!!
+      "wall_5",  "length",   0.81,   "",
       "wall_14", "length",   4.10,   "Estimated from distance between pillars 2 and 9", #TODO check!!!
+      "west_wall","width", 0.10, "",
+      "north_wall", "width", 0.12, "",
+      "east_wall", "width", 0.10, "",
+      "south_wall", "width", 0.38, "Need to check " #TODO check
   )
 
   #Space dimensions - distance of the 4 internal existing spaces..

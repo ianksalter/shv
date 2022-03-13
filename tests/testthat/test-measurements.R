@@ -17,12 +17,12 @@ describe("generate_measurements", {
        expect_setequal(actual_col_names, expected_col_names)
 
        no_of_height_measurements <- 4
-       no_of_pillar_merasurements <- 10
-       no_of_wall_measurements <- 6
+       no_of_pillar_measurements <- 10
+       no_of_wall_measurements <- 10
        no_of_space_measurements <- 8
        expected_no_of_rows <-
          no_of_height_measurements +
-         no_of_pillar_merasurements +
+         no_of_pillar_measurements +
          no_of_wall_measurements +
          no_of_space_measurements
        actual_no_of_rows <- nrow(existing_measurements)
