@@ -22,6 +22,60 @@ describe("generate_existing_pillars", {
        actual_class <- class(pillars)
        expect_equal(actual_class, expected_class)
 
+       utils::data("measurements", envir = environment())
+       existing_measurements <- measurements
+       # Check distance between pillars 1 and 10
+       expected_distance =
+         distance(existing_measurements, "wall_14", "length")
+       pillar_1 <- dplyr::filter(pillars, name == "Pillar_1")
+       pillar_10 <- dplyr::filter(pillars, name == "Pillar_10")
+       actual_distance =
+         pillar_10$location_x -
+         pillar_1$location_x -
+         pillar_10$length/2 -
+         pillar_1$length/2
+       expect_equal(actual_distance, expected_distance)
+
+
+       # Check distance between pillars 2 & 9
+       expected_distance =
+         distance(existing_measurements, "wall_14", "length")
+       pillar_2 <- dplyr::filter(pillars, name == "Pillar_2")
+       pillar_9 <- dplyr::filter(pillars, name == "Pillar_9")
+       actual_distance =
+         pillar_9$location_x -
+         pillar_2$location_x -
+         pillar_9$length/2 -
+         pillar_2$length/2
+       expect_equal(actual_distance, expected_distance)
+
+       # Check distance between pillars 4 & 8
+       expected_distance =
+         distance(existing_measurements, "pillar_4_8", "x_distance")
+       pillar_4 <- dplyr::filter(pillars, name == "Pillar_4")
+       pillar_8 <- dplyr::filter(pillars, name == "Pillar_8")
+       actual_distance =
+         pillar_8$location_x -
+         pillar_4$location_x -
+         pillar_8$length/2 -
+         pillar_4$length/2
+       expect_equal(actual_distance, expected_distance)
+
+
+       # Check distance between pillars 5 & 7
+       expected_distance =
+         distance(existing_measurements, "pillar_5_7", "x_distance")
+       pillar_5 <- dplyr::filter(pillars, name == "Pillar_5")
+       pillar_7 <- dplyr::filter(pillars, name == "Pillar_7")
+       actual_distance =
+         pillar_7$location_x -
+         pillar_5$location_x -
+         pillar_7$length/2 -
+         pillar_5$length/2
+       expect_equal(actual_distance, expected_distance)
+
+       # Check distance of Pillar 6
+
      }
   )
 
@@ -47,6 +101,85 @@ describe("generate_existing_walls", {
        expected_class <- c("wall_tbl", "tbl_df", "tbl", "data.frame")
        actual_class <- class(walls)
        expect_equal(actual_class, expected_class)
+
+       utils::data("measurements", envir = environment())
+       existing_measurements <- measurements
+       # Check distance between walls 1 and 13
+       expected_distance =
+         distance(existing_measurements, "space_1", "x_direction")
+       wall_1 <- dplyr::filter(walls, name == "Wall_1")
+       wall_13 <- dplyr::filter(walls, name == "Wall_13")
+       actual_distance =
+         wall_13$location_x -
+         wall_1$location_x -
+         wall_13$width/2 -
+         wall_1$width/2
+       expect_equal(actual_distance, expected_distance)
+
+       # Check distance between walls 2 and 12
+       expected_distance =
+         distance(existing_measurements, "space_2", "x_direction")
+       wall_2 <- dplyr::filter(walls, name == "Wall_2")
+       wall_12 <- dplyr::filter(walls, name == "Wall_12")
+       actual_distance =
+         wall_12$location_x -
+         wall_2$location_x -
+         wall_12$width/2 -
+         wall_2$width/2
+       expect_equal(actual_distance, expected_distance)
+
+       # Check distance between walls 3 and 10
+       expected_distance =
+         distance(existing_measurements, "space_3", "x_direction")
+       wall_3 <- dplyr::filter(walls, name == "Wall_3")
+       wall_10 <- dplyr::filter(walls, name == "Wall_10")
+       actual_distance =
+         wall_10$location_x -
+         wall_3$location_x -
+         wall_10$width/2 -
+         wall_3$width/2
+       expect_equal(actual_distance, expected_distance)
+
+       # Check distance between walls 4 and 8
+       expected_distance =
+         distance(existing_measurements, "space_4", "x_direction")
+       wall_4 <- dplyr::filter(walls, name == "Wall_4")
+       wall_8 <- dplyr::filter(walls, name == "Wall_8")
+       actual_distance =
+         wall_8$location_x -
+         wall_4$location_x -
+         wall_8$width/2 -
+         wall_4$width/2
+       expect_equal(actual_distance, expected_distance)
+
+
+       # Check distance between walls 7 and 9
+       expected_distance =
+         distance(existing_measurements, "space_4", "y_direction")
+       wall_7 <- dplyr::filter(walls, name == "Wall_7")
+       wall_9 <- dplyr::filter(walls, name == "Wall_9")
+       actual_distance =
+         wall_7$location_y -
+         wall_9$location_y -
+         wall_9$width/2 -
+         wall_7$width/2
+       expect_equal(actual_distance, expected_distance)
+
+       # Check distance between walls 9 and 11
+       expected_distance =
+         distance(existing_measurements, "space_3", "y_direction") -
+         distance(existing_measurements, "east_wall", "width") * 2
+
+       wall_9 <- dplyr::filter(walls, name == "Wall_9")
+       wall_11 <- dplyr::filter(walls, name == "Wall_11")
+       actual_distance =
+         wall_9$location_y -
+         wall_11$location_y -
+         wall_11$width/2 -
+         wall_9$width/2
+       expect_equal(actual_distance, expected_distance)
+
+
 
      }
   )

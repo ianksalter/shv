@@ -66,10 +66,6 @@
 #'
 #' hole_locations(wall_tbl, relative_hole_tbl)
 hole_locations <- function(wall_tbl, relative_hole_tbl){
-  #TODO write code to create absolute wall tbl
-  #join relative hole tibble and wall tibble
-  #calculate the absolute hole tibble from the whole tibble created by joining wall tibble and relative whole tibble
-  # whole_hole_tibble <- dplyr::left_join(relative_hole_tbl, wall_tbl, by = c("wall_name" = "name"))
 
   whole_hole_tibble <- dplyr::left_join(relative_hole_tbl, wall_tbl, by = c("wall_name" = "name"))
 

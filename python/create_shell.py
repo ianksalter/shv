@@ -51,28 +51,28 @@ bpy.context.object.dimensions = (0.26,0.26,4.7)
 bpy.ops.mesh.primitive_cube_add(
 enter_editmode=False,
 align='WORLD',
-location=(3.83,15.91,2.35))
+location=(3.69,15.91,2.35))
 bpy.context.object.name = 'Pillar_7'
 bpy.context.object.dimensions = (0.38,0.38,4.7)
 
 bpy.ops.mesh.primitive_cube_add(
 enter_editmode=False,
 align='WORLD',
-location=(4.01,12.19,2.35))
+location=(3.87,12.19,2.35))
 bpy.context.object.name = 'Pillar_8'
 bpy.context.object.dimensions = (0.38,0.38,4.7)
 
 bpy.ops.mesh.primitive_cube_add(
 enter_editmode=False,
 align='WORLD',
-location=(4.67,3.96,2.35))
+location=(4.85,3.96,2.35))
 bpy.context.object.name = 'Pillar_9'
 bpy.context.object.dimensions = (0.38,0.38,4.7)
 
 bpy.ops.mesh.primitive_cube_add(
 enter_editmode=False,
 align='WORLD',
-location=(4.67,0.19,2.35))
+location=(4.85,0.19,2.35))
 bpy.context.object.name = 'Pillar_10'
 bpy.context.object.dimensions = (0.38,0.38,4.7)
 
@@ -143,8 +143,8 @@ bpy.ops.mesh.primitive_cube_add(
 size=1,
 enter_editmode=False,
 align='WORLD',
-location=(6.25,14.535,2.35),
-scale=(4.99,0.1,4.7),
+location=(6.25,14.485,2.35),
+scale=(5.09,0.1,4.7),
 rotation=(0,0,1.5707963267949))
 bpy.context.object.name = 'Wall_8'
 
@@ -152,8 +152,8 @@ bpy.ops.mesh.primitive_cube_add(
 size=1,
 enter_editmode=False,
 align='WORLD',
-location=(5.39,12.09,2.35),
-scale=(1.62,0.1,4.7),
+location=(5.34,11.99,2.35),
+scale=(1.72,0.1,4.7),
 rotation=(0,0,0))
 bpy.context.object.name = 'Wall_9'
 
@@ -161,8 +161,8 @@ bpy.ops.mesh.primitive_cube_add(
 size=1,
 enter_editmode=False,
 align='WORLD',
-location=(4.63,9.865,2.35),
-scale=(4.35,0.1,4.7),
+location=(4.43,9.765,2.35),
+scale=(4.55,0.1,4.7),
 rotation=(0,0,1.5707963267949))
 bpy.context.object.name = 'Wall_10'
 
@@ -170,8 +170,8 @@ bpy.ops.mesh.primitive_cube_add(
 size=1,
 enter_editmode=False,
 align='WORLD',
-location=(4.84,7.64,2.35),
-scale=(0.52,0.1,4.7),
+location=(4.64,7.54,2.35),
+scale=(0.32,0.1,4.7),
 rotation=(0,0,0))
 bpy.context.object.name = 'Wall_11'
 
@@ -179,8 +179,8 @@ bpy.ops.mesh.primitive_cube_add(
 size=1,
 enter_editmode=False,
 align='WORLD',
-location=(5.05,5.905,2.35),
-scale=(3.37,0.1,4.7),
+location=(4.85,5.855,2.35),
+scale=(3.47,0.1,4.7),
 rotation=(0,0,1.5707963267949))
 bpy.context.object.name = 'Wall_12'
 
@@ -188,7 +188,7 @@ bpy.ops.mesh.primitive_cube_add(
 size=1,
 enter_editmode=False,
 align='WORLD',
-location=(5.05,2.145,2.35),
+location=(4.99,2.045,2.35),
 scale=(3.39,0.1,4.7),
 rotation=(0,0,1.5707963267949))
 bpy.context.object.name = 'Wall_13'
@@ -197,12 +197,12 @@ bpy.ops.mesh.primitive_cube_add(
 size=1,
 enter_editmode=False,
 align='WORLD',
-location=(2.43,0.19,2.35),
-scale=(4.1,0.38,4.7),
+location=(2.45,0.19,2.35),
+scale=(4.42,0.38,4.7),
 rotation=(0,0,0))
 bpy.context.object.name = 'Wall_14'
 
 # Save the generated file
-bpy.ops.wm.save_as_mainfile(filepath='blender/shell.blend')
-bpy.context.space_data.params.filename = 'shell.stl'
+import os
+bpy.ops.wm.save_as_mainfile(filepath= os.getcwd() + '/blender/shell.blend')
 

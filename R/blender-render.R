@@ -160,8 +160,9 @@ create_shell_blend <- function(){
   create_shell_footer <-
     c(
       "# Save the generated file",
-      "bpy.ops.wm.save_as_mainfile(filepath='blender/shell.blend')",
-      "bpy.context.space_data.params.filename = 'shell.stl'",
+      "import os",
+      "bpy.ops.wm.save_as_mainfile(filepath= os.getcwd() + '/blender/shell.blend')",
+#      "bpy.context.space_data.params.filename = 'shell.stl'", TODO STL export not working SVH-53
       ""
     )
   create_shell <- c(create_shell_header, create_shell_body, create_shell_footer)

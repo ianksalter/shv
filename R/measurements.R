@@ -66,7 +66,7 @@ generate_measurements <- function(){
       "wall_3",  "length",   4.10,   "",
       "wall_4",  "length",   3.34,   "",
       "wall_5",  "length",   0.81,   "",
-      "wall_14", "length",   4.10,   "Estimated from distance between pillars 2 and 9", #TODO check!!!
+      "wall_14", "length",   4.42,   "Space 1 x_direction - 14 - 28",
       "west_wall","width", 0.10, "",
       "north_wall", "width", 0.12, "",
       "east_wall", "width", 0.10, "",
@@ -77,7 +77,7 @@ generate_measurements <- function(){
   space_tbl <-
     tibble::tribble(
       ~measure,  ~dimension, ~value, ~note,
-      "space_1",  "x_direction",   4.82,   "",
+      "space_1",  "x_direction",   4.84,   "",
       "space_1",  "y_direction",   3.40,   "",
       "space_2",  "x_direction",   4.70,   "",
       "space_2",  "y_direction",   3.75,   "",

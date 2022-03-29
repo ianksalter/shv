@@ -39,19 +39,25 @@ generate_existing_pillars <- function(){
     c("Pillar_1", "Pillar_2", "Pillar_3", "Pillar_4", "Pillar_5", "Pillar_6",
       "Pillar_7", "Pillar_8", "Pillar_9", "Pillar_10")
 
-
+  west_pillar_offset <- -0.14
+  pillar_1_x_start <- west_pillar_offset
+  pillar_2_x_start <- west_pillar_offset
+  pillar_3_x_start <- west_pillar_offset
+  pillar_4_x_start <- west_pillar_offset
+  pillar_5_x_start <- west_pillar_offset
   pillar_6_x_start <- distance(existing, "pillar_6", "x_distance") +
     + distance(existing, "west_wall", "width")
-  pillar_7_x_start <- pillar_width +
+  pillar_7_x_start <- pillar_5_x_start + pillar_width +
     distance(existing, "pillar_5_7", "x_distance")
-  pillar_8_x_start <- pillar_width +
+  pillar_8_x_start <- pillar_4_x_start + pillar_width +
     distance(existing, "pillar_4_8", "x_distance")
-  pillar_9_x_start <- pillar_width +
+  pillar_9_x_start <- pillar_2_x_start + pillar_width +
     distance(existing, "wall_14", "length")
   pillar_10_x_start <- pillar_9_x_start
   pillar_x_starts <-
-    c(-0.14, -0.14, -0.14, -0.14, -0.14, pillar_6_x_start, pillar_7_x_start,
-      pillar_8_x_start, pillar_9_x_start, pillar_10_x_start)
+    c(  pillar_1_x_start, pillar_2_x_start, pillar_3_x_start, pillar_4_x_start,
+        pillar_5_x_start, pillar_6_x_start, pillar_7_x_start, pillar_8_x_start,
+        pillar_9_x_start, pillar_10_x_start)
 
   pillar_1_y_start <- 0
   pillar_2_y_start <- pillar_width +
@@ -205,51 +211,52 @@ generate_existing_walls <- function(){
   wall_8_x_start <- west_wall_width +
     space_4_x_direction
   wall_8_y_start <- wall_7_y_start -
-    distance(existing, "space_4", "y_direction")
+    distance(existing, "space_4", "y_direction") -
+    east_wall_width
   wall_8_width <- east_wall_width
   wall_8_length <- distance(existing, "space_4", "y_direction") +
-    north_wall_width
+    north_wall_width + east_wall_width
   wall_8_z_rotation <- 90
 
   space_3_4_x_difference <-
     space_4_x_direction - distance(existing, "space_3", "x_direction")
   wall_9_width <- east_wall_width
-  wall_9_length <- space_3_4_x_difference - east_wall_width * 2
-  wall_9_x_start <- wall_8_x_start - space_3_4_x_difference + east_wall_width * 2
+  wall_9_length <- space_3_4_x_difference - east_wall_width
+  wall_9_x_start <- wall_8_x_start - wall_9_length
   wall_9_y_start <- wall_8_y_start
   wall_9_z_rotation <- 0
 
   wall_10_width <- east_wall_width
-  wall_10_length <- distance(existing, "space_3", "y_direction") -
-    2 * wall_9_width
-  wall_10_x_start <- wall_9_x_start
-  wall_10_y_start <- wall_9_y_start - wall_10_length
+  wall_10_length <- distance(existing, "space_3", "y_direction")
+  wall_10_x_start <- wall_9_x_start - east_wall_width
+  wall_10_y_start <- wall_9_y_start - wall_10_length + east_wall_width
   wall_10_z_rotation <- 90
 
   space_2_3_x_difference <-
     distance(existing, "space_2", "x_direction") -
     distance(existing, "space_3", "x_direction")
   wall_11_width <- east_wall_width
-  wall_11_length <- space_2_3_x_difference + east_wall_width
-  wall_11_x_start <- wall_10_x_start
-  wall_11_y_start <- wall_10_y_start - wall_11_width
+  wall_11_length <- space_2_3_x_difference - east_wall_width
+  wall_11_x_start <- wall_10_x_start + east_wall_width
+  wall_11_y_start <- wall_10_y_start
   wall_11_z_rotation <- 0
 
   wall_12_width <- east_wall_width
-  wall_12_length <- wall_2_length
-  wall_12_x_start <- wall_11_x_start + space_2_3_x_difference
-  wall_12_y_start <- wall_11_y_start - wall_12_length
+  wall_12_length <- wall_2_length + east_wall_width
+  wall_12_x_start <- wall_10_x_start + space_2_3_x_difference
+  wall_12_y_start <- wall_11_y_start - wall_2_length
   wall_12_z_rotation <- 90
 
   wall_13_width <- east_wall_width
   wall_13_length <- wall_1_length
-  wall_13_x_start <- wall_12_x_start
+  wall_13_x_start <- wall_2_x_start + west_wall_width +
+    distance(existing, "space_1", "x_direction")
   wall_13_y_start <- wall_12_y_start - wall_13_length - pillar_width
   wall_13_z_rotation <- 90
 
   wall_14_width <- pillar_width
   wall_14_length <- distance(existing, "wall_14", "length")
-  wall_14_x_start <- pillar_length
+  wall_14_x_start <- west_wall_width + pillar_2_x_obtrusion
   wall_14_y_start <- 0
   wall_14_z_rotation <- 0
 
