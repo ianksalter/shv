@@ -44,7 +44,8 @@ At the end of this phase:
 
 * Floor should be level with internal drainage installed.
 * Block work walls should be completed.
-* Window openings should be completed
+* Window openings should be completed.
+* Block work should be completed for existing openings.
 * Pillars Should be repaired
 
 ## Phase 3: Floor May to June 2022
@@ -76,17 +77,22 @@ At the end of this phase the following should be completed:
 At the end of this phase the following should be completed:
 
 * Plasterboard Finishing Completed
-* Paining Completed
+* Internal Floor Tiling Completed
 * Bathroom Installed
 * Kitchen Installed
+* Painting Completed
 * Internal Furniture Built
+* External Rendering Front and Light Well
+* External Painting Front and Light Well
 
-## Phase 6 Garden: August to September 2022
+## Phase 6 Garden & Front: August to September 2022
 
 At the end of this phase the following should be completed:
 
 * Garden Drainage Installed
 * Garden Concreted
+* External Rendering Rear
+* External Painting Rear
 * Garden Tiled
 
 
