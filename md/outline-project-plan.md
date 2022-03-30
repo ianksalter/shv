@@ -1,7 +1,7 @@
 ---
 title: "Outline Project Plan"
 author: "Ian Salter"
-date: "22/01/2022"
+date: "30/03/2022"
 output:
   html_document:
     toc: yes
@@ -12,136 +12,81 @@ output:
     toc_depth: 3
 ---
 
-It is envisaged that design should be completed by the end of March 2022. A
-more detailed view of the key tasks is given below. 
+The project plan is split up into a number of phases. Below an outline of these
+phases is presented. A more detailed project plan is maintained in using the
+ClickUp
 
 
-## Phase 0 Tasks - January 2022
+## Phase 0: Initialisation - January 2022
 
-### 0.1 Initial Design and Planning with Mick
+Phase 0 involved initial design and planning with Mick who visited Valencia and
+provided invaluable design and planning advice. Mick also aided in securing the
+main entrance, removing the shutter and beginning the task of levelling the
+floor.
 
-Mick visited Valencia and provided invaluable design and planning advice.
 
+## Phase 1: Design & Purchase Plan - Febuary to April 2022
 
-### 0.2 Secure Main Entrance and Remove Shutter
+In this phase aims to complete the following work:
 
-Working with Mick the main entrance was secured providing easy access.
+* Final Site Measurement and Marking
+* Structural Design of Internal Walls and Spaces (In R)
+* Completion of Passive House Design Spreadsheet
+* Engagement of Architect & Possibly Engineer
+* Plan for Building Regulations Approval
 
+In particular the design, purchasing plans and delivery dates should be
+completed for each of Phases 2 to 5 below.
 
-## Phase 1 Tasks - February 2022
+## Phase 2: Levelling, Drainage & Blockwork - April to May 2022
 
-### 1.1 Final Site Measurement and Marking
+At the end of this phase:
 
+* Floor should be level with internal drainage installed.
+* Block work walls should be completed.
+* Window openings should be completed
+* Pillars Should be repaired
 
-### 1.2 Design for Drainage and Flooring
+## Phase 3: Floor May to June 2022
 
+At the end of this phase there should be a level floor (possibly containing
+underfloor heating/ cooling system). Any floor routed electrical cables should
+be installed.
 
-### 1.3 Purchase Drainage, Blocks, Lintle Materials and DPC
 
-Includes
+## Phase 4: Internal Structure & Syctems - June to July 2022
 
-- All pipes and drains including Caps and joining pieces.
+At the end of this phase the following should be completed:
 
-- Pea shingle or equivalent.
+* Walls Damp proofed and Ceilings Made Airtight
+* Wooden Frame for Walls and Ceilings Constructed
+* Loft Ladder Installed
+* Electrical Wiring Installed
+* Plumbing Pipes Run
+* Wall and Ceiling Insulation Installed
+* Plasterboard Installed
+* Attic Boards Installed
+* Ventilation System Installed
+* Water Heating and Cooling System Installed
+* Electrical Consumer Unit Installed
 
-- Engineering Bricks
 
-- Grill for French Drain
+## Phase 5 Kitchen Bathroom & Finishing - July to August 2022
 
-- Sand & Cement For Lintels & Blocks
+At the end of this phase the following should be completed:
 
-- Buckets for concrete
+* Plasterboard Finishing Completed
+* Paining Completed
+* Bathroom Installed
+* Kitchen Installed
+* Internal Furniture Built
 
-- Rebar
+## Phase 6 Garden: August to September 2022
 
-- Wood for Formwork
+At the end of this phase the following should be completed:
 
-- Stone cutter
+* Garden Drainage Installed
+* Garden Concreted
+* Garden Tiled
 
-- Cement Mixer
 
-
-### 1.4 Lay Drainage
-
-
-### 1.5 Internal Floor Levelling
-
-
-## Phase 3 Tasks March 2022
-
-
-### 2.1 Finalising Design
-
-### 2.2 Purchase Flooring Materials
-
-- Damp Proof Membrane
-
-- Insulation
-
-- Underfloor Heating Grid and Pipes
-
-### 2.3 Order Windows
-
-
-### 2.4 Create Window Openings
-
-
-### 2.5 Levelling Outside Yard
-
-
-## Phase 4 Tasks April 2022
-
-### 4.1 Outside Yard & Footings Concrete
-
-### 4.2 Build Block Walls
-
-### 4.3 Add Floor Insulation & Underfloor Heating
-
-### 4.4 Lay underfloor Electrics to Kitchen Island
-
-### 4.5 Lay Screed
-
-### 4.6 Order Insulation, Partition and Electrical Materials and roof ladders.
-
-## Phase 5 Tasks May 2022
-
-### 5.1 Wall Linings
-
-### 5.2 Insulation Battons, Partition Shells, Internal Doors and Loft Ladders
-
-### 5.3 Electric Consumer Unit, Conduits, Cables plus Air Con and Ve3ntilation
-Pipes
-
-### 5.4 Plasterboard and Insulation
-
-### 5.5 Loft Boards
-
-## Phase 6 Tasks June 2022
-
-### 6.1 Install Windows and Front Door
-
-### 6.2 Floor Tiling
-
-### 6.3 HVAC Systems
-
-## Phase 7 Tasks July 2022
-
-### 7.1 Kitchen Delivery 
-
-### 7.2 Bathroom Delivery\
-
-### 7.3 Make Furniture from Shuttering and Building Boards
-
-## Phase 8 August 2022
-
-### 8.1 Wall and Ceiling Plastering
-
-### 8.2 Wall and Ceiling Painting
-
-### 8.3 Kitchen Install
-
-### 8.4 Bathroom Install
-
-### 8.5 Passive House Certification
-
-### 8.6 Move In.
