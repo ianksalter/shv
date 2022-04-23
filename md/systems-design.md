@@ -1,10 +1,14 @@
 ---
 title: "Systems Design"
 author: "Ian Salter"
-date: "22/01/2022"
+date: "31/03/2022"
 output:
+  html_document:
+    toc: yes
+    toc_depth: '3'
+    df_print: paged
   pdf_document:
-    toc: true
+    toc: yes
     toc_depth: 3
 ---
 
@@ -19,7 +23,7 @@ water heating options but this may be overkill.
 
 
 If underfloor heating is installed - would it be advisable to have two cylinders
-one for hot water and one for underploor heating.
+one for hot water and one for underfloor heating.
 
 Need to think about weight of tanks on the bathroom wall.
 
@@ -72,6 +76,8 @@ a Valencian manufacturer. Some combination of both approaches shouldn't be ruled
 Links - Stainless steel industrial kitchens.
 
 https://www.tikinox.es
+
+## Bathroom
 
 Here we are looking to source simple components probably from Leroy Merlin,
 Bauhaus or Ikea.

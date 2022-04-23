@@ -1,7 +1,7 @@
 ---
 title: "Foundation Design"
 author: "Ian Salter"
-date: "15/12/2021"
+date: "31/03/2022"
 output:
   pdf_document:
     toc: true
@@ -63,9 +63,7 @@ See wikipedia page on Damp Proofing (and find Spanish Equivalents: https://en.wi
 
 # Bathoorm wall/ Entrance Wall and foundations
 
-Foundations would be  be 40omm wide and 500 deep but need to check. Need DPC on the wall different from the one on a floor.
-
-These footings could be poured at the same time as the garden concrete!!!!
+Foundations would be  be 40mm wide and 500 deep but need to check. Need DPC on the wall different from the one on a floor.
 
 Concrete block/thermolite blocks for a wall Could use a wall starter - something you screw into the wall
 and gives you the ties for the bricks. Generally stainless steel. Can use on pillar for
@@ -75,17 +73,10 @@ Building the wall on the bathroom can put in joist hangers as you go. Take care
 with measurements - can also use engineering bricks to giver finer grain. Can 
 also leave space for the joists as an alternative.
 
-As part of this need to remove shutter and create secure entrance with sterling board.
-
-Going to look the area to see how other sites are secured.
-
 
 #   Floor Levelling floor insulation and underfloor heating pipes:
 
-Process
-
-Before this foundations and wall. Foundations would be  be 40omm wide and 500 deep but need to check.
-Concrete blocks/ Thermolite blocks.
+Process:
 
 - level the floor
 - DPM course
@@ -93,7 +84,7 @@ Concrete blocks/ Thermolite blocks.
 - underfloor heating (if done)
 - screed
 
-Will need to contact contractors to lay outside concrete. Make sure shuttering is 
+May need to contact contractors to lay outside concrete. Make sure shuttering is 
 supporting properly as it can pour out. Stakes are not enough use blocks or stays.
 
 Later in  the process put the screed inside. Take care that the concrete poouring process

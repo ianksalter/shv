@@ -13,7 +13,9 @@ output:
 The project is the conversion of a ground floor shop to a two bedroom apartment.
 The design, build and project management is being done by the owner who is
 engaged on the project full time. The project aims to be sustainable both in
-use of materials and in end  use. The goal is to reach the [Passive House Institute](https://passivehouse.com/index.html) standards, specifically the
+use of materials and in end  use. The goal is to reach the 
+[Passive House Institute](https://passivehouse.com/index.html) standards,
+specifically the
 [EnerPHit Standard](https://passipedia.org/certification/enerphit) applicable
 to refurbishment of existing buildings.
 
@@ -29,7 +31,8 @@ An architect is being sought to fulfil the following roles:
 
 - To aid in Passivhaus certification.
 
--   To suggest contractors and suppliers that may help in different parts of the project.
+-   To suggest contractors and suppliers that may help in different parts of the
+project.
 
 The following will NOT be part of the architects role:
 

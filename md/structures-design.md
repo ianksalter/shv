@@ -1,7 +1,7 @@
 ---
 title: "Structures Design"
 author: "Ian Salter"
-date: "22/01/2022"
+date: "21/03/2022"
 output:
   html_document:
     toc: yes
@@ -31,19 +31,21 @@ Choices might include:
 
 Can cut out the space for windows and reuse the old bricks as hardcore.
 
-Probably have to pour the lintels. So that's shuttering and rebar. 
+Probably have to pour the lintels. So that's shuttering and rebar. We may be
+able to buy them
 
 Need to get enough bricks below to get the bottom bit of the shuttering.
 
 Front windows and doors will just be built into the block work.
 
-West side lintle will be cut into existing bricks. The wall cut away after wards to make room for the windiow.
+West side lintle will be cut into existing bricks. The wall cut away after ward
+to make room for the window.
 
-Can mix concrete for lintles by had. Rebar must be in the middle of the shuttering.
+Can mix concrete for lintles by had. Rebar must be in the middle of the
+shuttering.
 
 First layer in lintle is thicker and tamped down to get air out. The rebar then
 another layer. Two pieces of rebar side by side.
-
 
 May need to consider supporting the walls above windows with acros and wood
 or strong boys (tm) supports.. Strong boys only need the acros on one side.
@@ -55,13 +57,11 @@ https://www.youtube.com/watch?v=8TQ1FZttW4o
 
 May be able to get front door and window above created as a single unit.
 
-
 Here we need to consider the following:
 
 - Window / Door type - for various windows including the thermal properties
 
 - Window/   Door suppliers
-
 
 Windows and Suppliers from The PassivHaus Website Component Data Base:
 
@@ -89,7 +89,6 @@ and have a partner in Spain though it looks like Galicia.
 
 ## Ceilings, Attic and Crawl Space
 
-
 Here we need to consider:
 
 - The structure of the attic and crawl spaces so that they can support the load
@@ -111,9 +110,6 @@ C24 ALS/ CLS needs 89 * 235mm @ 450mm meter intervals with load of not more than
 6.1 meters
 C24 ALS/ CLS needs 89 * 235mm @ 400 meter intervals with load of not more than 0.2.5 kN/m2
 
-
-
-
 - Need to consider access points to the attic and types of ladders to be used:
 
 Some loft ladder options are:
@@ -134,7 +130,6 @@ Loft ladders
 Here we need to consider the insulation to be used for the walls, floor and
 ceiling together with any membrane technology to meet passive house or other
 certifications.
-
 
 Note on he ceiling we could mix sound and heat insulation. We could also try
 the same approach on the walls - e'g thermal, rubber (for one frequency)
