@@ -2,7 +2,7 @@
 
 This repository contains the public documents of the Sustainable Home Valencia
 project which aims to use software development technology to design and project
-management of an apartment renovation to meet sustainable standards. he project
+management of an apartment renovation to meet sustainable standards. The project
 is aiming for [Passive House Certification](https://passivehouse.com/index.html) 
 certification, specifically the
 [EnerPHit Standard](https://passipedia.org/certification/enerphit) standard
