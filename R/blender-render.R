@@ -137,6 +137,7 @@ create_blender_wall_code <- function(wall_tbl){
 #' create_shell_blend()
 #' unlink("python", recursive = TRUE) # For check which has its own working directory.
 create_shell_blend <- function(){
+  #TODO add code to set unitts to mmm
   create_shell_header <-
     c(
       "import bpy",
