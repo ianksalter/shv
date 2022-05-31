@@ -5,39 +5,40 @@ bpy.ops.object.delete(use_global=False)
 
 # Ensure we are using the metric system
 bpy.context.scene.unit_settings.system = 'METRIC'
+bpy.context.scene.unit_settings.length_unit = 'MILLIMETERS'
 
 bpy.ops.mesh.primitive_cube_add(
 enter_editmode=False,
 align='WORLD',
-location=(189.86,190,2350))
+location=(50,190,2350))
 bpy.context.object.name = 'Pillar_1'
 bpy.context.object.dimensions = (380,380,4700)
 
 bpy.ops.mesh.primitive_cube_add(
 enter_editmode=False,
 align='WORLD',
-location=(189.86,3960,2350))
+location=(50,3960,2350))
 bpy.context.object.name = 'Pillar_2'
 bpy.context.object.dimensions = (380,380,4700)
 
 bpy.ops.mesh.primitive_cube_add(
 enter_editmode=False,
 align='WORLD',
-location=(189.86,7710,2350))
+location=(50,7710,2350))
 bpy.context.object.name = 'Pillar_3'
 bpy.context.object.dimensions = (380,380,4700)
 
 bpy.ops.mesh.primitive_cube_add(
 enter_editmode=False,
 align='WORLD',
-location=(189.86,12190,2350))
+location=(50,12190,2350))
 bpy.context.object.name = 'Pillar_4'
 bpy.context.object.dimensions = (380,380,4700)
 
 bpy.ops.mesh.primitive_cube_add(
 enter_editmode=False,
 align='WORLD',
-location=(189.86,15910,2350))
+location=(50,15910,2350))
 bpy.context.object.name = 'Pillar_5'
 bpy.context.object.dimensions = (380,380,4700)
 
@@ -51,28 +52,28 @@ bpy.context.object.dimensions = (260,260,4700)
 bpy.ops.mesh.primitive_cube_add(
 enter_editmode=False,
 align='WORLD',
-location=(3829.86,15910,2350))
+location=(3690,15910,2350))
 bpy.context.object.name = 'Pillar_7'
 bpy.context.object.dimensions = (380,380,4700)
 
 bpy.ops.mesh.primitive_cube_add(
 enter_editmode=False,
 align='WORLD',
-location=(4009.86,12190,2350))
+location=(3870,12190,2350))
 bpy.context.object.name = 'Pillar_8'
 bpy.context.object.dimensions = (380,380,4700)
 
 bpy.ops.mesh.primitive_cube_add(
 enter_editmode=False,
 align='WORLD',
-location=(4989.86,3960,2350))
+location=(4850,3960,2350))
 bpy.context.object.name = 'Pillar_9'
 bpy.context.object.dimensions = (380,380,4700)
 
 bpy.ops.mesh.primitive_cube_add(
 enter_editmode=False,
 align='WORLD',
-location=(4989.86,190,2350))
+location=(4850,190,2350))
 bpy.context.object.name = 'Pillar_10'
 bpy.context.object.dimensions = (380,380,4700)
 

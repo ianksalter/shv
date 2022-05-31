@@ -39,7 +39,7 @@ generate_existing_pillars <- function(){
     c("Pillar_1", "Pillar_2", "Pillar_3", "Pillar_4", "Pillar_5", "Pillar_6",
       "Pillar_7", "Pillar_8", "Pillar_9", "Pillar_10")
 
-  west_pillar_offset <- -0.14
+  west_pillar_offset <- -140
   pillar_1_x_start <- west_pillar_offset
   pillar_2_x_start <- west_pillar_offset
   pillar_3_x_start <- west_pillar_offset

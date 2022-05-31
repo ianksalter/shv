@@ -137,7 +137,7 @@ create_blender_wall_code <- function(wall_tbl){
 #' create_shell_blend()
 #' unlink("python", recursive = TRUE) # For check which has its own working directory.
 create_shell_blend <- function(){
-  #TODO add code to set unitts to mmm
+  #TODO add code to set unitts to mmm note solution below is not working.
   create_shell_header <-
     c(
       "import bpy",
@@ -147,6 +147,7 @@ create_shell_blend <- function(){
       "",
       "# Ensure we are using the metric system",
       "bpy.context.scene.unit_settings.system = 'METRIC'",
+      "bpy.context.scene.unit_settings.length_unit = 'MILLIMETERS'",
       ""
     )
 
