@@ -31,7 +31,7 @@ generate_measurements <- function(){
   heights_tbl <-
     tibble::tribble(
       ~measure,      ~dimension,    ~value, ~note,
-      "entrance",    "height",      4300,   "",
+      "space_1",    "height",      4300,   "",
       "first_step",  "height",      0150,   "Need to check", # TODO check!!!
       "garden_step", "height",      0150,   "Need to check", # TODO check!!!
       "base",        "height",      0100,   "The height before floor starts."
@@ -87,11 +87,20 @@ generate_measurements <- function(){
       "space_4",  "y_direction",   4870,   ""
     )
 
+  entrance_tbl <-
+    tibble::tribble(
+      ~measure,   ~dimension, ~value, ~note,
+      "entrance", "x_start",  830,   "",
+      "entrance", "length",   2530,   "",
+      "entrance", "height",   4050,   "",
+    )
+
   combined_tbl <-
     heights_tbl %>%
     dplyr::bind_rows(pillar_tbl) %>%
-    dplyr::bind_rows(wall_tbl)%>%
-    dplyr::bind_rows(space_tbl)
+    dplyr::bind_rows(wall_tbl) %>%
+    dplyr::bind_rows(space_tbl) %>%
+    dplyr::bind_rows(entrance_tbl)
   measure_tbl <-
     structure(
       combined_tbl,

@@ -2,10 +2,6 @@
 
 devtools::load_all()
 
-
-
-
-
 #' save_all
 #'
 #' Generates and saves all of the data
@@ -13,6 +9,7 @@ save_all <- function(){
   save_measurements()
   save_existing_pillars()
   save_existing_walls()
+  save_existing_holes()
 }
 
 
@@ -38,4 +35,12 @@ save_existing_pillars <- function(){
 save_existing_walls <- function(){
   existing_walls <- generate_existing_walls()
   usethis::use_data(existing_walls, overwrite = TRUE)
+}
+
+#' save_existing_walls
+#'
+#' Generates and saves the set of existing walls
+save_existing_holes <- function(){
+  existing_holes <- generate_existing_holes()
+  usethis::use_data(existing_holes, overwrite = TRUE)
 }

@@ -20,11 +20,13 @@ describe("generate_measurements", {
        no_of_pillar_measurements <- 10
        no_of_wall_measurements <- 10
        no_of_space_measurements <- 8
+       no_of_entrance_measurements <- 3
        expected_no_of_rows <-
          no_of_height_measurements +
          no_of_pillar_measurements +
          no_of_wall_measurements +
-         no_of_space_measurements
+         no_of_space_measurements +
+         no_of_entrance_measurements
        actual_no_of_rows <- nrow(existing_measurements)
        expect_equal(actual_no_of_rows, expected_no_of_rows)
      }

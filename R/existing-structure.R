@@ -22,7 +22,7 @@ generate_existing_pillars <- function(){
   existing <- measurements
 
   structure_height <-
-    distance(existing, "entrance", "height") +
+    distance(existing, "space_1", "height") +
     distance(existing, "first_step", "height")+
     distance(existing, "garden_step", "height")+
     distance(existing, "base", "height")
@@ -138,7 +138,7 @@ generate_existing_walls <- function(){
   existing <- measurements
 
   structure_height <-
-    distance(existing, "entrance", "height") +
+    distance(existing, "space_1", "height") +
     distance(existing, "first_step", "height")+
     distance(existing, "garden_step", "height")+
     distance(existing, "base", "height")
@@ -373,4 +373,66 @@ generate_existing_walls <- function(){
     class = c("wall_tbl", class(basic_wall_tbl))
   )
   return(created_wall_tbl)
+}
+
+#' generate_existing_holes
+#'
+#' Function used to generate a tibbles of existing holes This data is saved
+#' as package data in data-raw/DATASET.R. The fields of the tibbles are
+#' documented in R/data.R.
+#'
+#' @importFrom dplyr %>%
+#'
+#' @return A tibble of existing holes.
+#' @export
+#' @examples
+#' generate_existing_holes()
+generate_existing_holes <- function(){
+
+  utils::data("measurements", envir = environment())
+  existing <- measurements
+
+  # Entrance Measurements
+  entrance_x_start <- distance(existing, "entrance", "x_start")
+  entrance_length <-
+  entrance_height <-
+
+  hole_names <-
+    c("Hole_1")
+
+  wall_names <-
+    c("Wall_14")
+
+  hole_1_start <- distance(existing, "entrance", "x_start")
+  hole_1_z_start <- 0
+  hole_1_length <- distance(existing, "entrance", "length")
+  hole_1_height <- distance(existing, "entrance", "height")
+
+
+  hole_starts <-
+    c(hole_1_start)
+
+  hole_z_starts <-
+    c(hole_1_z_start)
+
+  hole_lengths <-
+    c(hole_1_length)
+
+  hole_heights <-
+    c(hole_1_height)
+
+  basic_hole_tbl <- tibble::tibble(
+    name = hole_names,
+    wall_name = wall_names,
+    start = hole_starts,
+    z_start = hole_z_starts,
+    length = hole_lengths,
+    height = hole_heights
+  )
+
+  created_hole_tbl <- structure(
+    basic_hole_tbl,
+    class = c("hole_tbl", class(basic_hole_tbl))
+  )
+  return(created_hole_tbl)
 }

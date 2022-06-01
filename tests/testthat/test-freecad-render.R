@@ -39,7 +39,7 @@ describe("freecad_pillar_code", {
 
 describe("freecad_wall_code", {
 
-  it("Returns a vector of python code for rendering a set of walls in FreeCAD",
+  it("Returns a vector of python code for rendering a set of walls and their associated holes in FreeCAD",
      {
        test_walls <-
          tibble::tibble(
@@ -52,6 +52,15 @@ describe("freecad_wall_code", {
            height = c(3, 3),
            rotation_z = c(0, 90)
          )
+       test_holes <-
+         tibble::tibble(
+           name = c("Hole_1", "Hole_2"),
+           wall_name = c("Wall_1", "Wall_2"),
+           start = c(0.5, 0.25),
+           z_start = c(0, 1),
+           length = c(0.9, 1.5),
+           height = c(2, 1)
+           )
 
        expected_code <-
          c("baseline_start = FreeCAD.Vector(0.1, 1.1, 0)",
@@ -59,13 +68,25 @@ describe("freecad_wall_code", {
            "baseline = Draft.makeLine(baseline_start, baseline_end)",
            "wall1 = Arch.makeWall(baseline, length=None, width=0.2, height=3, name='Wall_1')",
            "",
+           "baseline_start = FreeCAD.Vector(0.6, 1.1, 0)",
+           "baseline_end = FreeCAD.Vector(1.5, 1.1, 0)",
+           "baseline = Draft.makeLine(baseline_start, baseline_end)",
+           "hole1 = Arch.makeWall(baseline, length=None, width=0.2, height=2, name='Hole_1')",
+           "Arch.removeComponents(hole1, wall1)",
+           "",
            "baseline_start = FreeCAD.Vector(2.1, 1.1, 0)",
            "baseline_end = FreeCAD.Vector(2.1, 3.1, 0)",
            "baseline = Draft.makeLine(baseline_start, baseline_end)",
            "wall2 = Arch.makeWall(baseline, length=None, width=0.2, height=3, name='Wall_2')",
+           "",
+           "baseline_start = FreeCAD.Vector(2.1, 1.35, 1)",
+           "baseline_end = FreeCAD.Vector(2.1, 2.85, 1)",
+           "baseline = Draft.makeLine(baseline_start, baseline_end)",
+           "hole1 = Arch.makeWall(baseline, length=None, width=0.2, height=1, name='Hole_2')",
+           "Arch.removeComponents(hole1, wall2)",
            ""
          )
-       actual_code <- freecad_wall_code(test_walls)
+       actual_code <- freecad_wall_code(test_walls, test_holes)
        expect_equal(actual_code, expected_code)
      }
   )

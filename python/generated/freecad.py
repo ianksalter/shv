@@ -135,6 +135,19 @@ baseline_end = FreeCAD.Vector(4660, 190, 0)
 baseline = Draft.makeLine(baseline_start, baseline_end)
 wall14 = Arch.makeWall(baseline, length=None, width=380, height=4700, name='Wall_14')
 
+baseline_start = FreeCAD.Vector(1070, 190, 0)
+baseline_end = FreeCAD.Vector(3600, 190, 0)
+baseline = Draft.makeLine(baseline_start, baseline_end)
+hole1 = Arch.makeWall(baseline, length=None, width=380, height=4050, name='Hole_1')
+Arch.removeComponents(hole1, wall14)
+
+Gui.runCommand('Std_SelectAll',0)
+move_list = Gui.Selection.getCompleteSelection()
+Draft.move(move_list, App.Vector(70,0,0))
+Draft.rotate(move_list, 45)
+Draft.move(move_list, App.Vector(6000,-1500,0))
+
 Gui.SendMsgToActiveView('ViewFit')
 FreeCAD.ActiveDocument.recompute()
+Gui.SendMsgToActiveView('ViewFit')
 
