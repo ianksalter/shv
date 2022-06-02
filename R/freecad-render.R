@@ -48,10 +48,11 @@ freecad_pillar_code <- function(pillar_tbl){
               tbl_row$location_y, ", ",
               z_start, ")", sep = ""),
         "baseline = Draft.makeLine(baseline_start, baseline_end)",
-        paste("pillar", i, " = Arch.makeWall(baseline, length=None, width=",
+        paste("pillar = Arch.makeWall(baseline, length=None, width=",
               tbl_row$width, ", height=",
               tbl_row$height, ", name='",
               tbl_row$name, "')", sep = ""),
+        "existing_building.addObject(pillar)",
         ""
       )
     pillar_code <- c(pillar_code, next_pillar_code)
@@ -122,10 +123,11 @@ freecad_wall_code <- function(wall_tbl, hole_tbl){
               y_end, ", ",
               z_start, ")", sep = ""),
         "baseline = Draft.makeLine(baseline_start, baseline_end)",
-        paste("wall", i, " = Arch.makeWall(baseline, length=None, width=",
+        paste("wall = Arch.makeWall(baseline, length=None, width=",
               tbl_row$width, ", height=",
               tbl_row$height, ", name='",
               tbl_row$name, "')", sep = ""),
+        "existing_building.addObject(wall)",
         ""
       )
     wall_code <- c(wall_code, next_wall_code)
@@ -150,11 +152,11 @@ freecad_wall_code <- function(wall_tbl, hole_tbl){
                   hole_y_end, ", ",
                   hole_z_end, ")", sep = ""),
             "baseline = Draft.makeLine(baseline_start, baseline_end)",
-            paste("hole", j, " = Arch.makeWall(baseline, length=None, width=",
+            paste("hole = Arch.makeWall(baseline, length=None, width=",
                   tbl_row$width, ", height=",
                   tbl_hole_row$height, ", name='",
                   tbl_hole_row$name, "')", sep = ""),
-            paste("Arch.removeComponents(hole", j, ", wall", i, ")", sep = ""),
+            "Arch.removeComponents(hole, wall)",
             ""
           )
         wall_code <- c(wall_code, next_hole_code)
@@ -163,6 +165,99 @@ freecad_wall_code <- function(wall_tbl, hole_tbl){
   }
   return(wall_code)
 }
+
+#' Creates lines of python code to generate a set of walls in FreeCAD
+#'
+#' Uses a tibble of python wall data to generate the python code that
+#' can generate the walls in FreeCAD. Any specified holes are removed from the
+#' wall
+#'
+#' @param label the label the object is know by in Freecad
+#' @param orientation the cardinal orientation should be one of "North",
+#' "South", "East" or "West"
+#'
+#' @return Code for the dimension of a the object based on its label and
+#' oriented to the face of cardinal face of the object
+#'
+#' @export
+#' @examples
+#' dimension_code_for_object("Pillar_1", "North")
+dimension_code_for_object <- function(label, orientation){
+  assertthat::assert_that(orientation %in% c("North", "South", "East", "West"),
+                          msg = 'orientation must be one of ')
+
+  dim_dist = 300
+
+  header_code <-
+    c("FreeCAD.ActiveDocument.recompute()",
+      paste("object = document.getObjectsByLabel('", label, "')[0]", sep = ""),
+      "object_bound_box = object.Shape.BoundBox",
+      "x_min = object_bound_box.XMin",
+      "x_max = object_bound_box.XMax",
+      "x_mid = (x_min + x_max)/2",
+      "y_min = object_bound_box.YMin",
+      "y_max = object_bound_box.YMax",
+      "y_mid = (y_min + y_max)/2"
+    )
+  if (orientation == "North"){
+    point_code <-
+      c("point1 = FreeCAD.Vector(x_min, y_min, 0)",
+        "point2 = FreeCAD.Vector(x_min, y_max, 0)",
+        paste("point3 = FreeCAD.Vector(x_min - ", dim_dist, ", y_mid, 0)", sep = "")
+      )
+  } else if (orientation == "South"){
+    point_code <-
+      c("point1 = FreeCAD.Vector(x_max, y_min, 0)",
+        "point2 = FreeCAD.Vector(x_max, y_max, 0)",
+        paste("point3 = FreeCAD.Vector(x_max + ", dim_dist, ", y_mid, 0)", sep = "")
+      )
+  } else if (orientation == "East") {
+    point_code <-
+      c("point1 = FreeCAD.Vector(x_min, y_max, 0)",
+        "point2 = FreeCAD.Vector(x_max, y_max, 0)",
+        paste("point3 = FreeCAD.Vector(x_mid, y_max + ", dim_dist, ", 0)", sep = "")
+      )
+  } else{ #Given the assert this must be "West"
+    point_code <-
+      c("point1 = FreeCAD.Vector(x_min, y_min, 0)",
+        "point2 = FreeCAD.Vector(x_max, y_min, 0)",
+        paste("point3 = FreeCAD.Vector(x_mid, y_min - ", dim_dist, ", 0)", sep = "")
+      )
+  }
+
+  make_dimension_code <-
+    c("dimension = Draft.make_linear_dimension(point1, point2, point3)",
+      paste("dimension.Label = 'Dim_", orientation, "_", label, "'", sep = ""),
+      "existing_dimensions.addObject(dimension)"
+    )
+
+  # All dimensions are formatted in a standard manner
+  # Code below creates creates this dimension format code
+  # The previous puthon code just needs to have an object called dimension.
+  # Then tis code can be added after the dimension code is generated.
+  dim_dist = 300
+  arrow_size = 20
+  arrow_type = "Arrow"
+  font_size = 80
+  ext_lines = 300
+  ext_overshoot = 100
+  format_code <-
+    c("dimension_view = dimension.ViewObject",
+      paste("dimension_view.ArrowSize = ", arrow_size, sep = ""),
+      paste("dimension_view.ArrowType = '", arrow_type, "'", sep = ""),
+      paste("dimension_view.FontSize = ", font_size, sep = ""),
+      paste("dimension_view.ExtLines = ", ext_lines, sep = ""),
+      paste("dimension_view.ExtOvershoot = ", ext_overshoot, sep = ""),
+      "dimension_view.ShowUnit = False",
+      "dimension_view.Decimals = 0",
+      ""
+    )
+
+  return(c(header_code, point_code, make_dimension_code, format_code))
+}
+
+
+
 
 #' Creates lines of python code to reposition the  model more appropriately on
 #' the grid
@@ -186,6 +281,132 @@ freecad_reposition_code <- function(){
       ""
     )
   return(reposition_code)
+}
+
+
+
+#' Creates lines of python code to generate a set of dimensions in FreeCAD
+#'
+#'
+#' @return A vector of strings containing the lines of code to be generated.
+#'
+#' @export
+#' @examples
+#' freecad_dimension_code()
+freecad_dimension_code <- function(){
+
+  dimension_code <- c()
+
+  # West pillars south dimension
+  next_dimension_code <- dimension_code_for_object("Pillar_1", "South")
+  dimension_code <- c(dimension_code, next_dimension_code)
+
+  # West pillars west dimensions
+  pillars = c("Pillar_1", "Pillar_2", "Pillar_3", "Pillar_4", "Pillar_5")
+  for (i in 1:length(pillars)){
+    next_dimension_code <- dimension_code_for_object(pillars[i], "West")
+    dimension_code <- c(dimension_code, next_dimension_code)
+  }
+
+  # West wall west dimensions
+  walls = c("Wall_1", "Wall_2", "Wall_3", "Wall_4", "Wall_5")
+  for (i in 1:length(walls)){
+    next_dimension_code <- dimension_code_for_object(walls[i], "West")
+    dimension_code <- c(dimension_code, next_dimension_code)
+  }
+
+  # North pillar north dimension
+  next_dimension_code <- dimension_code_for_object("Pillar_6", "North")
+  dimension_code <- c(dimension_code, next_dimension_code)
+
+  # North wall north dimensions
+  walls = c("Wall_6", "Wall_7")
+  for (i in 1:length(walls)){
+    next_dimension_code <- dimension_code_for_object(walls[i], "North")
+    dimension_code <- c(dimension_code, next_dimension_code)
+  }
+
+  # Central Pillars dimensions
+  next_dimension_code <- dimension_code_for_object("Pillar_7", "North")
+  dimension_code <- c(dimension_code, next_dimension_code)
+  next_dimension_code <- dimension_code_for_object("Pillar_7", "East")
+  dimension_code <- c(dimension_code, next_dimension_code)
+  next_dimension_code <- dimension_code_for_object("Pillar_8", "North")
+  dimension_code <- c(dimension_code, next_dimension_code)
+  next_dimension_code <- dimension_code_for_object("Pillar_8", "East")
+  dimension_code <- c(dimension_code, next_dimension_code)
+
+  # East wall pillars
+  next_dimension_code <- dimension_code_for_object("Pillar_9", "East")
+  dimension_code <- c(dimension_code, next_dimension_code)
+  next_dimension_code <- dimension_code_for_object("Pillar_10", "East")
+  dimension_code <- c(dimension_code, next_dimension_code)
+  next_dimension_code <- dimension_code_for_object("Pillar_10", "South")
+  dimension_code <- c(dimension_code, next_dimension_code)
+
+  # East Walls
+  walls = c("Wall_10", "Wall_13")
+  for (i in 1:length(walls)){
+    next_dimension_code <- dimension_code_for_object(walls[i], "East")
+    dimension_code <- c(dimension_code, next_dimension_code)
+  }
+
+
+  # "Pillar_1", "Pillar_2", "Pillar_3", "Pillar_4", "Pillar_5", "Pillar_6",
+  # "Pillar_7", "Pillar_8", "Pillar_9", "Pillar_10"
+
+  return(dimension_code)
+}
+
+#' Creates lines of python code to create 2d views of the existing structure
+#'
+#'
+#' @return A vector of strings containing the lines of code to be generated.
+#'
+#' @export
+#' @examples
+
+#' freecad_2d_code ()
+freecad_2d_code <- function(){
+
+
+  # Create Section Plane & Shape 2d View
+  section_plane <-
+    c(
+      "FreeCAD.DraftWorkingPlane.setTop()",
+      "FreeCAD.ActiveDocument.recompute()",
+      "Gui.activeDocument().activeView().viewTop()",
+      "App.activeDocument().recompute()",
+      "sectionPlane = Arch.makeSectionPlane([existing_building, existing_dimensions])",
+      "sectionPlane.Placement.move(FreeCAD.Vector(0, 0, -650))",
+      ""
+    )
+
+  tech_drawing <-
+    c(
+      "Gui.ActiveDocument = Gui.getDocument('SHV')", #Note relying on the fact that SHV is know to be the name
+      "Gui.activateWorkbench('TechDrawWorkbench')",
+      "page = App.activeDocument().addObject('TechDraw::DrawPage','Page')",
+      "template = App.activeDocument().addObject('TechDraw::DrawSVGTemplate','Template')",
+      "template.Template = '/Applications/FreeCAD.app/Contents/Resources/share/Mod/TechDraw/Templates/A3_LandscapeTD.svg'", # Note create my own template.
+      "page.Template = App.activeDocument().Template",
+      ""
+    )
+
+  # Create Plan in Tech Drawing
+  plan <-
+    c(
+      "buildingPlan = FreeCAD.ActiveDocument.addObject('TechDraw::DrawViewArch','BuildingPlan')",
+      "buildingPlan.Source = sectionPlane",
+      "pageBuildingPlan = page.addView(buildingPlan)",
+      "buildingPlan.Scale = 1/50",
+      ""
+    )
+
+  view_2d_code <-
+    c(section_plane, tech_drawing, plan)
+
+  return(view_2d_code)
 }
 
 
@@ -227,6 +448,16 @@ generate_freecad_python_code <- function(){
       ""
     )
 
+  # Group Code - sets up the classes for grouping objects
+  group_code <-
+      c(
+        "existing_building = Arch.makeBuilding([])",
+        "existing_building.Label = 'Existing Building'",
+        "existing_dimensions = document.addObject('App::DocumentObjectGroup','Dimensions')",
+        "existing_dimensions.Label = 'Existing Dimensions'",
+        ""
+      )
+
   # Creating the python code for for generating creates the body of the code for generating
   # FreeCAD file
   utils::data("existing_pillars", envir = environment())
@@ -235,7 +466,14 @@ generate_freecad_python_code <- function(){
   utils::data("existing_holes", envir = environment())
   wall_code <- freecad_wall_code(existing_walls, existing_holes)
   reposition_code <- freecad_reposition_code()
-  body <- c(pillar_code, wall_code, reposition_code)
+  dimension_code <- freecad_dimension_code()
+  view_2d_code <- freecad_2d_code()
+  body <- c(group_code,
+            pillar_code,
+            wall_code,
+            reposition_code,
+            dimension_code,
+            view_2d_code)
 
   footer <-
     c("Gui.SendMsgToActiveView('ViewFit')",

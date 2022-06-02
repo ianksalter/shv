@@ -23,12 +23,14 @@ describe("freecad_pillar_code", {
          c("baseline_start = FreeCAD.Vector(1, 1.1, 0)",
            "baseline_end = FreeCAD.Vector(1.2, 1.1, 0)",
            "baseline = Draft.makeLine(baseline_start, baseline_end)",
-           "pillar1 = Arch.makeWall(baseline, length=None, width=0.2, height=3, name='Pillar_1')",
+           "pillar = Arch.makeWall(baseline, length=None, width=0.2, height=3, name='Pillar_1')",
+           "existing_building.addObject(pillar)",
            "",
            "baseline_start = FreeCAD.Vector(2, 2.1, 0)",
            "baseline_end = FreeCAD.Vector(2.2, 2.1, 0)",
            "baseline = Draft.makeLine(baseline_start, baseline_end)",
-           "pillar2 = Arch.makeWall(baseline, length=None, width=0.2, height=3, name='Pillar_2')",
+           "pillar = Arch.makeWall(baseline, length=None, width=0.2, height=3, name='Pillar_2')",
+           "existing_building.addObject(pillar)",
            "")
        actual_code <- freecad_pillar_code(test_pillars)
        expect_equal(actual_code, expected_code)
@@ -66,29 +68,92 @@ describe("freecad_wall_code", {
          c("baseline_start = FreeCAD.Vector(0.1, 1.1, 0)",
            "baseline_end = FreeCAD.Vector(2.1, 1.1, 0)",
            "baseline = Draft.makeLine(baseline_start, baseline_end)",
-           "wall1 = Arch.makeWall(baseline, length=None, width=0.2, height=3, name='Wall_1')",
+           "wall = Arch.makeWall(baseline, length=None, width=0.2, height=3, name='Wall_1')",
+           "existing_building.addObject(wall)",
            "",
            "baseline_start = FreeCAD.Vector(0.6, 1.1, 0)",
            "baseline_end = FreeCAD.Vector(1.5, 1.1, 0)",
            "baseline = Draft.makeLine(baseline_start, baseline_end)",
-           "hole1 = Arch.makeWall(baseline, length=None, width=0.2, height=2, name='Hole_1')",
-           "Arch.removeComponents(hole1, wall1)",
+           "hole = Arch.makeWall(baseline, length=None, width=0.2, height=2, name='Hole_1')",
+           "Arch.removeComponents(hole, wall)",
            "",
            "baseline_start = FreeCAD.Vector(2.1, 1.1, 0)",
            "baseline_end = FreeCAD.Vector(2.1, 3.1, 0)",
            "baseline = Draft.makeLine(baseline_start, baseline_end)",
-           "wall2 = Arch.makeWall(baseline, length=None, width=0.2, height=3, name='Wall_2')",
+           "wall = Arch.makeWall(baseline, length=None, width=0.2, height=3, name='Wall_2')",
+           "existing_building.addObject(wall)",
            "",
            "baseline_start = FreeCAD.Vector(2.1, 1.35, 1)",
            "baseline_end = FreeCAD.Vector(2.1, 2.85, 1)",
            "baseline = Draft.makeLine(baseline_start, baseline_end)",
-           "hole1 = Arch.makeWall(baseline, length=None, width=0.2, height=1, name='Hole_2')",
-           "Arch.removeComponents(hole1, wall2)",
+           "hole = Arch.makeWall(baseline, length=None, width=0.2, height=1, name='Hole_2')",
+           "Arch.removeComponents(hole, wall)",
            ""
          )
        actual_code <- freecad_wall_code(test_walls, test_holes)
        expect_equal(actual_code, expected_code)
      }
   )
+})
 
+describe("dimension_code_for_object", {
+
+  it("Returns a vector of python code for rendering a dimension for the object a given orientation",
+     {
+       expected_code <-
+         c("FreeCAD.ActiveDocument.recompute()",
+           "object = document.getObjectsByLabel('Pillar_1')[0]",
+           "object_bound_box = object.Shape.BoundBox",
+           "x_min = object_bound_box.XMin",
+           "x_max = object_bound_box.XMax",
+           "x_mid = (x_min + x_max)/2",
+           "y_min = object_bound_box.YMin",
+           "y_max = object_bound_box.YMax",
+           "y_mid = (y_min + y_max)/2",
+           "point1 = FreeCAD.Vector(x_max, y_min, 0)",
+           "point2 = FreeCAD.Vector(x_max, y_max, 0)",
+           "point3 = FreeCAD.Vector(x_max + 300, y_mid, 0)",
+           "dimension = Draft.make_linear_dimension(point1, point2, point3)",
+           "dimension.Label = 'Dim_South_Pillar_1'",
+           "existing_dimensions.addObject(dimension)",
+           "dimension_view = dimension.ViewObject",
+           "dimension_view.ArrowSize = 20",
+           "dimension_view.ArrowType = 'Arrow'",
+           "dimension_view.FontSize = 80",
+           "dimension_view.ExtLines = 300",
+           "dimension_view.ExtOvershoot = 100",
+           "dimension_view.ShowUnit = False",
+           "dimension_view.Decimals = 0",
+           ""
+         )
+       actual_code <- dimension_code_for_object("Pillar_1", "South")
+       expect_equal(actual_code, expected_code)
+
+       expected_code <-
+         c(
+           "point1 = FreeCAD.Vector(x_min, y_min, 0)",
+           "point2 = FreeCAD.Vector(x_min, y_max, 0)",
+           "point3 = FreeCAD.Vector(x_min - 300, y_mid, 0)"
+         )
+       actual_code <- dimension_code_for_object("Pillar_1", "North")[10:12]
+       expect_equal(actual_code, expected_code)
+       expected_code <-
+         c(
+           "point1 = FreeCAD.Vector(x_min, y_max, 0)",
+           "point2 = FreeCAD.Vector(x_max, y_max, 0)",
+           "point3 = FreeCAD.Vector(x_mid, y_max + 300, 0)"
+         )
+       actual_code <- dimension_code_for_object("Pillar_1", "East")[10:12]
+       expect_equal(actual_code, expected_code)
+       expected_code <-
+         c(
+           "point1 = FreeCAD.Vector(x_min, y_min, 0)",
+           "point2 = FreeCAD.Vector(x_max, y_min, 0)",
+           "point3 = FreeCAD.Vector(x_mid, y_min - 300, 0)"
+         )
+       actual_code <- dimension_code_for_object("Pillar_1", "West")[10:12]
+       expect_equal(actual_code, expected_code)
+
+     }
+  )
 })
