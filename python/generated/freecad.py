@@ -20,6 +20,11 @@ existing_building.Label = 'Existing Building'
 existing_dimensions = document.addObject('App::DocumentObjectGroup','Dimensions')
 existing_dimensions.Label = 'Existing Dimensions'
 
+new_structure = Arch.makeBuilding([])
+new_structure.Label = 'New Structure'
+new_dimensions = document.addObject('App::DocumentObjectGroup','Dimensions')
+new_dimensions.Label = 'New Dimensions'
+
 baseline_start = FreeCAD.Vector(-140, 190, 0)
 baseline_end = FreeCAD.Vector(240, 190, 0)
 baseline = Draft.makeLine(baseline_start, baseline_end)
@@ -32,38 +37,38 @@ baseline = Draft.makeLine(baseline_start, baseline_end)
 pillar = Arch.makeWall(baseline, length=None, width=380, height=4700, name='Pillar_2')
 existing_building.addObject(pillar)
 
-baseline_start = FreeCAD.Vector(-140, 7710, 0)
-baseline_end = FreeCAD.Vector(240, 7710, 0)
+baseline_start = FreeCAD.Vector(-140, 7700, 0)
+baseline_end = FreeCAD.Vector(240, 7700, 0)
 baseline = Draft.makeLine(baseline_start, baseline_end)
 pillar = Arch.makeWall(baseline, length=None, width=380, height=4700, name='Pillar_3')
 existing_building.addObject(pillar)
 
-baseline_start = FreeCAD.Vector(-140, 12190, 0)
-baseline_end = FreeCAD.Vector(240, 12190, 0)
+baseline_start = FreeCAD.Vector(-140, 12160, 0)
+baseline_end = FreeCAD.Vector(240, 12160, 0)
 baseline = Draft.makeLine(baseline_start, baseline_end)
 pillar = Arch.makeWall(baseline, length=None, width=380, height=4700, name='Pillar_4')
 existing_building.addObject(pillar)
 
-baseline_start = FreeCAD.Vector(-140, 15910, 0)
-baseline_end = FreeCAD.Vector(240, 15910, 0)
+baseline_start = FreeCAD.Vector(-140, 15890, 0)
+baseline_end = FreeCAD.Vector(240, 15890, 0)
 baseline = Draft.makeLine(baseline_start, baseline_end)
 pillar = Arch.makeWall(baseline, length=None, width=380, height=4700, name='Pillar_5')
 existing_building.addObject(pillar)
 
-baseline_start = FreeCAD.Vector(2400, 16900, 0)
-baseline_end = FreeCAD.Vector(2660, 16900, 0)
+baseline_start = FreeCAD.Vector(2400, 16860, 0)
+baseline_end = FreeCAD.Vector(2660, 16860, 0)
 baseline = Draft.makeLine(baseline_start, baseline_end)
 pillar = Arch.makeWall(baseline, length=None, width=260, height=4700, name='Pillar_6')
 existing_building.addObject(pillar)
 
-baseline_start = FreeCAD.Vector(3500, 15910, 0)
-baseline_end = FreeCAD.Vector(3880, 15910, 0)
+baseline_start = FreeCAD.Vector(3460, 15890, 0)
+baseline_end = FreeCAD.Vector(3840, 15890, 0)
 baseline = Draft.makeLine(baseline_start, baseline_end)
 pillar = Arch.makeWall(baseline, length=None, width=380, height=4700, name='Pillar_7')
 existing_building.addObject(pillar)
 
-baseline_start = FreeCAD.Vector(3680, 12190, 0)
-baseline_end = FreeCAD.Vector(4060, 12190, 0)
+baseline_start = FreeCAD.Vector(3680, 12160, 0)
+baseline_end = FreeCAD.Vector(4060, 12160, 0)
 baseline = Draft.makeLine(baseline_start, baseline_end)
 pillar = Arch.makeWall(baseline, length=None, width=380, height=4700, name='Pillar_8')
 existing_building.addObject(pillar)
@@ -87,73 +92,73 @@ wall = Arch.makeWall(baseline, length=None, width=100, height=4700, name='Wall_1
 existing_building.addObject(wall)
 
 baseline_start = FreeCAD.Vector(50.0000000000001, 4150, 0)
-baseline_end = FreeCAD.Vector(50.0000000000001, 7520, 0)
+baseline_end = FreeCAD.Vector(50.0000000000001, 7510, 0)
 baseline = Draft.makeLine(baseline_start, baseline_end)
 wall = Arch.makeWall(baseline, length=None, width=100, height=4700, name='Wall_2')
 existing_building.addObject(wall)
 
-baseline_start = FreeCAD.Vector(50.0000000000001, 7900, 0)
-baseline_end = FreeCAD.Vector(50.0000000000001, 12000, 0)
+baseline_start = FreeCAD.Vector(50.0000000000001, 7890, 0)
+baseline_end = FreeCAD.Vector(50.0000000000001, 11970, 0)
 baseline = Draft.makeLine(baseline_start, baseline_end)
 wall = Arch.makeWall(baseline, length=None, width=100, height=4700, name='Wall_3')
 existing_building.addObject(wall)
 
-baseline_start = FreeCAD.Vector(50.0000000000001, 12380, 0)
-baseline_end = FreeCAD.Vector(50.0000000000001, 15720, 0)
+baseline_start = FreeCAD.Vector(50.0000000000001, 12350, 0)
+baseline_end = FreeCAD.Vector(50.0000000000001, 15700, 0)
 baseline = Draft.makeLine(baseline_start, baseline_end)
 wall = Arch.makeWall(baseline, length=None, width=100, height=4700, name='Wall_4')
 existing_building.addObject(wall)
 
-baseline_start = FreeCAD.Vector(50, 16100, 0)
-baseline_end = FreeCAD.Vector(50, 17030, 0)
+baseline_start = FreeCAD.Vector(50, 16080, 0)
+baseline_end = FreeCAD.Vector(50, 16990, 0)
 baseline = Draft.makeLine(baseline_start, baseline_end)
 wall = Arch.makeWall(baseline, length=None, width=100, height=4700, name='Wall_5')
 existing_building.addObject(wall)
 
-baseline_start = FreeCAD.Vector(100, 16970, 0)
-baseline_end = FreeCAD.Vector(2400, 16970, 0)
+baseline_start = FreeCAD.Vector(100, 16930, 0)
+baseline_end = FreeCAD.Vector(2400, 16930, 0)
 baseline = Draft.makeLine(baseline_start, baseline_end)
 wall = Arch.makeWall(baseline, length=None, width=120, height=4700, name='Wall_6')
 existing_building.addObject(wall)
 
-baseline_start = FreeCAD.Vector(2660, 16970, 0)
-baseline_end = FreeCAD.Vector(6200, 16970, 0)
+baseline_start = FreeCAD.Vector(2660, 16930, 0)
+baseline_end = FreeCAD.Vector(6190, 16930, 0)
 baseline = Draft.makeLine(baseline_start, baseline_end)
 wall = Arch.makeWall(baseline, length=None, width=120, height=4700, name='Wall_7')
 existing_building.addObject(wall)
 
-baseline_start = FreeCAD.Vector(6250, 11940, 0)
-baseline_end = FreeCAD.Vector(6250, 17030, 0)
+baseline_start = FreeCAD.Vector(6240, 11990, 0)
+baseline_end = FreeCAD.Vector(6240, 16990, 0)
 baseline = Draft.makeLine(baseline_start, baseline_end)
 wall = Arch.makeWall(baseline, length=None, width=100, height=4700, name='Wall_8')
 existing_building.addObject(wall)
 
-baseline_start = FreeCAD.Vector(4480, 11990, 0)
-baseline_end = FreeCAD.Vector(6200, 11990, 0)
+baseline_start = FreeCAD.Vector(4480, 12040, 0)
+baseline_end = FreeCAD.Vector(6190, 12040, 0)
 baseline = Draft.makeLine(baseline_start, baseline_end)
 wall = Arch.makeWall(baseline, length=None, width=100, height=4700, name='Wall_9')
 existing_building.addObject(wall)
 
-baseline_start = FreeCAD.Vector(4430, 7490, 0)
-baseline_end = FreeCAD.Vector(4430, 12040, 0)
+baseline_start = FreeCAD.Vector(4430, 7510, 0)
+baseline_end = FreeCAD.Vector(4430, 12090, 0)
 baseline = Draft.makeLine(baseline_start, baseline_end)
 wall = Arch.makeWall(baseline, length=None, width=100, height=4700, name='Wall_10')
 existing_building.addObject(wall)
 
-baseline_start = FreeCAD.Vector(4480, 7540, 0)
-baseline_end = FreeCAD.Vector(4800, 7540, 0)
+baseline_start = FreeCAD.Vector(4480, 7560, 0)
+baseline_end = FreeCAD.Vector(4800, 7560, 0)
 baseline = Draft.makeLine(baseline_start, baseline_end)
 wall = Arch.makeWall(baseline, length=None, width=100, height=4700, name='Wall_11')
 existing_building.addObject(wall)
 
-baseline_start = FreeCAD.Vector(4850, 4120, 0)
-baseline_end = FreeCAD.Vector(4850, 7590, 0)
+baseline_start = FreeCAD.Vector(4850, 4150, 0)
+baseline_end = FreeCAD.Vector(4850, 7610, 0)
 baseline = Draft.makeLine(baseline_start, baseline_end)
 wall = Arch.makeWall(baseline, length=None, width=100, height=4700, name='Wall_12')
 existing_building.addObject(wall)
 
-baseline_start = FreeCAD.Vector(4990, 350, 0)
-baseline_end = FreeCAD.Vector(4990, 3740, 0)
+baseline_start = FreeCAD.Vector(4990, 380, 0)
+baseline_end = FreeCAD.Vector(4990, 3770, 0)
 baseline = Draft.makeLine(baseline_start, baseline_end)
 wall = Arch.makeWall(baseline, length=None, width=100, height=4700, name='Wall_13')
 existing_building.addObject(wall)
@@ -164,11 +169,29 @@ baseline = Draft.makeLine(baseline_start, baseline_end)
 wall = Arch.makeWall(baseline, length=None, width=380, height=4700, name='Wall_14')
 existing_building.addObject(wall)
 
-baseline_start = FreeCAD.Vector(1070, 190, 0)
-baseline_end = FreeCAD.Vector(3600, 190, 0)
+baseline_start = FreeCAD.Vector(930, 270, 0)
+baseline_end = FreeCAD.Vector(3460, 350, 0)
 baseline = Draft.makeLine(baseline_start, baseline_end)
-hole = Arch.makeWall(baseline, length=None, width=380, height=4050, name='Hole_1')
+hole = Arch.makeWall(baseline, length=None, width=300, height=4050, name='Hole_1')
 Arch.removeComponents(hole, wall)
+
+baseline_start = FreeCAD.Vector(930, 190, 0)
+baseline_end = FreeCAD.Vector(3460, 190, 0)
+baseline = Draft.makeLine(baseline_start, baseline_end)
+hole = Arch.makeWall(baseline, length=None, width=380, height=3080, name='Hole_2')
+Arch.removeComponents(hole, wall)
+
+baseline_start = FreeCAD.Vector(175, 390, 250)
+baseline_end = FreeCAD.Vector(175, 3760, 250)
+baseline = Draft.makeLine(baseline_start, baseline_end)
+wall = Arch.makeWall(baseline, length=None, width=130, height=2600, name='Steel_Wall_1')
+new_structure.addObject(wall)
+
+baseline_start = FreeCAD.Vector(175, 4160, 250)
+baseline_end = FreeCAD.Vector(175, 7500, 250)
+baseline = Draft.makeLine(baseline_start, baseline_end)
+wall = Arch.makeWall(baseline, length=None, width=130, height=2600, name='Steel_Wall_2')
+new_structure.addObject(wall)
 
 Gui.runCommand('Std_SelectAll',0)
 move_list = Gui.Selection.getCompleteSelection()
@@ -545,11 +568,11 @@ x_mid = (x_min + x_max)/2
 y_min = object_bound_box.YMin
 y_max = object_bound_box.YMax
 y_mid = (y_min + y_max)/2
-point1 = FreeCAD.Vector(x_min, y_max, 0)
-point2 = FreeCAD.Vector(x_max, y_max, 0)
-point3 = FreeCAD.Vector(x_mid, y_max + 300, 0)
+point1 = FreeCAD.Vector(x_min, y_min, 0)
+point2 = FreeCAD.Vector(x_max, y_min, 0)
+point3 = FreeCAD.Vector(x_mid, y_min - 300, 0)
 dimension = Draft.make_linear_dimension(point1, point2, point3)
-dimension.Label = 'Dim_East_Pillar_7'
+dimension.Label = 'Dim_West_Pillar_7'
 existing_dimensions.addObject(dimension)
 dimension_view = dimension.ViewObject
 dimension_view.ArrowSize = 20
@@ -593,11 +616,11 @@ x_mid = (x_min + x_max)/2
 y_min = object_bound_box.YMin
 y_max = object_bound_box.YMax
 y_mid = (y_min + y_max)/2
-point1 = FreeCAD.Vector(x_min, y_max, 0)
-point2 = FreeCAD.Vector(x_max, y_max, 0)
-point3 = FreeCAD.Vector(x_mid, y_max + 300, 0)
+point1 = FreeCAD.Vector(x_min, y_min, 0)
+point2 = FreeCAD.Vector(x_max, y_min, 0)
+point3 = FreeCAD.Vector(x_mid, y_min - 300, 0)
 dimension = Draft.make_linear_dimension(point1, point2, point3)
-dimension.Label = 'Dim_East_Pillar_8'
+dimension.Label = 'Dim_West_Pillar_8'
 existing_dimensions.addObject(dimension)
 dimension_view = dimension.ViewObject
 dimension_view.ArrowSize = 20
@@ -681,6 +704,56 @@ dimension_view.ShowUnit = False
 dimension_view.Decimals = 0
 
 FreeCAD.ActiveDocument.recompute()
+object1 = document.getObjectsByLabel('Wall_7')[0]
+object2 = document.getObjectsByLabel('Wall_9')[0]
+object1_bound_box = object1.Shape.BoundBox
+object2_bound_box = object2.Shape.BoundBox
+point_1_x = object1_bound_box.XMax
+point_1_y = (object1_bound_box.YMin + object1_bound_box.YMax)/2
+point1 = FreeCAD.Vector(point_1_x, point_1_y, 0)
+point_2_x = object2_bound_box.XMin
+point_2_y = point_1_y
+point2 = FreeCAD.Vector(point_2_x, point_2_y, 0)
+x_mid = (point_1_x + point_2_x)/2
+point3 = FreeCAD.Vector(x_mid, point_1_y + 1400, 0)
+dimension = Draft.make_linear_dimension(point1, point2, point3)
+dimension.Label = 'Dim_North-South_Wall_7_End_Wall_9_Start'
+existing_dimensions.addObject(dimension)
+dimension_view = dimension.ViewObject
+dimension_view.ArrowSize = 20
+dimension_view.ArrowType = 'Arrow'
+dimension_view.FontSize = 80
+dimension_view.ExtLines = 300
+dimension_view.ExtOvershoot = 100
+dimension_view.ShowUnit = False
+dimension_view.Decimals = 0
+
+FreeCAD.ActiveDocument.recompute()
+object1 = document.getObjectsByLabel('Wall_10')[0]
+object2 = document.getObjectsByLabel('Wall_9')[0]
+object1_bound_box = object1.Shape.BoundBox
+object2_bound_box = object2.Shape.BoundBox
+point_1_y = object1_bound_box.YMin
+point_1_x = (object1_bound_box.XMin + object1_bound_box.XMax)/2
+point1 = FreeCAD.Vector(point_1_x, point_1_y, 0)
+point_2_y = object2_bound_box.YMax
+point_2_x = point_1_x
+point2 = FreeCAD.Vector(point_2_x, point_2_y, 0)
+y_mid = (point_1_y + point_2_y)/2
+point3 = FreeCAD.Vector(point_1_x + -2500, y_mid, 0)
+dimension = Draft.make_linear_dimension(point1, point2, point3)
+dimension.Label = 'Dim_East-West_Wall_10_Start_Wall_9_End'
+existing_dimensions.addObject(dimension)
+dimension_view = dimension.ViewObject
+dimension_view.ArrowSize = 20
+dimension_view.ArrowType = 'Arrow'
+dimension_view.FontSize = 80
+dimension_view.ExtLines = 300
+dimension_view.ExtOvershoot = 100
+dimension_view.ShowUnit = False
+dimension_view.Decimals = 0
+
+FreeCAD.ActiveDocument.recompute()
 object = document.getObjectsByLabel('Wall_10')[0]
 object_bound_box = object.Shape.BoundBox
 x_min = object_bound_box.XMin
@@ -728,6 +801,330 @@ dimension_view.ExtOvershoot = 100
 dimension_view.ShowUnit = False
 dimension_view.Decimals = 0
 
+FreeCAD.ActiveDocument.recompute()
+object1 = document.getObjectsByLabel('Wall_10')[0]
+object2 = document.getObjectsByLabel('Wall_12')[0]
+object1_bound_box = object1.Shape.BoundBox
+object2_bound_box = object2.Shape.BoundBox
+point_1_y = object1_bound_box.YMin
+point_1_x = (object1_bound_box.XMin + object1_bound_box.XMax)/2
+point1 = FreeCAD.Vector(point_1_x, point_1_y, 0)
+point_2_y = object2_bound_box.YMin
+point_2_x = point_1_x
+point2 = FreeCAD.Vector(point_2_x, point_2_y, 0)
+y_mid = (point_1_y + point_2_y)/2
+point3 = FreeCAD.Vector(point_1_x + 2500, y_mid, 0)
+dimension = Draft.make_linear_dimension(point1, point2, point3)
+dimension.Label = 'Dim_East-West_Wall_10_Start_Wall_12_Start'
+existing_dimensions.addObject(dimension)
+dimension_view = dimension.ViewObject
+dimension_view.ArrowSize = 20
+dimension_view.ArrowType = 'Arrow'
+dimension_view.FontSize = 80
+dimension_view.ExtLines = 300
+dimension_view.ExtOvershoot = 100
+dimension_view.ShowUnit = False
+dimension_view.Decimals = 0
+
+FreeCAD.ActiveDocument.recompute()
+object1 = document.getObjectsByLabel('Wall_11')[0]
+object2 = document.getObjectsByLabel('Pillar_9')[0]
+object1_bound_box = object1.Shape.BoundBox
+object2_bound_box = object2.Shape.BoundBox
+point_1_x = object1_bound_box.XMax
+point_1_y = (object1_bound_box.YMin + object1_bound_box.YMax)/2
+point1 = FreeCAD.Vector(point_1_x, point_1_y, 0)
+point_2_x = object2_bound_box.XMin
+point_2_y = point_1_y
+point2 = FreeCAD.Vector(point_2_x, point_2_y, 0)
+x_mid = (point_1_x + point_2_x)/2
+point3 = FreeCAD.Vector(x_mid, point_1_y + 500, 0)
+dimension = Draft.make_linear_dimension(point1, point2, point3)
+dimension.Label = 'Dim_North-South_Wall_11_End_Pillar_9_Start'
+existing_dimensions.addObject(dimension)
+dimension_view = dimension.ViewObject
+dimension_view.ArrowSize = 20
+dimension_view.ArrowType = 'Arrow'
+dimension_view.FontSize = 80
+dimension_view.ExtLines = 300
+dimension_view.ExtOvershoot = 100
+dimension_view.ShowUnit = False
+dimension_view.Decimals = 0
+
+FreeCAD.ActiveDocument.recompute()
+object1 = document.getObjectsByLabel('Wall_1')[0]
+object2 = document.getObjectsByLabel('Wall_13')[0]
+object1_bound_box = object1.Shape.BoundBox
+object2_bound_box = object2.Shape.BoundBox
+point_1_y = object1_bound_box.YMax
+point_1_x = (object1_bound_box.XMin + object1_bound_box.XMax)/2
+point1 = FreeCAD.Vector(point_1_x, point_1_y, 0)
+point_2_y = object2_bound_box.YMin
+point_2_x = point_1_x
+point2 = FreeCAD.Vector(point_2_x, point_2_y, 0)
+y_mid = (point_1_y + point_2_y)/2
+point3 = FreeCAD.Vector(point_1_x + 0, y_mid, 0)
+dimension = Draft.make_linear_dimension(point1, point2, point3)
+dimension.Label = 'Dim_East-West_Wall_1_End_Wall_13_Start'
+existing_dimensions.addObject(dimension)
+dimension_view = dimension.ViewObject
+dimension_view.ArrowSize = 20
+dimension_view.ArrowType = 'Arrow'
+dimension_view.FontSize = 80
+dimension_view.ExtLines = 300
+dimension_view.ExtOvershoot = 100
+dimension_view.ShowUnit = False
+dimension_view.Decimals = 0
+
+FreeCAD.ActiveDocument.recompute()
+object1 = document.getObjectsByLabel('Wall_2')[0]
+object2 = document.getObjectsByLabel('Wall_12')[0]
+object1_bound_box = object1.Shape.BoundBox
+object2_bound_box = object2.Shape.BoundBox
+point_1_y = object1_bound_box.YMax
+point_1_x = (object1_bound_box.XMin + object1_bound_box.XMax)/2
+point1 = FreeCAD.Vector(point_1_x, point_1_y, 0)
+point_2_y = object2_bound_box.YMin
+point_2_x = point_1_x
+point2 = FreeCAD.Vector(point_2_x, point_2_y, 0)
+y_mid = (point_1_y + point_2_y)/2
+point3 = FreeCAD.Vector(point_1_x + 0, y_mid, 0)
+dimension = Draft.make_linear_dimension(point1, point2, point3)
+dimension.Label = 'Dim_East-West_Wall_2_End_Wall_12_Start'
+existing_dimensions.addObject(dimension)
+dimension_view = dimension.ViewObject
+dimension_view.ArrowSize = 20
+dimension_view.ArrowType = 'Arrow'
+dimension_view.FontSize = 80
+dimension_view.ExtLines = 300
+dimension_view.ExtOvershoot = 100
+dimension_view.ShowUnit = False
+dimension_view.Decimals = 0
+
+FreeCAD.ActiveDocument.recompute()
+object1 = document.getObjectsByLabel('Wall_3')[0]
+object2 = document.getObjectsByLabel('Wall_10')[0]
+object1_bound_box = object1.Shape.BoundBox
+object2_bound_box = object2.Shape.BoundBox
+point_1_y = object1_bound_box.YMax
+point_1_x = (object1_bound_box.XMin + object1_bound_box.XMax)/2
+point1 = FreeCAD.Vector(point_1_x, point_1_y, 0)
+point_2_y = object2_bound_box.YMin
+point_2_x = point_1_x
+point2 = FreeCAD.Vector(point_2_x, point_2_y, 0)
+y_mid = (point_1_y + point_2_y)/2
+point3 = FreeCAD.Vector(point_1_x + 0, y_mid, 0)
+dimension = Draft.make_linear_dimension(point1, point2, point3)
+dimension.Label = 'Dim_East-West_Wall_3_End_Wall_10_Start'
+existing_dimensions.addObject(dimension)
+dimension_view = dimension.ViewObject
+dimension_view.ArrowSize = 20
+dimension_view.ArrowType = 'Arrow'
+dimension_view.FontSize = 80
+dimension_view.ExtLines = 300
+dimension_view.ExtOvershoot = 100
+dimension_view.ShowUnit = False
+dimension_view.Decimals = 0
+
+FreeCAD.ActiveDocument.recompute()
+object1 = document.getObjectsByLabel('Wall_4')[0]
+object2 = document.getObjectsByLabel('Wall_8')[0]
+object1_bound_box = object1.Shape.BoundBox
+object2_bound_box = object2.Shape.BoundBox
+point_1_y = object1_bound_box.YMax
+point_1_x = (object1_bound_box.XMin + object1_bound_box.XMax)/2
+point1 = FreeCAD.Vector(point_1_x, point_1_y, 0)
+point_2_y = object2_bound_box.YMin
+point_2_x = point_1_x
+point2 = FreeCAD.Vector(point_2_x, point_2_y, 0)
+y_mid = (point_1_y + point_2_y)/2
+point3 = FreeCAD.Vector(point_1_x + 0, y_mid, 0)
+dimension = Draft.make_linear_dimension(point1, point2, point3)
+dimension.Label = 'Dim_East-West_Wall_4_End_Wall_8_Start'
+existing_dimensions.addObject(dimension)
+dimension_view = dimension.ViewObject
+dimension_view.ArrowSize = 20
+dimension_view.ArrowType = 'Arrow'
+dimension_view.FontSize = 80
+dimension_view.ExtLines = 300
+dimension_view.ExtOvershoot = 100
+dimension_view.ShowUnit = False
+dimension_view.Decimals = 0
+
+FreeCAD.ActiveDocument.recompute()
+object1 = document.getObjectsByLabel('Wall_1')[0]
+object2 = document.getObjectsByLabel('Hole_1')[0]
+object1_bound_box = object1.Shape.BoundBox
+object2_bound_box = object2.Shape.BoundBox
+point_1_y = object1_bound_box.YMax
+point_1_x = (object1_bound_box.XMin + object1_bound_box.XMax)/2
+point1 = FreeCAD.Vector(point_1_x, point_1_y, 0)
+point_2_y = object2_bound_box.YMin
+point_2_x = point_1_x
+point2 = FreeCAD.Vector(point_2_x, point_2_y, 0)
+y_mid = (point_1_y + point_2_y)/2
+point3 = FreeCAD.Vector(point_1_x + 1300, y_mid, 0)
+dimension = Draft.make_linear_dimension(point1, point2, point3)
+dimension.Label = 'Dim_East-West_Wall_1_End_Hole_1_Start'
+existing_dimensions.addObject(dimension)
+dimension_view = dimension.ViewObject
+dimension_view.ArrowSize = 20
+dimension_view.ArrowType = 'Arrow'
+dimension_view.FontSize = 80
+dimension_view.ExtLines = 300
+dimension_view.ExtOvershoot = 100
+dimension_view.ShowUnit = False
+dimension_view.Decimals = 0
+
+FreeCAD.ActiveDocument.recompute()
+object = document.getObjectsByLabel('Hole_1')[0]
+object_bound_box = object.Shape.BoundBox
+x_min = object_bound_box.XMin
+x_max = object_bound_box.XMax
+x_mid = (x_min + x_max)/2
+y_min = object_bound_box.YMin
+y_max = object_bound_box.YMax
+y_mid = (y_min + y_max)/2
+point1 = FreeCAD.Vector(x_min, y_min, 0)
+point2 = FreeCAD.Vector(x_min, y_max, 0)
+point3 = FreeCAD.Vector(x_min - 300, y_mid, 0)
+dimension = Draft.make_linear_dimension(point1, point2, point3)
+dimension.Label = 'Dim_North_Hole_1'
+existing_dimensions.addObject(dimension)
+dimension_view = dimension.ViewObject
+dimension_view.ArrowSize = 20
+dimension_view.ArrowType = 'Arrow'
+dimension_view.FontSize = 80
+dimension_view.ExtLines = 300
+dimension_view.ExtOvershoot = 100
+dimension_view.ShowUnit = False
+dimension_view.Decimals = 0
+
+FreeCAD.ActiveDocument.recompute()
+object1 = document.getObjectsByLabel('Hole_1')[0]
+object2 = document.getObjectsByLabel('Wall_13')[0]
+object1_bound_box = object1.Shape.BoundBox
+object2_bound_box = object2.Shape.BoundBox
+point_1_y = object1_bound_box.YMax
+point_1_x = (object1_bound_box.XMin + object1_bound_box.XMax)/2
+point1 = FreeCAD.Vector(point_1_x, point_1_y, 0)
+point_2_y = object2_bound_box.YMin
+point_2_x = point_1_x
+point2 = FreeCAD.Vector(point_2_x, point_2_y, 0)
+y_mid = (point_1_y + point_2_y)/2
+point3 = FreeCAD.Vector(point_1_x + -500, y_mid, 0)
+dimension = Draft.make_linear_dimension(point1, point2, point3)
+dimension.Label = 'Dim_East-West_Hole_1_End_Wall_13_Start'
+existing_dimensions.addObject(dimension)
+dimension_view = dimension.ViewObject
+dimension_view.ArrowSize = 20
+dimension_view.ArrowType = 'Arrow'
+dimension_view.FontSize = 80
+dimension_view.ExtLines = 300
+dimension_view.ExtOvershoot = 100
+dimension_view.ShowUnit = False
+dimension_view.Decimals = 0
+
+FreeCAD.ActiveDocument.recompute()
+object1 = document.getObjectsByLabel('Wall_4')[0]
+object2 = document.getObjectsByLabel('Pillar_7')[0]
+object1_bound_box = object1.Shape.BoundBox
+object2_bound_box = object2.Shape.BoundBox
+point_1_y = object1_bound_box.YMax
+point_1_x = (object1_bound_box.XMin + object1_bound_box.XMax)/2
+point1 = FreeCAD.Vector(point_1_x, point_1_y, 0)
+point_2_y = object2_bound_box.YMin
+point_2_x = point_1_x
+point2 = FreeCAD.Vector(point_2_x, point_2_y, 0)
+y_mid = (point_1_y + point_2_y)/2
+point3 = FreeCAD.Vector(point_1_x + -1500, y_mid, 0)
+dimension = Draft.make_linear_dimension(point1, point2, point3)
+dimension.Label = 'Dim_East-West_Wall_4_End_Pillar_7_Start'
+existing_dimensions.addObject(dimension)
+dimension_view = dimension.ViewObject
+dimension_view.ArrowSize = 20
+dimension_view.ArrowType = 'Arrow'
+dimension_view.FontSize = 80
+dimension_view.ExtLines = 300
+dimension_view.ExtOvershoot = 100
+dimension_view.ShowUnit = False
+dimension_view.Decimals = 0
+
+FreeCAD.ActiveDocument.recompute()
+object1 = document.getObjectsByLabel('Wall_7')[0]
+object2 = document.getObjectsByLabel('Pillar_7')[0]
+object1_bound_box = object1.Shape.BoundBox
+object2_bound_box = object2.Shape.BoundBox
+point_1_x = object1_bound_box.XMax
+point_1_y = (object1_bound_box.YMin + object1_bound_box.YMax)/2
+point1 = FreeCAD.Vector(point_1_x, point_1_y, 0)
+point_2_x = object2_bound_box.XMin
+point_2_y = point_1_y
+point2 = FreeCAD.Vector(point_2_x, point_2_y, 0)
+x_mid = (point_1_x + point_2_x)/2
+point3 = FreeCAD.Vector(x_mid, point_1_y + -1250, 0)
+dimension = Draft.make_linear_dimension(point1, point2, point3)
+dimension.Label = 'Dim_North-South_Wall_7_End_Pillar_7_Start'
+existing_dimensions.addObject(dimension)
+dimension_view = dimension.ViewObject
+dimension_view.ArrowSize = 20
+dimension_view.ArrowType = 'Arrow'
+dimension_view.FontSize = 80
+dimension_view.ExtLines = 300
+dimension_view.ExtOvershoot = 100
+dimension_view.ShowUnit = False
+dimension_view.Decimals = 0
+
+FreeCAD.ActiveDocument.recompute()
+object1 = document.getObjectsByLabel('Wall_3')[0]
+object2 = document.getObjectsByLabel('Pillar_8')[0]
+object1_bound_box = object1.Shape.BoundBox
+object2_bound_box = object2.Shape.BoundBox
+point_1_y = object1_bound_box.YMax
+point_1_x = (object1_bound_box.XMin + object1_bound_box.XMax)/2
+point1 = FreeCAD.Vector(point_1_x, point_1_y, 0)
+point_2_y = object2_bound_box.YMin
+point_2_x = point_1_x
+point2 = FreeCAD.Vector(point_2_x, point_2_y, 0)
+y_mid = (point_1_y + point_2_y)/2
+point3 = FreeCAD.Vector(point_1_x + -1800, y_mid, 0)
+dimension = Draft.make_linear_dimension(point1, point2, point3)
+dimension.Label = 'Dim_East-West_Wall_3_End_Pillar_8_Start'
+existing_dimensions.addObject(dimension)
+dimension_view = dimension.ViewObject
+dimension_view.ArrowSize = 20
+dimension_view.ArrowType = 'Arrow'
+dimension_view.FontSize = 80
+dimension_view.ExtLines = 300
+dimension_view.ExtOvershoot = 100
+dimension_view.ShowUnit = False
+dimension_view.Decimals = 0
+
+FreeCAD.ActiveDocument.recompute()
+object1 = document.getObjectsByLabel('Wall_7')[0]
+object2 = document.getObjectsByLabel('Pillar_8')[0]
+object1_bound_box = object1.Shape.BoundBox
+object2_bound_box = object2.Shape.BoundBox
+point_1_x = object1_bound_box.XMax
+point_1_y = (object1_bound_box.YMin + object1_bound_box.YMax)/2
+point1 = FreeCAD.Vector(point_1_x, point_1_y, 0)
+point_2_x = object2_bound_box.XMin
+point_2_y = point_1_y
+point2 = FreeCAD.Vector(point_2_x, point_2_y, 0)
+x_mid = (point_1_x + point_2_x)/2
+point3 = FreeCAD.Vector(x_mid, point_1_y + -200, 0)
+dimension = Draft.make_linear_dimension(point1, point2, point3)
+dimension.Label = 'Dim_North-South_Wall_7_End_Pillar_8_Start'
+existing_dimensions.addObject(dimension)
+dimension_view = dimension.ViewObject
+dimension_view.ArrowSize = 20
+dimension_view.ArrowType = 'Arrow'
+dimension_view.FontSize = 80
+dimension_view.ExtLines = 300
+dimension_view.ExtOvershoot = 100
+dimension_view.ShowUnit = False
+dimension_view.Decimals = 0
+
 FreeCAD.DraftWorkingPlane.setTop()
 FreeCAD.ActiveDocument.recompute()
 Gui.activeDocument().activeView().viewTop()
@@ -739,7 +1136,7 @@ Gui.ActiveDocument = Gui.getDocument('SHV')
 Gui.activateWorkbench('TechDrawWorkbench')
 page = App.activeDocument().addObject('TechDraw::DrawPage','Page')
 template = App.activeDocument().addObject('TechDraw::DrawSVGTemplate','Template')
-template.Template = '/Applications/FreeCAD.app/Contents/Resources/share/Mod/TechDraw/Templates/A3_LandscapeTD.svg'
+template.Template = '/Applications/FreeCAD.app/Contents/Resources/share/Mod/TechDraw/Templates/A3_Landscape_ISO7200TD.svg'
 page.Template = App.activeDocument().Template
 
 buildingPlan = FreeCAD.ActiveDocument.addObject('TechDraw::DrawViewArch','BuildingPlan')

@@ -10,6 +10,7 @@ save_all <- function(){
   save_existing_pillars()
   save_existing_walls()
   save_existing_holes()
+  save_new_walls()
 }
 
 
@@ -43,4 +44,12 @@ save_existing_walls <- function(){
 save_existing_holes <- function(){
   existing_holes <- generate_existing_holes()
   usethis::use_data(existing_holes, overwrite = TRUE)
+}
+
+#' save_new_walls
+#'
+#' Generates and saves the set of new walls
+save_new_walls <- function(){
+  new_walls <- generate_new_walls()
+  usethis::use_data(new_walls, overwrite = TRUE)
 }

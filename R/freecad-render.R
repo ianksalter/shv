@@ -2,7 +2,7 @@
 # Without this line the following is a note for the package check
 # no visible binding for global variable ‘existing-pillarn', 'wall_name' and
 # 'existing_holes'
-utils::globalVariables(c("existing_pillars", "wall_name", "existing_holes"))
+utils::globalVariables(c("existing_pillars", "wall_name", "existing_holes", "name", "new_walls"))
 
 #' Creates lines of python code to generate a set of pillars in FreeCAD
 #'
@@ -68,6 +68,7 @@ freecad_pillar_code <- function(pillar_tbl){
 #'
 #' @param wall_tbl the tibble containing the wall data
 #' @param hole_tbl the tibble containing the hole data for the wwalls
+#' @param building_name the name of the building to which the walls will be added.
 #'
 #' @return A vector of strings containing the lines of code to be generated.
 #'
@@ -94,8 +95,8 @@ freecad_pillar_code <- function(pillar_tbl){
 #'   height = c(2, 1)
 #' )
 #'
-#' freecad_wall_code(walls, holes)
-freecad_wall_code <- function(wall_tbl, hole_tbl){
+#' freecad_wall_code(walls, holes, "existing_buiulding")
+freecad_wall_code <- function(wall_tbl, hole_tbl, building_name){
   # assertthat::assert_that(nrow(wall_tbl) == 1,
   #                         msg = "walls_tbl must have exactly 1 row")
 
@@ -127,7 +128,7 @@ freecad_wall_code <- function(wall_tbl, hole_tbl){
               tbl_row$width, ", height=",
               tbl_row$height, ", name='",
               tbl_row$name, "')", sep = ""),
-        "existing_building.addObject(wall)",
+        paste(building_name, ".addObject(wall)", sep = ""),
         ""
       )
     wall_code <- c(wall_code, next_wall_code)
@@ -136,12 +137,25 @@ freecad_wall_code <- function(wall_tbl, hole_tbl){
     if (no_rows > 0){
       for (j in 1:no_rows){
         tbl_hole_row <- wall_holes[j,]
-        hole_x_start <- x_start + x_angular_factor * tbl_hole_row$start
-        hole_y_start <- y_start + y_angular_factor * tbl_hole_row$start
+        hole_x_start <-
+          x_start +
+          x_angular_factor * tbl_hole_row$start -
+          y_angular_factor * tbl_hole_row$y_start
+        hole_y_start <-
+          y_start +
+          y_angular_factor * tbl_hole_row$start +
+          x_angular_factor * tbl_hole_row$y_start
         hole_z_start <- tbl_hole_row$z_start
-        hole_x_end <- hole_x_start + x_angular_factor * tbl_hole_row$length
-        hole_y_end <- hole_y_start + y_angular_factor * tbl_hole_row$length
+        hole_x_end <-
+          hole_x_start +
+          x_angular_factor * tbl_hole_row$length -
+          y_angular_factor * tbl_hole_row$y_start
+        hole_y_end <-
+          hole_y_start +
+          y_angular_factor * tbl_hole_row$length +
+          x_angular_factor * tbl_hole_row$y_start
         hole_z_end <- tbl_hole_row$z_start
+        hole_width = tbl_row$width - tbl_hole_row$y_start
         next_hole_code <-
           c(paste("baseline_start = FreeCAD.Vector(",
                   hole_x_start, ", ",
@@ -153,7 +167,7 @@ freecad_wall_code <- function(wall_tbl, hole_tbl){
                   hole_z_end, ")", sep = ""),
             "baseline = Draft.makeLine(baseline_start, baseline_end)",
             paste("hole = Arch.makeWall(baseline, length=None, width=",
-                  tbl_row$width, ", height=",
+                  hole_width, ", height=",
                   tbl_hole_row$height, ", name='",
                   tbl_hole_row$name, "')", sep = ""),
             "Arch.removeComponents(hole, wall)",
@@ -184,7 +198,7 @@ freecad_wall_code <- function(wall_tbl, hole_tbl){
 #' dimension_code_for_object("Pillar_1", "North")
 dimension_code_for_object <- function(label, orientation){
   assertthat::assert_that(orientation %in% c("North", "South", "East", "West"),
-                          msg = 'orientation must be one of ')
+                          msg = 'orientation must be one of "North", "South", "East" or "West"')
 
   dim_dist = 300
 
@@ -236,6 +250,160 @@ dimension_code_for_object <- function(label, orientation){
   # The previous puthon code just needs to have an object called dimension.
   # Then tis code can be added after the dimension code is generated.
   dim_dist = 300
+  arrow_size = 20
+  arrow_type = "Arrow"
+  font_size = 80
+  ext_lines = 300
+  ext_overshoot = 100
+  format_code <-
+    c("dimension_view = dimension.ViewObject",
+      paste("dimension_view.ArrowSize = ", arrow_size, sep = ""),
+      paste("dimension_view.ArrowType = '", arrow_type, "'", sep = ""),
+      paste("dimension_view.FontSize = ", font_size, sep = ""),
+      paste("dimension_view.ExtLines = ", ext_lines, sep = ""),
+      paste("dimension_view.ExtOvershoot = ", ext_overshoot, sep = ""),
+      "dimension_view.ShowUnit = False",
+      "dimension_view.Decimals = 0",
+      ""
+    )
+
+  return(c(header_code, point_code, make_dimension_code, format_code))
+}
+
+#' Creates lines of python code to generate a set of walls in FreeCAD
+#'
+#' Uses a tibble of python wall data to generate the python code that
+#' can generate the walls in FreeCAD. Any specified holes are removed from the
+#' wall
+#'
+#' @param object_1_label the label the first object 1 is known by in Freecad
+#' @param object_2_label the label the first object 1 is known by in Freecad
+#' @param orientation one of "North-South" or "East-West"
+#' @param object_1_start where to start the dimension on the first object
+#' one of "Start" or End"
+#' @param object_2_end where to end the dimension on the second object
+#' one of "Start" or End"
+#' @param offset amount to move the dimension line in the opposite orientation.
+#'
+#' @return Code for the dimension of a the object based on the parameters. It is
+#' assumed that in which ever orientation is being used the first object
+#' comes before the second object
+#'
+#' @export
+#' @examples
+#' dimension_code_between_objects(
+#'   object_1_label ="Pillar_1",
+#'   object_2_label = "Wall_1",
+#'   orientation = "North-South",
+#'   object_1_start= "End",
+#'   object_2_end = "Start",
+#'   offset = 0)
+dimension_code_between_objects <- function(object_1_label,
+                                           object_2_label,
+                                           orientation,
+                                           object_1_start,
+                                           object_2_end,
+                                           offset = 0){
+  assertthat::assert_that(orientation %in% c("North-South", "East-West"),
+                          msg = 'orientation must be one of "North-South", "East-West"')
+  assertthat::assert_that(object_1_start %in% c("Start", "End"),
+                          msg = 'object_1_start must be one of "Start", "End"')
+  assertthat::assert_that(object_2_end %in% c("Start", "End"),
+                          msg = 'object_2_start must be one of "Start", "End"')
+
+  dim_dist = offset
+
+  header_code <-
+    c("FreeCAD.ActiveDocument.recompute()",
+      paste("object1 = document.getObjectsByLabel('", object_1_label,
+            "')[0]", sep = ""),
+      paste("object2 = document.getObjectsByLabel('", object_2_label,
+            "')[0]", sep = ""),
+      "object1_bound_box = object1.Shape.BoundBox",
+      "object2_bound_box = object2.Shape.BoundBox"
+    )
+
+  point_code <- c()
+  if (orientation == "North-South"){ #Dimension goes along the x direction
+    if (object_1_start == "Start"){
+      next_point_code <- c( "point_1_x = object1_bound_box.XMin")
+    } else { # object_1_start = "End
+      next_point_code <- c("point_1_x = object1_bound_box.XMax")
+    }
+    point_code <- c(point_code, next_point_code)
+    next_point_code <-
+      c(
+        "point_1_y = (object1_bound_box.YMin + object1_bound_box.YMax)/2",
+        "point1 = FreeCAD.Vector(point_1_x, point_1_y, 0)"
+      )
+    point_code <- c(point_code, next_point_code)
+    if (object_2_end == "Start"){
+      next_point_code <- c( "point_2_x = object2_bound_box.XMin")
+    } else { # object_2_start = "End
+      next_point_code <- c("point_2_x = object2_bound_box.XMax")
+    }
+    point_code <- c(point_code, next_point_code)
+    next_point_code <-
+      c(
+        "point_2_y = point_1_y",
+        "point2 = FreeCAD.Vector(point_2_x, point_2_y, 0)"
+      )
+    point_code <- c(point_code, next_point_code)
+    next_point_code <-
+      c(
+        "x_mid = (point_1_x + point_2_x)/2",
+        paste("point3 = FreeCAD.Vector(x_mid, point_1_y + ", dim_dist, ", 0)", sep = "")
+      )
+    point_code <- c(point_code, next_point_code)
+  } else { # orientation is "East-West"
+    if (object_1_start == "Start"){
+      next_point_code <- c( "point_1_y = object1_bound_box.YMin")
+    } else { # object_1_start = "End
+      next_point_code <- c("point_1_y = object1_bound_box.YMax")
+    }
+    point_code <- c(point_code, next_point_code)
+    next_point_code <-
+      c(
+        "point_1_x = (object1_bound_box.XMin + object1_bound_box.XMax)/2",
+        "point1 = FreeCAD.Vector(point_1_x, point_1_y, 0)"
+      )
+    point_code <- c(point_code, next_point_code)
+    if (object_2_end == "Start"){
+      next_point_code <- c( "point_2_y = object2_bound_box.YMin")
+    } else { # object_2_start = "End
+      next_point_code <- c("point_2_y = object2_bound_box.YMax")
+    }
+    point_code <- c(point_code, next_point_code)
+    next_point_code <-
+      c(
+        "point_2_x = point_1_x",
+        "point2 = FreeCAD.Vector(point_2_x, point_2_y, 0)"
+      )
+    point_code <- c(point_code, next_point_code)
+    next_point_code <-
+      c(
+        "y_mid = (point_1_y + point_2_y)/2",
+        paste("point3 = FreeCAD.Vector(point_1_x + ", dim_dist, ", y_mid, 0)", sep = "")
+      )
+    point_code <- c(point_code, next_point_code)
+  }
+
+  make_dimension_code <-
+    c("dimension = Draft.make_linear_dimension(point1, point2, point3)",
+      paste("dimension.Label = 'Dim_",
+            orientation, "_",
+            object_1_label, "_",
+            object_1_start, "_",
+            object_2_label, "_",
+            object_2_end, "'",
+            sep = ""),
+      "existing_dimensions.addObject(dimension)"
+    )
+
+  # All dimensions are formatted in a standard manner
+  # Code below creates creates this dimension format code
+  # The previous puthon code just needs to have an object called dimension.
+  # Then tis code can be added after the dimension code is generated.
   arrow_size = 20
   arrow_type = "Arrow"
   font_size = 80
@@ -329,11 +497,11 @@ freecad_dimension_code <- function(){
   # Central Pillars dimensions
   next_dimension_code <- dimension_code_for_object("Pillar_7", "North")
   dimension_code <- c(dimension_code, next_dimension_code)
-  next_dimension_code <- dimension_code_for_object("Pillar_7", "East")
+  next_dimension_code <- dimension_code_for_object("Pillar_7", "West")
   dimension_code <- c(dimension_code, next_dimension_code)
   next_dimension_code <- dimension_code_for_object("Pillar_8", "North")
   dimension_code <- c(dimension_code, next_dimension_code)
-  next_dimension_code <- dimension_code_for_object("Pillar_8", "East")
+  next_dimension_code <- dimension_code_for_object("Pillar_8", "West")
   dimension_code <- c(dimension_code, next_dimension_code)
 
   # East wall pillars
@@ -345,15 +513,156 @@ freecad_dimension_code <- function(){
   dimension_code <- c(dimension_code, next_dimension_code)
 
   # East Walls
+  # Wall 8
+  next_dimension_code <-
+    dimension_code_between_objects(
+      object_1_label ="Wall_7",
+      object_2_label = "Wall_9",
+      orientation = "North-South",
+      object_1_start= "End",
+      object_2_end = "Start",
+      offset = 1400)
+  dimension_code <- c(dimension_code, next_dimension_code)
+  # Wall 9
+  next_dimension_code <-
+    dimension_code_between_objects(
+      object_1_label ="Wall_10",
+      object_2_label = "Wall_9",
+      orientation = "East-West",
+      object_1_start= "Start",
+      object_2_end = "End",
+      offset = -2500)
+  dimension_code <- c(dimension_code, next_dimension_code)
+  # Walls 10 & 13
   walls = c("Wall_10", "Wall_13")
   for (i in 1:length(walls)){
     next_dimension_code <- dimension_code_for_object(walls[i], "East")
     dimension_code <- c(dimension_code, next_dimension_code)
   }
+  # Wall 11
+  next_dimension_code <-
+    dimension_code_between_objects(
+      object_1_label ="Wall_10",
+      object_2_label = "Wall_12",
+      orientation = "East-West",
+      object_1_start= "Start",
+      object_2_end = "Start",
+      offset = 2500)
+  dimension_code <- c(dimension_code, next_dimension_code)
+  # Wall 12
+  next_dimension_code <-
+    dimension_code_between_objects(
+      object_1_label ="Wall_11",
+      object_2_label = "Pillar_9",
+      orientation = "North-South",
+      object_1_start= "End",
+      object_2_end = "Start",
+      offset = 500)
+  dimension_code <- c(dimension_code, next_dimension_code)
+  # Wall 14 / Space 1
+  next_dimension_code <-
+    dimension_code_between_objects(
+      object_1_label ="Wall_1",
+      object_2_label = "Wall_13",
+      orientation = "East-West",
+      object_1_start= "End",
+      object_2_end = "Start",
+      offset = 0)
+  dimension_code <- c(dimension_code, next_dimension_code)
 
+  # Spaces not yet done
+  # Space 2
+  next_dimension_code <-
+    dimension_code_between_objects(
+      object_1_label ="Wall_2",
+      object_2_label = "Wall_12",
+      orientation = "East-West",
+      object_1_start= "End",
+      object_2_end = "Start",
+      offset = 0)
+  dimension_code <- c(dimension_code, next_dimension_code)
+  # Space 3
+  next_dimension_code <-
+    dimension_code_between_objects(
+      object_1_label ="Wall_3",
+      object_2_label = "Wall_10",
+      orientation = "East-West",
+      object_1_start= "End",
+      object_2_end = "Start",
+      offset = 0)
+  dimension_code <- c(dimension_code, next_dimension_code)
+  # Space 3
+  next_dimension_code <-
+    dimension_code_between_objects(
+      object_1_label ="Wall_4",
+      object_2_label = "Wall_8",
+      orientation = "East-West",
+      object_1_start= "End",
+      object_2_end = "Start",
+      offset = 0)
+  dimension_code <- c(dimension_code, next_dimension_code)
 
-  # "Pillar_1", "Pillar_2", "Pillar_3", "Pillar_4", "Pillar_5", "Pillar_6",
-  # "Pillar_7", "Pillar_8", "Pillar_9", "Pillar_10"
+  # Entrance
+  next_dimension_code <-
+    dimension_code_between_objects(
+      object_1_label ="Wall_1",
+      object_2_label = "Hole_1",
+      orientation = "East-West",
+      object_1_start= "End",
+      object_2_end = "Start",
+      offset = 1300)
+  dimension_code <- c(dimension_code, next_dimension_code)
+  next_dimension_code <- dimension_code_for_object("Hole_1", "North")
+  dimension_code <- c(dimension_code, next_dimension_code)
+  next_dimension_code <-
+    dimension_code_between_objects(
+      object_1_label ="Hole_1",
+      object_2_label = "Wall_13",
+      orientation = "East-West",
+      object_1_start= "End",
+      object_2_end = "Start",
+      offset = -500)
+  dimension_code <- c(dimension_code, next_dimension_code)
+
+  # Pillars
+  # Pillar 7
+  next_dimension_code <-
+    dimension_code_between_objects(
+      object_1_label ="Wall_4",
+      object_2_label = "Pillar_7",
+      orientation = "East-West",
+      object_1_start= "End",
+      object_2_end = "Start",
+      offset = -1500)
+  dimension_code <- c(dimension_code, next_dimension_code)
+  next_dimension_code <-
+    dimension_code_between_objects(
+      object_1_label ="Wall_7",
+      object_2_label = "Pillar_7",
+      orientation = "North-South",
+      object_1_start= "End",
+      object_2_end = "Start",
+      offset = -1250)
+  dimension_code <- c(dimension_code, next_dimension_code)
+  # Pillar 8
+  next_dimension_code <-
+    dimension_code_between_objects(
+      object_1_label ="Wall_3",
+      object_2_label = "Pillar_8",
+      orientation = "East-West",
+      object_1_start= "End",
+      object_2_end = "Start",
+      offset = -1800)
+  dimension_code <- c(dimension_code, next_dimension_code)
+  next_dimension_code <-
+    dimension_code_between_objects(
+      object_1_label ="Wall_7",
+      object_2_label = "Pillar_8",
+      orientation = "North-South",
+      object_1_start= "End",
+      object_2_end = "Start",
+      offset = -200)
+  dimension_code <- c(dimension_code, next_dimension_code)
 
   return(dimension_code)
 }
@@ -388,7 +697,7 @@ freecad_2d_code <- function(){
       "Gui.activateWorkbench('TechDrawWorkbench')",
       "page = App.activeDocument().addObject('TechDraw::DrawPage','Page')",
       "template = App.activeDocument().addObject('TechDraw::DrawSVGTemplate','Template')",
-      "template.Template = '/Applications/FreeCAD.app/Contents/Resources/share/Mod/TechDraw/Templates/A3_LandscapeTD.svg'", # Note create my own template.
+      "template.Template = '/Applications/FreeCAD.app/Contents/Resources/share/Mod/TechDraw/Templates/A3_Landscape_ISO7200TD.svg'", # Note create my own template.
       "page.Template = App.activeDocument().Template",
       ""
     )
@@ -455,6 +764,11 @@ generate_freecad_python_code <- function(){
         "existing_building.Label = 'Existing Building'",
         "existing_dimensions = document.addObject('App::DocumentObjectGroup','Dimensions')",
         "existing_dimensions.Label = 'Existing Dimensions'",
+        "",
+        "new_structure = Arch.makeBuilding([])",
+        "new_structure.Label = 'New Structure'",
+        "new_dimensions = document.addObject('App::DocumentObjectGroup','Dimensions')",
+        "new_dimensions.Label = 'New Dimensions'",
         ""
       )
 
@@ -464,13 +778,16 @@ generate_freecad_python_code <- function(){
   pillar_code <- freecad_pillar_code(existing_pillars)
   utils::data("existing_walls", envir = environment())
   utils::data("existing_holes", envir = environment())
-  wall_code <- freecad_wall_code(existing_walls, existing_holes)
+  utils::data("new_walls", envir = environment())
+  wall_code <- freecad_wall_code(existing_walls, existing_holes, "existing_building")
+  new_wall_code <- freecad_wall_code(new_walls, existing_holes, "new_structure") # existing_holes a placeholder
   reposition_code <- freecad_reposition_code()
   dimension_code <- freecad_dimension_code()
   view_2d_code <- freecad_2d_code()
   body <- c(group_code,
             pillar_code,
             wall_code,
+            new_wall_code,
             reposition_code,
             dimension_code,
             view_2d_code)

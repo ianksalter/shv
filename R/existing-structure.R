@@ -398,33 +398,44 @@ generate_existing_holes <- function(){
   entrance_height <-
 
   hole_names <-
-    c("Hole_1")
+    c("Hole_1", "Hole_2")
 
   wall_names <-
-    c("Wall_14")
+    c("Wall_14", "Wall_14")
 
   hole_1_start <- distance(existing, "entrance", "x_start")
+  hole_1_y_start <- distance(existing, "entrance_small_hole", "width")
   hole_1_z_start <- 0
   hole_1_length <- distance(existing, "entrance", "length")
-  hole_1_height <- distance(existing, "entrance", "height")
+  hole_1_height <- distance(existing, "entrance_big_hole", "height")
+
+  hole_2_start <- distance(existing, "entrance", "x_start")
+  hole_2_y_start <- 0
+  hole_2_z_start <- 0
+  hole_2_length <- distance(existing, "entrance", "length")
+  hole_2_height <- distance(existing, "entrance_small_hole", "height")
 
 
   hole_starts <-
-    c(hole_1_start)
+    c(hole_1_start, hole_2_start)
 
   hole_z_starts <-
-    c(hole_1_z_start)
+    c(hole_1_z_start, hole_2_z_start)
+
+  hole_y_starts <-
+    c(hole_1_y_start, hole_2_y_start)
 
   hole_lengths <-
-    c(hole_1_length)
+    c(hole_1_length, hole_2_length)
 
   hole_heights <-
-    c(hole_1_height)
+    c(hole_1_height, hole_2_height)
 
   basic_hole_tbl <- tibble::tibble(
     name = hole_names,
     wall_name = wall_names,
     start = hole_starts,
+    y_start = hole_y_starts,
     z_start = hole_z_starts,
     length = hole_lengths,
     height = hole_heights

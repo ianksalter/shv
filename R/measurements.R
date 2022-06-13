@@ -44,15 +44,15 @@ generate_measurements <- function(){
   pillar_tbl <-
     tibble::tribble(
       ~measure,      ~dimension,       ~value, ~note,
-      "pillar",      "length",        0380,    "",
-      "pillar",      "width",         0380,    "",
-      "pillar_6",    "length",        0260,    "",
-      "pillar_6",    "width",         0260,    "",
-      "pillar_2",    "x_obtrusion",   0140,    "Amount pillar 2 sticks out from the wall",
-      "pillar_9",    "x_obtrusion",   0280,    "Amount pillar 9 sticks out from the wall on the south side",
-      "pillar_6",    "y_obtrusion",   0140,    "Amount pillar 6 sticks out from the wall",
+      "pillar",      "length",        380,    "",
+      "pillar",      "width",         380,    "",
+      "pillar_6",    "length",        260,    "",
+      "pillar_6",    "width",         260,    "",
+      "pillar_2",    "x_obtrusion",   140,    "Amount pillar 2 sticks out from the wall",
+      "pillar_9",    "x_obtrusion",   280,    "Amount pillar 9 sticks out from the wall on the south side",
+      "pillar_6",    "y_obtrusion",   140,    "Amount pillar 6 sticks out from the wall",
       "pillar_4_8",  "x_distance",    3440,    "Distance between pillars 4 and 8 in x direction",
-      "pillar_5_7",  "x_distance",    3260,    "Distance between pillars 5 and 7 in x direction",
+      "pillar_5_7",  "x_distance",    3220,    "Distance between pillars 5 and 7 in x direction",
       "pillar_6",    "x_distance",    2300,    "Distance between the left/west wall and pillar 6"
 )
 
@@ -62,10 +62,10 @@ generate_measurements <- function(){
     tibble::tribble(
       ~measure,  ~dimension, ~value, ~note,
       "wall_1",  "length",   3390,   "",
-      "wall_2",  "length",   3370,   "",
-      "wall_3",  "length",   4100,   "",
-      "wall_4",  "length",   3340,   "",
-      "wall_5",  "length",   0810,   "",
+      "wall_2",  "length",   3360,   "",
+      "wall_3",  "length",   4080,   "",
+      "wall_4",  "length",   3350,   "",
+      "wall_5",  "length",   0790,   "",
       "wall_14", "length",   4420,   "Space 1 x_direction - 14 - 28",
       "west_wall","width", 100, "",
       "north_wall", "width", 120, "",
@@ -78,21 +78,24 @@ generate_measurements <- function(){
     tibble::tribble(
       ~measure,  ~dimension, ~value, ~note,
       "space_1",  "x_direction",   4840,   "",
-      "space_1",  "y_direction",   3400,   "",
+      "space_1",  "y_direction",   3390,   "",
       "space_2",  "x_direction",   4700,   "",
-      "space_2",  "y_direction",   3750,   "",
+      "space_2",  "y_direction",   3760,   "", # 338cm + 38cm
       "space_3",  "x_direction",   4280,   "",
-      "space_3",  "y_direction",   4550,   "",
-      "space_4",  "x_direction",   6100,   "",
-      "space_4",  "y_direction",   4870,   ""
+      "space_3",  "y_direction",   4580,   "",
+      "space_4",  "x_direction",   6090,   "",
+      "space_4",  "y_direction",   4780,   ""
     )
 
   entrance_tbl <-
     tibble::tribble(
       ~measure,   ~dimension, ~value, ~note,
-      "entrance", "x_start",  830,   "",
+      "entrance", "x_start",  690,   "", # 83 cm - 14 cm
       "entrance", "length",   2530,   "",
-      "entrance", "height",   4050,   "",
+      "entrance_big_hole", "height",   4050,   "",
+      "entrance_big_hole", "width",   300,   "",
+      "entrance_small_hole", "height", 3080, "",
+      "entrance_small_hole" , "width" , 80, ""
     )
 
   combined_tbl <-
