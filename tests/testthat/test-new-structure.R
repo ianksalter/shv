@@ -3,13 +3,13 @@ test_that("Dummy test to get R Studio Run Tests button", {
 })
 
 
-describe("generate_existing_walls", {
+describe("generate_new_walls", {
 
-  it("Returns a tibble of existing walls",
+  it("Returns a tibble of new walls",
      {
        walls <- generate_new_walls()
 
-       expected_no_rows <- 2
+       expected_no_rows <- 14
        actual_no_rows <- nrow(walls)
        expect_equal(actual_no_rows, expected_no_rows)
 
