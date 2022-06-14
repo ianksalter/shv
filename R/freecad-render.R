@@ -67,7 +67,8 @@ freecad_pillar_code <- function(pillar_tbl){
 #' wall
 #'
 #' @param wall_tbl the tibble containing the wall data
-#' @param hole_tbl the tibble containing the hole data for the wwalls
+#' @param hole_tbl the tibble containing the hole data for the walls
+#' @param window_tbl the tibble containing the window data for the walls
 #' @param building_name the name of the building to which the walls will be added.
 #'
 #' @return A vector of strings containing the lines of code to be generated.
@@ -95,8 +96,11 @@ freecad_pillar_code <- function(pillar_tbl){
 #'   height = c(2, 1)
 #' )
 #'
-#' freecad_wall_code(walls, holes, "existing_buiulding")
-freecad_wall_code <- function(wall_tbl, hole_tbl, building_name){
+#' freecad_wall_code(walls, holes, building_name = "existing_building")
+freecad_wall_code <- function(wall_tbl,
+                              hole_tbl = NULL,
+                              window_tbl = NULL,
+                              building_name){
   # assertthat::assert_that(nrow(wall_tbl) == 1,
   #                         msg = "walls_tbl must have exactly 1 row")
 
@@ -132,48 +136,87 @@ freecad_wall_code <- function(wall_tbl, hole_tbl, building_name){
         ""
       )
     wall_code <- c(wall_code, next_wall_code)
-    wall_holes <- dplyr::filter(hole_tbl, wall_name == tbl_row$name)
-    no_rows <- nrow(wall_holes)
-    if (no_rows > 0){
-      for (j in 1:no_rows){
-        tbl_hole_row <- wall_holes[j,]
-        hole_x_start <-
-          x_start +
-          x_angular_factor * tbl_hole_row$start -
-          y_angular_factor * tbl_hole_row$y_start
-        hole_y_start <-
-          y_start +
-          y_angular_factor * tbl_hole_row$start +
-          x_angular_factor * tbl_hole_row$y_start
-        hole_z_start <- tbl_hole_row$z_start
-        hole_x_end <-
-          hole_x_start +
-          x_angular_factor * tbl_hole_row$length -
-          y_angular_factor * tbl_hole_row$y_start
-        hole_y_end <-
-          hole_y_start +
-          y_angular_factor * tbl_hole_row$length +
-          x_angular_factor * tbl_hole_row$y_start
-        hole_z_end <- tbl_hole_row$z_start
-        hole_width = tbl_row$width - tbl_hole_row$y_start
-        next_hole_code <-
-          c(paste("baseline_start = FreeCAD.Vector(",
-                  hole_x_start, ", ",
-                  hole_y_start, ", ",
-                  hole_z_start, ")", sep = ""),
-            paste("baseline_end = FreeCAD.Vector(",
-                  hole_x_end, ", ",
-                  hole_y_end, ", ",
-                  hole_z_end, ")", sep = ""),
-            "baseline = Draft.makeLine(baseline_start, baseline_end)",
-            paste("hole = Arch.makeWall(baseline, length=None, width=",
-                  hole_width, ", height=",
-                  tbl_hole_row$height, ", name='",
-                  tbl_hole_row$name, "')", sep = ""),
-            "Arch.removeComponents(hole, wall)",
-            ""
-          )
-        wall_code <- c(wall_code, next_hole_code)
+    if (! is.null(hole_tbl)){
+      wall_holes <- dplyr::filter(hole_tbl, wall_name == tbl_row$name)
+      no_rows <- nrow(wall_holes)
+      if (no_rows > 0){
+        for (j in 1:no_rows){
+          tbl_hole_row <- wall_holes[j,]
+          hole_x_start <-
+            x_start +
+            x_angular_factor * tbl_hole_row$start -
+            y_angular_factor * tbl_hole_row$y_start
+          hole_y_start <-
+            y_start +
+            y_angular_factor * tbl_hole_row$start +
+            x_angular_factor * tbl_hole_row$y_start
+          hole_z_start <- tbl_hole_row$z_start
+          hole_x_end <-
+            hole_x_start +
+            x_angular_factor * tbl_hole_row$length -
+            y_angular_factor * tbl_hole_row$y_start
+          hole_y_end <-
+            hole_y_start +
+            y_angular_factor * tbl_hole_row$length +
+            x_angular_factor * tbl_hole_row$y_start
+          hole_z_end <- tbl_hole_row$z_start
+          hole_width = tbl_row$width - tbl_hole_row$y_start
+          next_hole_code <-
+            c(paste("baseline_start = FreeCAD.Vector(",
+                    hole_x_start, ", ",
+                    hole_y_start, ", ",
+                    hole_z_start, ")", sep = ""),
+              paste("baseline_end = FreeCAD.Vector(",
+                    hole_x_end, ", ",
+                    hole_y_end, ", ",
+                    hole_z_end, ")", sep = ""),
+              "baseline = Draft.makeLine(baseline_start, baseline_end)",
+              paste("hole = Arch.makeWall(baseline, length=None, width=",
+                    hole_width, ", height=",
+                    tbl_hole_row$height, ", name='",
+                    tbl_hole_row$name, "')", sep = ""),
+              "Arch.removeComponents(hole, wall)",
+              ""
+            )
+          wall_code <- c(wall_code, next_hole_code)
+        }
+      }
+    }
+
+    if (! is.null(window_tbl)){
+      wall_windows <- dplyr::filter(window_tbl, wall_name == tbl_row$name)
+      no_rows <- nrow(wall_windows)
+      if (no_rows > 0){
+        for (j in 1:no_rows){
+          tbl_window_row <- wall_windows[j,]
+          next_window_code <-
+            c("FreeCAD.ActiveDocument.recompute()",
+              "box_wall = wall.Base.Shape.BoundBox",
+              "wall_width = wall.Width.Value",
+              paste("base = FreeCAD.Vector(box_wall.XMin + ",
+                    tbl_window_row$start,
+                    " , box_wall.YMin - wall_width/2, 0)",
+                    sep = ""),
+              "axis = FreeCAD.Vector(1, 0, 0)",
+              "doorPlace = FreeCAD.Placement(base, FreeCAD.Rotation(axis, 90))",
+              paste("door = Arch.makeWindowPreset('",
+                    tbl_window_row$type, "', ",
+                    "width=", tbl_window_row$width, ", ",
+                    "height=", tbl_window_row$height, ", ",
+                    "h1=", tbl_window_row$h1, ", ",
+                    "h2=", tbl_window_row$h2, ", ",
+                    "h3=", tbl_window_row$h3, ", ",
+                    "w1=", tbl_window_row$w1, ", ",
+                    "w2=", tbl_window_row$w2, ", ",
+                    "o1=", tbl_window_row$o1, ", ",
+                    "o2=", tbl_window_row$o2, ", ",
+                    "placement=doorPlace)",
+                    sep = ""),
+              "Arch.addComponents(door, wall)",
+              ""
+            )
+          wall_code <- c(wall_code, next_window_code)
+        }
       }
     }
   }
@@ -779,8 +822,13 @@ generate_freecad_python_code <- function(){
   utils::data("existing_walls", envir = environment())
   utils::data("existing_holes", envir = environment())
   utils::data("new_walls", envir = environment())
-  wall_code <- freecad_wall_code(existing_walls, existing_holes, "existing_building")
-  new_wall_code <- freecad_wall_code(new_walls, existing_holes, "new_structure") # existing_holes a placeholder
+  utils::data("new_windows", envir = environment())
+  wall_code <- freecad_wall_code(existing_walls,
+                                 hole_tbl  = existing_holes,
+                                 building_name = "existing_building")
+  new_wall_code <- freecad_wall_code(new_walls,
+                                     # window_tbl = new_windows,
+                                     building_name = "new_structure") # existing_holes a placeholder
   reposition_code <- freecad_reposition_code()
   dimension_code <- freecad_dimension_code()
   view_2d_code <- freecad_2d_code()

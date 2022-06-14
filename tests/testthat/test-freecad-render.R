@@ -91,7 +91,7 @@ describe("freecad_wall_code", {
            "Arch.removeComponents(hole, wall)",
            ""
          )
-       actual_code <- freecad_wall_code(test_walls, test_holes, "existing_building")
+       actual_code <- freecad_wall_code(test_walls, test_holes, building_name = "existing_building")
        expect_equal(actual_code, expected_code)
      }
   )
