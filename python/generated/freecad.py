@@ -260,9 +260,21 @@ wall = Arch.makeWall(baseline, length=None, width=130, height=2600, name='Steel_
 new_structure.addObject(wall)
 
 baseline_start = FreeCAD.Vector(240, 455, 250)
+baseline_end = FreeCAD.Vector(930, 455, 250)
+baseline = Draft.makeLine(baseline_start, baseline_end)
+wall = Arch.makeWall(baseline, length=None, width=130, height=2600, name='Steel_Wall_14_1')
+new_structure.addObject(wall)
+
+baseline_start = FreeCAD.Vector(930, 455, 250)
+baseline_end = FreeCAD.Vector(3460, 455, 250)
+baseline = Draft.makeLine(baseline_start, baseline_end)
+wall = Arch.makeWall(baseline, length=None, width=130, height=2830, name='Steel_Wall_14_2')
+new_structure.addObject(wall)
+
+baseline_start = FreeCAD.Vector(3460, 455, 250)
 baseline_end = FreeCAD.Vector(4800, 455, 250)
 baseline = Draft.makeLine(baseline_start, baseline_end)
-wall = Arch.makeWall(baseline, length=None, width=130, height=2600, name='Steel_Wall_14')
+wall = Arch.makeWall(baseline, length=None, width=130, height=2600, name='Steel_Wall_14_3')
 new_structure.addObject(wall)
 
 Gui.runCommand('Std_SelectAll',0)

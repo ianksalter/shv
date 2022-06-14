@@ -11,6 +11,7 @@ save_all <- function(){
   save_existing_walls()
   save_existing_holes()
   save_new_walls()
+  save_new_windows()
 }
 
 
@@ -52,4 +53,12 @@ save_existing_holes <- function(){
 save_new_walls <- function(){
   new_walls <- generate_new_walls()
   usethis::use_data(new_walls, overwrite = TRUE)
+}
+
+#' save_new_windows
+#'
+#' Generates and saves the set of new windows and doors
+save_new_windows <- function(){
+  new_windows <- generate_new_windows()
+  usethis::use_data(new_windows, overwrite = TRUE)
 }

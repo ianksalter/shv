@@ -9,7 +9,7 @@ describe("generate_new_walls", {
      {
        walls <- generate_new_walls()
 
-       expected_no_rows <- 14
+       expected_no_rows <- 16
        actual_no_rows <- nrow(walls)
        expect_equal(actual_no_rows, expected_no_rows)
 
@@ -107,3 +107,32 @@ describe("generate_new_walls", {
   )
 
 })
+
+
+describe("generate_new_windows", {
+
+  it("Returns a tibble of new windows and doors",
+     {
+       windows <- generate_new_windows()
+
+       expected_no_rows <- 1
+       actual_no_rows <- nrow(windows)
+       expect_equal(actual_no_rows, expected_no_rows)
+
+       # expected_columns <-
+       #   c("name", "location_x", "location_y", "location_z",
+       #     "length", "width", "height",
+       #     "z_rotation", "x_start", "y_start", "z_start")
+       # actual_columns <- names(pillars)
+       # expect_setequal(actual_columns, expected_columns)
+
+       expected_class <- c("window_tbl", "tbl_df", "tbl", "data.frame")
+       actual_class <- class(windows)
+       expect_equal(actual_class, expected_class)
+
+
+     }
+  )
+
+})
+
