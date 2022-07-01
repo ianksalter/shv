@@ -244,9 +244,12 @@ generate_existing_walls <- function(){
   wall_11_z_rotation <- 0
 
   wall_12_width <- east_wall_width
-  wall_12_length <- wall_2_length + east_wall_width
+  wall_12_length <-
+    distance(existing, "space_2", "y_direction") +
+    east_wall_width -
+    pillar_width
   wall_12_x_start <- wall_10_x_start + space_2_3_x_difference
-  wall_12_y_start <- wall_11_y_start - wall_2_length
+  wall_12_y_start <- wall_11_y_start - wall_12_length + east_wall_width
   wall_12_z_rotation <- 90
 
   wall_13_width <- east_wall_width

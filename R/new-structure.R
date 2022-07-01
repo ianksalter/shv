@@ -12,11 +12,14 @@ design_param <-
     wall_height_high = 3300, # Height of the high walls
     wall_z_start = 250, # Height at which the walls start from the base of the drawing.
     front_door_width = 1020,
-    bedroom_1_length = 4000,
+    bedroom_1_length = 4150,
     bedroom_2_overlap = 380 + 1000, #How much bedroom 2 overlaps into space 3
     kitchen_unit_space = 10 + 600 + 10 + 10 + 600 + 10 + 800 + 600 + 10, #Space for all of the units on the kitchen run.
     kitchen_unit_width = 700, #Space for width of kitchen units
-    bathroom_length = 2500 # The length of the bathroom
+    bathroom_length = 2500, # The length of the bathroom
+    internal_door_width = 920, # Hole left for internal doors assumes door of width 820.
+    internal_door_height = 208, # Hole left for internal doors
+    internal_door_overlap = 50 # The amount by which the surround sticks over the hole.
   )
 
 
@@ -49,8 +52,9 @@ generate_new_walls <- function(){
   kitchen_unit_space <- design_param$kitchen_unit_space
   kitchen_unit_width <- design_param$kitchen_unit_width
   bathroom_length <- design_param$bathroom_length
-
-
+  internal_door_width <- design_param$internal_door_width
+  internal_door_height <- design_param$internal_door_height
+  internal_door_overlap <- design_param$internal_door_overlap
 
   wall_row <-
     existing_walls %>%
@@ -382,22 +386,73 @@ generate_new_walls <- function(){
   wall_bed_2_2_height <- wall_height_low
   wall_bed_2_2_z_rotation <- wall_row$rotation_z
 
-  wall_bath_1_1_name <- "Steel_Wall_Bath_1_1"
-  wall_bath_1_1_x_start <- wall_9_x_start
-  wall_bath_1_1_y_start <- wall_9_y_start + steel_width
-  wall_bath_1_1_width <- steel_width
-  wall_bath_1_1_length <- bathroom_length
-  wall_bath_1_1_height <- wall_height_high
-  wall_bath_1_1_z_rotation <- 90
+  wall_corridor_1_name <- "Steel_Wall_Corridor_1"
+  # Space for bedroom 1 door
+  bedroom_1_door_space <- internal_door_width + 2 * internal_door_overlap
+  wall_corridor_1_x_start <- wall_1_x_start + steel_width
+  wall_corridor_1_y_start <-
+    wall_bed_1_1_y_start +
+    wall_bed_1_1_length -
+    bedroom_1_door_space #TODO: Add space for the plasterboard.
+  wall_corridor_1_width <- steel_width
+  wall_corridor_1_length <-
+    wall_bed_1_1_x_start -
+    wall_1_x_start -
+    steel_width
+  wall_corridor_1_height <- wall_height_low
+  wall_corridor_1_z_rotation <- 0
 
-  wall_bath_1_2_name <- "Steel_Wall_bath_1_2"
-  wall_bath_1_2_x_start <- wall_bath_1_1_x_start
-  wall_bath_1_2_y_start <- wall_bath_1_1_y_start + bathroom_length
-  wall_bath_1_2_width <- steel_width
-  wall_bath_1_2_length <- wall_9_length
-  wall_bath_1_2_height <- wall_height_high
-  wall_bath_1_2_z_rotation <- 0
+  wall_corridor_2_name <- "Steel_Wall_Corridor_2"
+  wall_corridor_2_x_start <- wall_corridor_1_x_start
+  wall_corridor_2_y_start <-
+    wall_bed_2_1_y_start +
+    wall_bed_2_1_length -
+    steel_width
+  wall_corridor_2_width <- steel_width
+  wall_corridor_2_length <-
+    wall_bed_2_1_x_start -
+    wall_3_1_x_start -
+    steel_width
+  wall_corridor_2_height <- wall_height_high
+  wall_corridor_2_z_rotation <- 0
 
+  wall_bath_1_name <- "Steel_Wall_Bath_1"
+  wall_bath_1_x_start <- wall_9_x_start
+  wall_bath_1_y_start <- wall_9_y_start + steel_width
+  wall_bath_1_width <- steel_width
+  wall_bath_1_length <- bathroom_length
+  wall_bath_1_height <- wall_height_high
+  wall_bath_1_z_rotation <- 90
+
+  wall_bath_2_name <- "Steel_Wall_Bath_2"
+  wall_bath_2_x_start <- wall_bath_1_x_start
+  wall_bath_2_y_start <- wall_bath_1_y_start + bathroom_length
+  wall_bath_2_width <- steel_width
+  wall_bath_2_length <- wall_9_length
+  wall_bath_2_height <- wall_height_high
+  wall_bath_2_z_rotation <- 0
+
+
+  wall_bath_3_name <- "Steel_Wall_Bath_3"
+  wall_bath_3_x_start <- wall_9_x_start
+  wall_bath_3_y_start <- wall_9_y_start
+  wall_bath_3_z_start <- wall_z_start + wall_height_low
+  wall_bath_3_width <- steel_width
+  wall_bath_3_length <-
+    wall_10_1_x_start +
+    steel_width -
+    wall_bath_3_x_start
+  wall_bath_3_height <- wall_height_high - wall_height_low
+  wall_bath_3_z_rotation <- 0
+
+  wall_kitchen_name <- "Steel_Wall_Kitchen"
+  wall_kitchen_x_start <- wall_bed_2_1_x_start
+  wall_kitchen_y_start <- wall_corridor_2_y_start
+  wall_kitchen_z_start <- wall_z_start + wall_height_low
+  wall_kitchen_width <- steel_width
+  wall_kitchen_length <- wall_bed_2_2_length + 2 * steel_width
+  wall_kitchen_height <- wall_height_high - wall_height_low
+  wall_kitchen_z_rotation <- 0
 
  wall_names <-
    c(wall_1_name,
@@ -423,8 +478,12 @@ generate_new_walls <- function(){
      wall_bed_1_2_name,
      wall_bed_2_1_name,
      wall_bed_2_2_name,
-     wall_bath_1_1_name,
-     wall_bath_1_2_name)
+     wall_corridor_1_name,
+     wall_corridor_2_name,
+     wall_bath_1_name,
+     wall_bath_2_name,
+     wall_bath_3_name,
+     wall_kitchen_name)
 
  wall_x_starts <-
    c(wall_1_x_start,
@@ -450,8 +509,12 @@ generate_new_walls <- function(){
      wall_bed_1_2_x_start,
      wall_bed_2_1_x_start,
      wall_bed_2_2_x_start,
-     wall_bath_1_1_x_start,
-     wall_bath_1_2_x_start)
+     wall_corridor_1_x_start,
+     wall_corridor_2_x_start,
+     wall_bath_1_x_start,
+     wall_bath_2_x_start,
+     wall_bath_3_x_start,
+     wall_kitchen_x_start)
 
  wall_y_starts <-
    c(wall_1_y_start,
@@ -477,12 +540,18 @@ generate_new_walls <- function(){
      wall_bed_1_2_y_start,
      wall_bed_2_1_y_start,
      wall_bed_2_2_y_start,
-     wall_bath_1_1_y_start,
-     wall_bath_1_2_y_start)
+     wall_corridor_1_y_start,
+     wall_corridor_2_y_start,
+     wall_bath_1_y_start,
+     wall_bath_2_y_start,
+     wall_bath_3_y_start,
+     wall_kitchen_y_start)
 
 
  no_of_walls <- length(wall_names)
- wall_z_starts <- rep(wall_z_start, times = no_of_walls)
+ wall_z_starts <- c(rep(wall_z_start, times = no_of_walls - 2),
+                    wall_bath_3_z_start,
+                    wall_kitchen_z_start)
 
  wall_widths <-
    c(wall_1_width,
@@ -508,8 +577,12 @@ generate_new_walls <- function(){
      wall_bed_1_2_width,
      wall_bed_2_1_width,
      wall_bed_2_2_width,
-     wall_bath_1_1_width,
-     wall_bath_1_2_width)
+     wall_corridor_1_width,
+     wall_corridor_2_width,
+     wall_bath_1_width,
+     wall_bath_2_width,
+     wall_bath_3_width,
+     wall_kitchen_width)
 
  wall_lengths <-
    c(wall_1_length,
@@ -535,8 +608,12 @@ generate_new_walls <- function(){
      wall_bed_1_2_length,
      wall_bed_2_1_length,
      wall_bed_2_2_length,
-     wall_bath_1_1_length,
-     wall_bath_1_2_length)
+     wall_corridor_1_length,
+     wall_corridor_2_length,
+     wall_bath_1_length,
+     wall_bath_2_length,
+     wall_bath_3_length,
+     wall_kitchen_length)
 
  wall_heights <-
    c(wall_1_height,
@@ -562,8 +639,12 @@ generate_new_walls <- function(){
      wall_bed_1_2_height,
      wall_bed_2_1_height,
      wall_bed_2_2_height,
-     wall_bath_1_1_height,
-     wall_bath_1_2_height)
+     wall_corridor_1_height,
+     wall_corridor_2_height,
+     wall_bath_1_height,
+     wall_bath_2_height,
+     wall_bath_3_height,
+     wall_kitchen_height)
 
  wall_z_rotations <-
    c(wall_1_z_rotation,
@@ -589,8 +670,12 @@ generate_new_walls <- function(){
      wall_bed_1_2_z_rotation,
      wall_bed_2_1_z_rotation,
      wall_bed_2_2_z_rotation,
-     wall_bath_1_1_z_rotation,
-     wall_bath_1_2_z_rotation)
+     wall_corridor_1_z_rotation,
+     wall_corridor_2_z_rotation,
+     wall_bath_1_z_rotation,
+     wall_bath_2_z_rotation,
+     wall_bath_3_z_rotation,
+     wall_kitchen_z_rotation)
 
   wall_x_locations <- wall_x_starts + z_rotate_x(wall_lengths / 2,
                                                  wall_widths / 2 * ifelse(wall_z_rotations <= 0, 1, -1),
