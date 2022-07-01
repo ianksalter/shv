@@ -9,7 +9,7 @@ describe("generate_new_walls", {
      {
        walls <- generate_new_walls()
 
-       expected_no_rows <- 20
+       expected_no_rows <- 25
        actual_no_rows <- nrow(walls)
        expect_equal(actual_no_rows, expected_no_rows)
 

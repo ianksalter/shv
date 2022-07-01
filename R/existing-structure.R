@@ -30,7 +30,8 @@ generate_existing_pillars <- function(){
 
   # Standard pillar size
   pillar_length <- distance(existing, "pillar", "length")
-  pillar_width <- distance(existing, "pillar", "length")
+  pillar_width <- distance(existing, "pillar", "width")
+  pillar_4_5_width <- distance(existing, "pillar_4_5", "width")
   pillar_height <- structure_height
   pillar_2_x_obtrusion <- distance(existing, "pillar_2", "x_obtrusion")
 
@@ -88,7 +89,8 @@ generate_existing_pillars <- function(){
                       distance(existing, "pillar_6", "length"),
                       rep(pillar_length, times = 4))
 
-  pillar_widths <- c(rep(pillar_width, times = 5),
+  pillar_widths <- c(rep(pillar_width, times = 3),
+                     rep(pillar_4_5_width, times = 2),
                      distance(existing, "pillar_6", "width"),
                      rep(pillar_width, times = 4))
 

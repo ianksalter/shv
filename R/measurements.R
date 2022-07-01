@@ -46,6 +46,7 @@ generate_measurements <- function(){
       ~measure,      ~dimension,       ~value, ~note,
       "pillar",      "length",        380,    "",
       "pillar",      "width",         380,    "",
+      "pillar_4_5",  "width",         370,    "",
       "pillar_6",    "length",        260,    "",
       "pillar_6",    "width",         260,    "",
       "pillar_2",    "x_obtrusion",   140,    "Amount pillar 2 sticks out from the wall",
@@ -82,7 +83,7 @@ generate_measurements <- function(){
       "space_2",  "x_direction",   4700,   "",
       "space_2",  "y_direction",   3760,   "", # 338cm + 38cm
       "space_3",  "x_direction",   4280,   "",
-      "space_3",  "y_direction",   4580,   "",
+      "space_3",  "y_direction",   4560,   "",
       "space_4",  "x_direction",   6090,   "",
       "space_4",  "y_direction",   4780,   ""
     )

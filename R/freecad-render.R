@@ -223,7 +223,7 @@ freecad_wall_code <- function(wall_tbl,
   return(wall_code)
 }
 
-#' Creates lines of python code to generate a set of walls in FreeCAD
+#' Creates lines of python code to generate a set of dimensions in FreeCAD
 #'
 #' Uses a tibble of python wall data to generate the python code that
 #' can generate the walls in FreeCAD. Any specified holes are removed from the
@@ -313,7 +313,7 @@ dimension_code_for_object <- function(label, orientation){
   return(c(header_code, point_code, make_dimension_code, format_code))
 }
 
-#' Creates lines of python code to generate a set of walls in FreeCAD
+#' Creates lines of python code to generate a set of dimensions in FreeCAD
 #'
 #' Uses a tibble of python wall data to generate the python code that
 #' can generate the walls in FreeCAD. Any specified holes are removed from the

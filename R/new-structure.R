@@ -6,12 +6,12 @@ utils::globalVariables(c("measurements"))
 # Global design parameters
 design_param <-
   tibble::tibble(
-    gap = 10, # Gap in mil to allow margin of error.
-    steel_width = 130, # width of the steel frame
-    wall_height_low = 2600, # Height of the low walls
+    gap = 15, # Gap in mil to allow margin of error.
+    steel_width = 100, # width of the steel frame
+    wall_height_low = 2600, # Height of the plaster board.
     wall_height_high = 3300, # Height of the high walls
     wall_z_start = 250, # Height at which the walls start from the base of the drawing.
-    front_door_width = 1000,
+    front_door_width = 1020,
     bedroom_1_length = 4000,
     bedroom_2_overlap = 380 + 1000, #How much bedroom 2 overlaps into space 3
     kitchen_unit_space = 10 + 600 + 10 + 10 + 600 + 10 + 800 + 600 + 10, #Space for all of the units on the kitchen run.
@@ -48,7 +48,9 @@ generate_new_walls <- function(){
   bedroom_2_overlap <- design_param$bedroom_2_overlap
   kitchen_unit_space <- design_param$kitchen_unit_space
   kitchen_unit_width <- design_param$kitchen_unit_width
-  bathroom_length <- design_param$bedroom_2_overlap
+  bathroom_length <- design_param$bathroom_length
+
+
 
   wall_row <-
     existing_walls %>%
@@ -72,16 +74,34 @@ generate_new_walls <- function(){
   wall_2_height <- wall_height_low
   wall_2_z_rotation <- wall_row$rotation_z
 
+
+
   wall_row <-
     existing_walls %>%
     dplyr::filter(name == "Wall_3")
-  wall_3_name <- "Steel_Wall_3"
-  wall_3_x_start <- wall_row$start_x + wall_row$width + gap
-  wall_3_y_start <- wall_row$start_y + gap
-  wall_3_width <- steel_width
-  wall_3_length <- wall_row$length - gap * 2
-  wall_3_height <- wall_height_low
-  wall_3_z_rotation <- wall_row$rotation_z
+  # Overlap Calc for Wall 3_1 & 3_2
+  existing_wall_11 <-
+    existing_walls %>%
+    dplyr::filter(name == "Wall_11")
+  overlap_start_y <- existing_wall_11$start_y - steel_width - gap
+  overlap_length <- bedroom_2_overlap + kitchen_unit_width + steel_width
+  overlap_end_y <- overlap_start_y + overlap_length
+  # Wall 3_1
+  wall_3_1_name <- "Steel_Wall_3_1"
+  wall_3_1_x_start <- wall_row$start_x + wall_row$width + gap
+  wall_3_1_y_start <- wall_row$start_y + gap
+  wall_3_1_width <- steel_width
+  wall_3_1_length <- overlap_end_y - wall_3_1_y_start
+  wall_3_1_height <- wall_height_low
+  wall_3_1_z_rotation <- wall_row$rotation_z
+  # Wall 3_2
+  wall_3_2_name <- "Steel_Wall_3_2"
+  wall_3_2_x_start <- wall_row$start_x + wall_row$width + gap
+  wall_3_2_y_start <- wall_3_1_y_start + wall_3_1_length
+  wall_3_2_width <- steel_width
+  wall_3_2_length <- wall_row$length - gap * 2 - wall_3_1_length
+  wall_3_2_height <- wall_height_high
+  wall_3_2_z_rotation <- wall_row$rotation_z
 
   wall_row <-
     existing_walls %>%
@@ -91,7 +111,7 @@ generate_new_walls <- function(){
   wall_4_y_start <- wall_row$start_y + gap
   wall_4_width <- steel_width
   wall_4_length <- wall_row$length - gap * 2
-  wall_4_height <- wall_height_low
+  wall_4_height <- wall_height_high
   wall_4_z_rotation <- wall_row$rotation_z
 
   # Need north wall width
@@ -110,7 +130,7 @@ generate_new_walls <- function(){
     gap * 2  -
     steel_width -
     north_wall_width
-  wall_5_height <- wall_height_low
+  wall_5_height <- wall_height_high
   wall_5_z_rotation <- wall_row$rotation_z
 
 
@@ -119,10 +139,10 @@ generate_new_walls <- function(){
     dplyr::filter(name == "Wall_6")
   wall_6_name <- "Steel_Wall_6"
   wall_6_x_start <- wall_row$start_x + gap
-  wall_6_y_start <- wall_row$start_y - wall_row$width - gap * 2
+  wall_6_y_start <- wall_row$start_y - steel_width - gap
   wall_6_width <- steel_width
   wall_6_length <- wall_row$length- gap * 2
-  wall_6_height <- wall_height_low
+  wall_6_height <- wall_height_high
   wall_6_z_rotation <- wall_row$rotation_z
 
 
@@ -131,10 +151,10 @@ generate_new_walls <- function(){
     dplyr::filter(name == "Wall_7")
   wall_7_name <- "Steel_Wall_7"
   wall_7_x_start <- wall_row$start_x + gap
-  wall_7_y_start <- wall_row$start_y - wall_row$width - gap *2
+  wall_7_y_start <- wall_row$start_y - steel_width - gap
   wall_7_width <- steel_width
   wall_7_length <- wall_row$length - gap * 2
-  wall_7_height <- wall_height_low
+  wall_7_height <- wall_height_high
   wall_7_z_rotation <- wall_row$rotation_z
 
   # Need north wall width
@@ -144,18 +164,29 @@ generate_new_walls <- function(){
   wall_row <-
     existing_walls %>%
     dplyr::filter(name == "Wall_8")
-  wall_8_name <- "Steel_Wall_8"
-  wall_8_x_start <- wall_row$start_x - steel_width - gap
-  wall_8_y_start <- wall_row$start_y + gap + east_wall_width
-  wall_8_width <- steel_width
   wall_8_length <-
     wall_row$length -
     gap * 2  -
     east_wall_width -
     steel_width -
     north_wall_width
-  wall_8_height <- wall_height_low
-  wall_8_z_rotation <- wall_row$rotation_z
+  wall_8_bathroom <- bathroom_length + steel_width
+  # Wall 8_1
+  wall_8_1_name <- "Steel_Wall_8_1"
+  wall_8_1_x_start <- wall_row$start_x - steel_width - gap
+  wall_8_1_y_start <- wall_row$start_y + gap + east_wall_width + wall_8_bathroom
+  wall_8_1_width <- steel_width
+  wall_8_1_length <- wall_8_length - wall_8_bathroom
+  wall_8_1_height <- wall_height_high
+  wall_8_1_z_rotation <- wall_row$rotation_z
+  # Wall 8_2
+  wall_8_2_name <- "Steel_Wall_8_2"
+  wall_8_2_x_start <- wall_row$start_x - steel_width - gap
+  wall_8_2_y_start <- wall_row$start_y + gap + east_wall_width
+  wall_8_2_width <- steel_width
+  wall_8_2_length <- wall_8_bathroom
+  wall_8_2_height <- wall_height_low
+  wall_8_2_z_rotation <- wall_row$rotation_z
 
   # For bathroom wall calcs
   pillar_8_x_end <-
@@ -180,13 +211,24 @@ generate_new_walls <- function(){
   wall_row <-
     existing_walls %>%
     dplyr::filter(name == "Wall_10")
-  wall_10_name <- "Steel_Wall_10"
-  wall_10_x_start <- wall_row$start_x - steel_width - gap
-  wall_10_y_start <- wall_row$start_y - gap
-  wall_10_width <- steel_width
   wall_10_length <- wall_row$length + gap * 2
-  wall_10_height <- wall_height_low
-  wall_10_z_rotation <- wall_row$rotation_z
+  wall_10_overlap <- bedroom_2_overlap + kitchen_unit_width
+  # Wall 10_1
+  wall_10_1_name <- "Steel_Wall_10_1"
+  wall_10_1_x_start <- wall_row$start_x - steel_width - gap
+  wall_10_1_y_start <- wall_row$start_y - gap + wall_10_overlap
+  wall_10_1_width <- steel_width
+  wall_10_1_length <- wall_10_length - wall_10_overlap
+  wall_10_1_height <- wall_height_high
+  wall_10_1_z_rotation <- wall_row$rotation_z
+  # Wall 10_2
+  wall_10_2_name <- "Steel_Wall_10_2"
+  wall_10_2_x_start <- wall_row$start_x - steel_width - gap
+  wall_10_2_y_start <- wall_row$start_y - gap
+  wall_10_2_width <- steel_width
+  wall_10_2_length <- wall_10_overlap
+  wall_10_2_height <- wall_height_low
+  wall_10_2_z_rotation <- wall_row$rotation_z
 
   wall_row <-
     existing_walls %>%
@@ -301,7 +343,7 @@ generate_new_walls <- function(){
     existing_walls %>%
     dplyr::filter(name == "Wall_11")
   wall_bed_1_2_name <- "Steel_Wall_Bed_1_2"
-  wall_bed_1_2_x_start <- wall_10_x_start - kitchen_unit_space - steel_width
+  wall_bed_1_2_x_start <- wall_10_1_x_start - kitchen_unit_space - steel_width
   wall_bed_1_2_y_start <- wall_bed_1_1_y_start + wall_bed_1_1_length
   wall_bed_1_2_width <- steel_width
   wall_bed_1_2_length <- wall_12_x_start - wall_bed_1_2_x_start
@@ -316,12 +358,12 @@ generate_new_walls <- function(){
   wall_bed_2_1_name <- "Steel_Wall_Bed_2_1"
   wall_bed_2_1_x_start <- wall_bed_1_2_x_start
   wall_bed_2_1_y_start <- wall_bed_1_2_y_start + steel_width
-  wall_bed_2_1_width <- steel_width
   # Bedroom 2 length for reuse
   bedroom_2_length <-
     wall_11_y_start +
     bedroom_2_overlap -
     wall_bed_2_1_y_start
+  wall_bed_2_1_width <- steel_width
   wall_bed_2_1_length <-
     bedroom_2_length +
     steel_width +
@@ -340,18 +382,37 @@ generate_new_walls <- function(){
   wall_bed_2_2_height <- wall_height_low
   wall_bed_2_2_z_rotation <- wall_row$rotation_z
 
+  wall_bath_1_1_name <- "Steel_Wall_Bath_1_1"
+  wall_bath_1_1_x_start <- wall_9_x_start
+  wall_bath_1_1_y_start <- wall_9_y_start + steel_width
+  wall_bath_1_1_width <- steel_width
+  wall_bath_1_1_length <- bathroom_length
+  wall_bath_1_1_height <- wall_height_high
+  wall_bath_1_1_z_rotation <- 90
+
+  wall_bath_1_2_name <- "Steel_Wall_bath_1_2"
+  wall_bath_1_2_x_start <- wall_bath_1_1_x_start
+  wall_bath_1_2_y_start <- wall_bath_1_1_y_start + bathroom_length
+  wall_bath_1_2_width <- steel_width
+  wall_bath_1_2_length <- wall_9_length
+  wall_bath_1_2_height <- wall_height_high
+  wall_bath_1_2_z_rotation <- 0
+
 
  wall_names <-
    c(wall_1_name,
      wall_2_name,
-     wall_3_name,
+     wall_3_1_name,
+     wall_3_2_name,
      wall_4_name,
      wall_5_name,
      wall_6_name,
      wall_7_name,
-     wall_8_name,
+     wall_8_1_name,
+     wall_8_2_name,
      wall_9_name,
-     wall_10_name,
+     wall_10_1_name,
+     wall_10_2_name,
      wall_11_name,
      wall_12_name,
      wall_13_name,
@@ -361,19 +422,24 @@ generate_new_walls <- function(){
      wall_bed_1_1_name,
      wall_bed_1_2_name,
      wall_bed_2_1_name,
-     wall_bed_2_2_name)
+     wall_bed_2_2_name,
+     wall_bath_1_1_name,
+     wall_bath_1_2_name)
 
  wall_x_starts <-
    c(wall_1_x_start,
      wall_2_x_start,
-     wall_3_x_start,
+     wall_3_1_x_start,
+     wall_3_2_x_start,
      wall_4_x_start,
      wall_5_x_start,
      wall_6_x_start,
      wall_7_x_start,
-     wall_8_x_start,
+     wall_8_1_x_start,
+     wall_8_2_x_start,
      wall_9_x_start,
-     wall_10_x_start,
+     wall_10_1_x_start,
+     wall_10_2_x_start,
      wall_11_x_start,
      wall_12_x_start,
      wall_13_x_start,
@@ -383,19 +449,24 @@ generate_new_walls <- function(){
      wall_bed_1_1_x_start,
      wall_bed_1_2_x_start,
      wall_bed_2_1_x_start,
-     wall_bed_2_2_x_start)
+     wall_bed_2_2_x_start,
+     wall_bath_1_1_x_start,
+     wall_bath_1_2_x_start)
 
  wall_y_starts <-
    c(wall_1_y_start,
      wall_2_y_start,
-     wall_3_y_start,
+     wall_3_1_y_start,
+     wall_3_2_y_start,
      wall_4_y_start,
      wall_5_y_start,
      wall_6_y_start,
      wall_7_y_start,
-     wall_8_y_start,
+     wall_8_1_y_start,
+     wall_8_2_y_start,
      wall_9_y_start,
-     wall_10_y_start,
+     wall_10_1_y_start,
+     wall_10_2_y_start,
      wall_11_y_start,
      wall_12_y_start,
      wall_13_y_start,
@@ -405,7 +476,9 @@ generate_new_walls <- function(){
      wall_bed_1_1_y_start,
      wall_bed_1_2_y_start,
      wall_bed_2_1_y_start,
-     wall_bed_2_2_y_start)
+     wall_bed_2_2_y_start,
+     wall_bath_1_1_y_start,
+     wall_bath_1_2_y_start)
 
 
  no_of_walls <- length(wall_names)
@@ -414,14 +487,17 @@ generate_new_walls <- function(){
  wall_widths <-
    c(wall_1_width,
      wall_2_width,
-     wall_3_width,
+     wall_3_1_width,
+     wall_3_2_width,
      wall_4_width,
      wall_5_width,
      wall_6_width,
      wall_7_width,
-     wall_8_width,
+     wall_8_1_width,
+     wall_8_2_width,
      wall_9_width,
-     wall_10_width,
+     wall_10_1_width,
+     wall_10_2_width,
      wall_11_width,
      wall_12_width,
      wall_13_width,
@@ -431,19 +507,24 @@ generate_new_walls <- function(){
      wall_bed_1_1_width,
      wall_bed_1_2_width,
      wall_bed_2_1_width,
-     wall_bed_2_2_width)
+     wall_bed_2_2_width,
+     wall_bath_1_1_width,
+     wall_bath_1_2_width)
 
  wall_lengths <-
    c(wall_1_length,
      wall_2_length,
-     wall_3_length,
+     wall_3_1_length,
+     wall_3_2_length,
      wall_4_length,
      wall_5_length,
      wall_6_length,
      wall_7_length,
-     wall_8_length,
+     wall_8_1_length,
+     wall_8_2_length,
      wall_9_length,
-     wall_10_length,
+     wall_10_1_length,
+     wall_10_2_length,
      wall_11_length,
      wall_12_length,
      wall_13_length,
@@ -453,19 +534,24 @@ generate_new_walls <- function(){
      wall_bed_1_1_length,
      wall_bed_1_2_length,
      wall_bed_2_1_length,
-     wall_bed_2_2_length)
+     wall_bed_2_2_length,
+     wall_bath_1_1_length,
+     wall_bath_1_2_length)
 
  wall_heights <-
    c(wall_1_height,
      wall_2_height,
-     wall_3_height,
+     wall_3_1_height,
+     wall_3_2_height,
      wall_4_height,
      wall_5_height,
      wall_6_height,
      wall_7_height,
-     wall_8_height,
+     wall_8_1_height,
+     wall_8_2_height,
      wall_9_height,
-     wall_10_height,
+     wall_10_1_height,
+     wall_10_2_height,
      wall_11_height,
      wall_12_height,
      wall_13_height,
@@ -475,19 +561,24 @@ generate_new_walls <- function(){
      wall_bed_1_1_height,
      wall_bed_1_2_height,
      wall_bed_2_1_height,
-     wall_bed_2_2_height)
+     wall_bed_2_2_height,
+     wall_bath_1_1_height,
+     wall_bath_1_2_height)
 
  wall_z_rotations <-
    c(wall_1_z_rotation,
      wall_2_z_rotation,
-     wall_3_z_rotation,
+     wall_3_1_z_rotation,
+     wall_3_2_z_rotation,
      wall_4_z_rotation,
      wall_5_z_rotation,
      wall_6_z_rotation,
      wall_7_z_rotation,
-     wall_8_z_rotation,
+     wall_8_1_z_rotation,
+     wall_8_2_z_rotation,
      wall_9_z_rotation,
-     wall_10_z_rotation,
+     wall_10_1_z_rotation,
+     wall_10_2_z_rotation,
      wall_11_z_rotation,
      wall_12_z_rotation,
      wall_13_z_rotation,
@@ -497,7 +588,9 @@ generate_new_walls <- function(){
      wall_bed_1_1_z_rotation,
      wall_bed_1_2_z_rotation,
      wall_bed_2_1_z_rotation,
-     wall_bed_2_2_z_rotation)
+     wall_bed_2_2_z_rotation,
+     wall_bath_1_1_z_rotation,
+     wall_bath_1_2_z_rotation)
 
   wall_x_locations <- wall_x_starts + z_rotate_x(wall_lengths / 2,
                                                  wall_widths / 2 * ifelse(wall_z_rotations <= 0, 1, -1),

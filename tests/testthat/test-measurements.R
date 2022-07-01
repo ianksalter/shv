@@ -17,7 +17,7 @@ describe("generate_measurements", {
        expect_setequal(actual_col_names, expected_col_names)
 
        no_of_height_measurements <- 4
-       no_of_pillar_measurements <- 10
+       no_of_pillar_measurements <- 11
        no_of_wall_measurements <- 10
        no_of_space_measurements <- 8
        no_of_entrance_measurements <- 6
