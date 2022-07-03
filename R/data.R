@@ -130,7 +130,8 @@
 #'   \item{name}{The name of the window}
 #'   \item{wall_name}{The name of the wall of which this window is a part}
 #'   \item{type}{One of the various FreeCAD arch workbench window types}
-#'   \item{start}{The location at which the window starts on the door}
+#'   \item{start}{The location at which the window starts on the wall}
+#'   \item{z_start}{The height at which the window starts}
 #'   \item{width}{The overall width of the window}
 #'   \item{height}{The overall height of the window}
 #'   \item{h1}{The height of the top of the frame}

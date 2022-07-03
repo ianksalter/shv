@@ -111,9 +111,9 @@ describe("dimension_code_for_object", {
            "y_min = object_bound_box.YMin",
            "y_max = object_bound_box.YMax",
            "y_mid = (y_min + y_max)/2",
-           "point1 = FreeCAD.Vector(x_max, y_min, 0)",
-           "point2 = FreeCAD.Vector(x_max, y_max, 0)",
-           "point3 = FreeCAD.Vector(x_max + 300, y_mid, 0)",
+           "point1 = FreeCAD.Vector(x_min, y_min, 0)",
+           "point2 = FreeCAD.Vector(x_max, y_min, 0)",
+           "point3 = FreeCAD.Vector(x_mid, y_min - 300, 0)",
            "dimension = Draft.make_linear_dimension(point1, point2, point3)",
            "dimension.Label = 'Dim_South_Pillar_1'",
            "existing_dimensions.addObject(dimension)",
@@ -132,25 +132,25 @@ describe("dimension_code_for_object", {
 
        expected_code <-
          c(
-           "point1 = FreeCAD.Vector(x_min, y_min, 0)",
-           "point2 = FreeCAD.Vector(x_min, y_max, 0)",
-           "point3 = FreeCAD.Vector(x_min - 300, y_mid, 0)"
+           "point1 = FreeCAD.Vector(x_min, y_max, 0)",
+           "point2 = FreeCAD.Vector(x_max, y_max, 0)",
+           "point3 = FreeCAD.Vector(x_mid, y_max + 300, 0)"
          )
        actual_code <- dimension_code_for_object("Pillar_1", "North")[10:12]
        expect_equal(actual_code, expected_code)
        expected_code <-
          c(
-           "point1 = FreeCAD.Vector(x_min, y_max, 0)",
+           "point1 = FreeCAD.Vector(x_max, y_min, 0)",
            "point2 = FreeCAD.Vector(x_max, y_max, 0)",
-           "point3 = FreeCAD.Vector(x_mid, y_max + 300, 0)"
+           "point3 = FreeCAD.Vector(x_max + 300, y_mid, 0)"
          )
        actual_code <- dimension_code_for_object("Pillar_1", "East")[10:12]
        expect_equal(actual_code, expected_code)
        expected_code <-
          c(
            "point1 = FreeCAD.Vector(x_min, y_min, 0)",
-           "point2 = FreeCAD.Vector(x_max, y_min, 0)",
-           "point3 = FreeCAD.Vector(x_mid, y_min - 300, 0)"
+           "point2 = FreeCAD.Vector(x_min, y_max, 0)",
+           "point3 = FreeCAD.Vector(x_min - 300, y_mid, 0)"
          )
        actual_code <- dimension_code_for_object("Pillar_1", "West")[10:12]
        expect_equal(actual_code, expected_code)
@@ -178,63 +178,6 @@ describe("dimension_code_between_objects", {
            "x_mid = (point_1_x + point_2_x)/2",
            "point3 = FreeCAD.Vector(x_mid, point_1_y + 0, 0)",
            "dimension = Draft.make_linear_dimension(point1, point2, point3)",
-           "dimension.Label = 'Dim_North-South_Pillar_1_End_Wall_1_Start'",
-           "existing_dimensions.addObject(dimension)",
-           "dimension_view = dimension.ViewObject",
-           "dimension_view.ArrowSize = 20",
-           "dimension_view.ArrowType = 'Arrow'",
-           "dimension_view.FontSize = 80",
-           "dimension_view.ExtLines = 300",
-           "dimension_view.ExtOvershoot = 100",
-           "dimension_view.ShowUnit = False",
-           "dimension_view.Decimals = 0",
-           ""
-         )
-       actual_code <- dimension_code_between_objects(
-         object_1_label ="Pillar_1",
-         object_2_label = "Wall_1",
-         orientation = "North-South",
-         object_1_start= "End",
-         object_2_end = "Start",
-         offset = 0)
-       expect_equal(actual_code, expected_code)
-
-       expected_code <- "point_1_x = object1_bound_box.XMin"
-       actual_code <- dimension_code_between_objects(
-         object_1_label ="Pillar_1",
-         object_2_label = "Wall_1",
-         orientation = "North-South",
-         object_1_start= "Start",
-         object_2_end = "Start",
-         offset = 0)[6]
-       expect_equal(actual_code, expected_code)
-
-       expected_code <- "point_2_x = object2_bound_box.XMax"
-       actual_code <- dimension_code_between_objects(
-         object_1_label ="Pillar_1",
-         object_2_label = "Wall_1",
-         orientation = "North-South",
-         object_1_start= "Start",
-         object_2_end = "End",
-         offset = 0)[9]
-       expect_equal(actual_code, expected_code)
-
-
-       expected_code <-
-         c("FreeCAD.ActiveDocument.recompute()",
-           "object1 = document.getObjectsByLabel('Pillar_1')[0]",
-           "object2 = document.getObjectsByLabel('Wall_1')[0]",
-           "object1_bound_box = object1.Shape.BoundBox",
-           "object2_bound_box = object2.Shape.BoundBox",
-           "point_1_y = object1_bound_box.YMax",
-           "point_1_x = (object1_bound_box.XMin + object1_bound_box.XMax)/2",
-           "point1 = FreeCAD.Vector(point_1_x, point_1_y, 0)",
-           "point_2_y = object2_bound_box.YMin",
-           "point_2_x = point_1_x",
-           "point2 = FreeCAD.Vector(point_2_x, point_2_y, 0)",
-           "y_mid = (point_1_y + point_2_y)/2",
-           "point3 = FreeCAD.Vector(point_1_x + 0, y_mid, 0)",
-           "dimension = Draft.make_linear_dimension(point1, point2, point3)",
            "dimension.Label = 'Dim_East-West_Pillar_1_End_Wall_1_Start'",
            "existing_dimensions.addObject(dimension)",
            "dimension_view = dimension.ViewObject",
@@ -256,7 +199,7 @@ describe("dimension_code_between_objects", {
          offset = 0)
        expect_equal(actual_code, expected_code)
 
-       expected_code <- "point_1_y = object1_bound_box.YMin"
+       expected_code <- "point_1_x = object1_bound_box.XMin"
        actual_code <- dimension_code_between_objects(
          object_1_label ="Pillar_1",
          object_2_label = "Wall_1",
@@ -266,11 +209,68 @@ describe("dimension_code_between_objects", {
          offset = 0)[6]
        expect_equal(actual_code, expected_code)
 
-       expected_code <- "point_2_y = object2_bound_box.YMax"
+       expected_code <- "point_2_x = object2_bound_box.XMax"
        actual_code <- dimension_code_between_objects(
          object_1_label ="Pillar_1",
          object_2_label = "Wall_1",
          orientation = "East-West",
+         object_1_start= "Start",
+         object_2_end = "End",
+         offset = 0)[9]
+       expect_equal(actual_code, expected_code)
+
+
+       expected_code <-
+         c("FreeCAD.ActiveDocument.recompute()",
+           "object1 = document.getObjectsByLabel('Pillar_1')[0]",
+           "object2 = document.getObjectsByLabel('Wall_1')[0]",
+           "object1_bound_box = object1.Shape.BoundBox",
+           "object2_bound_box = object2.Shape.BoundBox",
+           "point_1_y = object1_bound_box.YMax",
+           "point_1_x = (object1_bound_box.XMin + object1_bound_box.XMax)/2",
+           "point1 = FreeCAD.Vector(point_1_x, point_1_y, 0)",
+           "point_2_y = object2_bound_box.YMin",
+           "point_2_x = point_1_x",
+           "point2 = FreeCAD.Vector(point_2_x, point_2_y, 0)",
+           "y_mid = (point_1_y + point_2_y)/2",
+           "point3 = FreeCAD.Vector(point_1_x + 0, y_mid, 0)",
+           "dimension = Draft.make_linear_dimension(point1, point2, point3)",
+           "dimension.Label = 'Dim_North-South_Pillar_1_End_Wall_1_Start'",
+           "existing_dimensions.addObject(dimension)",
+           "dimension_view = dimension.ViewObject",
+           "dimension_view.ArrowSize = 20",
+           "dimension_view.ArrowType = 'Arrow'",
+           "dimension_view.FontSize = 80",
+           "dimension_view.ExtLines = 300",
+           "dimension_view.ExtOvershoot = 100",
+           "dimension_view.ShowUnit = False",
+           "dimension_view.Decimals = 0",
+           ""
+         )
+       actual_code <- dimension_code_between_objects(
+         object_1_label ="Pillar_1",
+         object_2_label = "Wall_1",
+         orientation = "North-South",
+         object_1_start= "End",
+         object_2_end = "Start",
+         offset = 0)
+       expect_equal(actual_code, expected_code)
+
+       expected_code <- "point_1_y = object1_bound_box.YMin"
+       actual_code <- dimension_code_between_objects(
+         object_1_label ="Pillar_1",
+         object_2_label = "Wall_1",
+         orientation = "North-South",
+         object_1_start= "Start",
+         object_2_end = "Start",
+         offset = 0)[6]
+       expect_equal(actual_code, expected_code)
+
+       expected_code <- "point_2_y = object2_bound_box.YMax"
+       actual_code <- dimension_code_between_objects(
+         object_1_label ="Pillar_1",
+         object_2_label = "Wall_1",
+         orientation = "North-South",
          object_1_start= "Start",
          object_2_end = "End",
          offset = 0)[9]

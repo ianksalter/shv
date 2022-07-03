@@ -25,42 +25,14 @@ import FreeCADGui as Gui
 import math
 import WorkingPlane
 
-### Begin command Std_New
-
+# Set Up
 FreeCAD.Console.PrintMessage("Starting FreeCAD generation.\n")
 doc_name = "SHV"
 document = App.newDocument(doc_name)
-# App.setActiveDocument("Unnamed")
-# App.ActiveDocument=App.getDocument("Unnamed")
-# Gui.ActiveDocument=Gui.getDocument("Unnamed")
-
 Gui.activeDocument().activeView().viewDefaultOrientation()
-
-### End command Std_New
 Gui.runCommand('Std_OrthographicCamera',1)
-
-### Begin command Std_Workbench
 Gui.activateWorkbench("BIMWorkbench")
-### End command Std_Workbench
 
-# Gui.runCommand('Arch_Wall',0)
-
-# trace=Part.LineSegment(FreeCAD.Vector (0.0, 0.0, 0.0), FreeCAD.Vector (150.0, 0.0, 0.0))
-# import Draft
-# base=FreeCAD.ActiveDocument.addObject("Sketcher::SketchObject","WallTrace")
-# base.Placement = FreeCAD.DraftWorkingPlane.getPlacement()
-# base.addGeometry(trace)
-# wall = Arch.makeWall(base,width=20.0,height=300.0,align="Center")
-# wall.Normal = FreeCAD.DraftWorkingPlane.getNormal()
-# Draft.autogroup(wall)
-# # Gui.Selection.addSelection('Unnamed','Wall','Face2',-0.573503,-25.4145,20.8875)
-
-
-# p1 = FreeCAD.Vector(0, 0, 0)
-# p2 = FreeCAD.Vector(2000, 0, 0)
-# baseline = Draft.makeLine(p1, p2)
-# Wall1 = Arch.makeWall(baseline, length=None, width=150, height=2000)
-# FreeCAD.ActiveDocument.recompute()
 
 # Building Height
 building_height = 4300
@@ -74,9 +46,6 @@ pillar_end = FreeCAD.Vector(pillar_length, baseline_y, 0)
 baseline = Draft.makeLine(pillar_start, pillar_end)
 pillar1 = Arch.makeWall(baseline, length=None, width=pillar_width, height=building_height, name="Pillar_1")
 
-#Note dimension stuff.
-#pillar1_length_dimension = Draft.make_dimension(pillar_start, pillar_end)
-
 # Create Wall 1
 wall_width = 100
 wall_1_length = 2000
@@ -86,28 +55,24 @@ wall_1_start = FreeCAD.Vector(baseline_x, pillar_width, 0)
 baseline = Draft.makeLine(wall_1_start, FreeCAD.Vector(baseline_x, pillar_width + wall_1_length, 0))
 wall1 = Arch.makeWall(baseline, length=None, width=wall_width, height=building_height, name="Wall_1")
 
-# YOU ARE HERE!!!!!!!
-# Add window to Wall 1
-# Gui.activateWorkbench("ArchWorkbench")
-# pl = WorkingPlane.getPlacementFromFace(wall1.Shape.Faces[2])
-# pl.Base = FreeCAD.Vector(100,100,100)
-# win = Arch.makeWindowPreset(
-#           "Fixed",
-#           width=1000.0,
-#           height=1000.0,
-#           h1=100.0,
-#           h2=100.0,
-#           h3=100.0,
-#           w1=200.0,
-#           w2=100.0,
-#           o1=0.0,
-#           o2=100.0,
-#           placement=pl)
-# win.Hosts = [wall1]
-# Gui.Selection.clearSelection()
-# Gui.Selection.addSelection('SHV','Window','Edge3',1372.94,2517.95,1145)
-
-# TODO
+# Add simple door to wall 1
+FreeCAD.ActiveDocument.recompute() #Note needed for all the properties of the dimension to be available !!!
+door_width = 900
+door_start = 600
+box_wall1 = wall1.Base.Shape.BoundBox
+wall_width = wall1.Width.Value
+z_rotation =  math.pi/2
+base_x = math.cos(z_rotation) * box_wall1.XMin + math.sin(z_rotation) * box_wall1.YMin + door_start
+base_y = math.cos(z_rotation) * box_wall1.YMin - math.sin(z_rotation) * box_wall1.XMin - wall_width
+base = FreeCAD.Vector(base_x, base_y, 0)
+axis = FreeCAD.Vector(1, 0, 0)
+doorPlace = FreeCAD.Placement(base, FreeCAD.Rotation(axis, 90)) # The final 90 is the doors z_rotation.
+door = Arch.makeWindowPreset("Simple door",
+                             width=door_width, height=2000,
+                             h1=100, h2=100, h3=100, w1=200, w2=100, o1=0, o2=100,
+                             placement=doorPlace)
+door.Placement = App.Placement(App.Vector(0,0,0),App.Rotation(App.Vector(0,0,1),90))
+Arch.addComponents(door, wall1)
 
 # Create Pillar 2
 baseline_y = 1.5 * pillar_width  + wall_1_length 
@@ -123,21 +88,23 @@ wall_2_start = FreeCAD.Vector(wall_2_start_x, baseline_y, 0)
 baseline = Draft.makeLine(wall_2_start, FreeCAD.Vector(wall_2_start_x + wall_2_length, baseline_y, 0))
 wall2 = Arch.makeWall(baseline, length=None, width=wall_width, height=building_height, name="Wall_2")
 
-
-# Phase 2 Add door to Wall 2 TODO
-# Use face of wall as a working plane
+# Add glass door to wall 2
 FreeCAD.ActiveDocument.recompute() #Note needed for all the properties of the dimension to be available !!!
 door_width = 900
 door_start = 300
 box_wall2 = wall2.Base.Shape.BoundBox
 wall_width = wall2.Width.Value
-base = FreeCAD.Vector(box_wall2.XMin + door_start , box_wall2.YMin - wall_width/2, 0)
+z_rotation =  0
+base_x = math.cos(z_rotation) * box_wall2.XMin + math.sin(z_rotation) * box_wall2.YMin + door_start
+base_y = math.cos(z_rotation) * box_wall2.YMin - math.sin(z_rotation) * box_wall2.XMin - wall_width
+base = FreeCAD.Vector(base_x, base_y, 0)
 axis = FreeCAD.Vector(1, 0, 0)
 doorPlace = FreeCAD.Placement(base, FreeCAD.Rotation(axis, 90))
 door = Arch.makeWindowPreset("Glass door",
                              width=door_width, height=2000,
                              h1=100, h2=100, h3=100, w1=200, w2=100, o1=0, o2=100,
                              placement=doorPlace)
+door.Placement = App.Placement(App.Vector(0,0,0),App.Rotation(App.Vector(0,0,1),0)) # The final 0 is the doors z_rotation.
 Arch.addComponents(door, wall2)
 
 

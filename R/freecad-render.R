@@ -193,10 +193,13 @@ freecad_wall_code <- function(wall_tbl,
             c("FreeCAD.ActiveDocument.recompute()",
               "box_wall = wall.Base.Shape.BoundBox",
               "wall_width = wall.Width.Value",
-              paste("base = FreeCAD.Vector(box_wall.XMin + ",
-                    tbl_window_row$start,
-                    " , box_wall.YMin - wall_width/2, 0)",
-                    sep = ""),
+              paste("door_start = ", tbl_window_row$start, sep = ""),
+              paste("z_rotation =  ", tbl_row$rotation_z, sep = ""),
+              "z_rotation_rad = math.pi * z_rotation / 180",
+              "base_x = math.cos(z_rotation_rad) * box_wall.XMin + math.sin(z_rotation_rad) * box_wall.YMin + door_start",
+              "base_y = math.cos(z_rotation_rad) * box_wall.YMin - math.sin(z_rotation_rad) * box_wall.XMin - wall_width",
+              paste("base = FreeCAD.Vector(base_x, base_y, ",
+                    tbl_window_row$z_start, ")", sep = ""),
               "axis = FreeCAD.Vector(1, 0, 0)",
               "doorPlace = FreeCAD.Placement(base, FreeCAD.Rotation(axis, 90))",
               paste("door = Arch.makeWindowPreset('",
@@ -212,6 +215,8 @@ freecad_wall_code <- function(wall_tbl,
                     "o2=", tbl_window_row$o2, ", ",
                     "placement=doorPlace)",
                     sep = ""),
+              "door.Placement = FreeCAD.Placement(FreeCAD.Vector(0,0,0),App.Rotation(FreeCAD.Vector(0,0,1),z_rotation))",
+              paste("door.Label = '", tbl_window_row$name, "'", sep =""),
               "Arch.addComponents(door, wall)",
               ""
             )
@@ -256,25 +261,25 @@ dimension_code_for_object <- function(label, orientation){
       "y_max = object_bound_box.YMax",
       "y_mid = (y_min + y_max)/2"
     )
-  if (orientation == "North"){
+  if (orientation == "West"){
     point_code <-
       c("point1 = FreeCAD.Vector(x_min, y_min, 0)",
         "point2 = FreeCAD.Vector(x_min, y_max, 0)",
         paste("point3 = FreeCAD.Vector(x_min - ", dim_dist, ", y_mid, 0)", sep = "")
       )
-  } else if (orientation == "South"){
+  } else if (orientation == "East"){
     point_code <-
       c("point1 = FreeCAD.Vector(x_max, y_min, 0)",
         "point2 = FreeCAD.Vector(x_max, y_max, 0)",
         paste("point3 = FreeCAD.Vector(x_max + ", dim_dist, ", y_mid, 0)", sep = "")
       )
-  } else if (orientation == "East") {
+  } else if (orientation == "North") {
     point_code <-
       c("point1 = FreeCAD.Vector(x_min, y_max, 0)",
         "point2 = FreeCAD.Vector(x_max, y_max, 0)",
         paste("point3 = FreeCAD.Vector(x_mid, y_max + ", dim_dist, ", 0)", sep = "")
       )
-  } else{ #Given the assert this must be "West"
+  } else{ #Given the assert this must be "South"
     point_code <-
       c("point1 = FreeCAD.Vector(x_min, y_min, 0)",
         "point2 = FreeCAD.Vector(x_max, y_min, 0)",
@@ -367,7 +372,7 @@ dimension_code_between_objects <- function(object_1_label,
     )
 
   point_code <- c()
-  if (orientation == "North-South"){ #Dimension goes along the x direction
+  if (orientation == "East-West"){ #Dimension goes along the x direction
     if (object_1_start == "Start"){
       next_point_code <- c( "point_1_x = object1_bound_box.XMin")
     } else { # object_1_start = "End
@@ -398,7 +403,7 @@ dimension_code_between_objects <- function(object_1_label,
         paste("point3 = FreeCAD.Vector(x_mid, point_1_y + ", dim_dist, ", 0)", sep = "")
       )
     point_code <- c(point_code, next_point_code)
-  } else { # orientation is "East-West"
+  } else { # orientation is "North-South"
     if (object_1_start == "Start"){
       next_point_code <- c( "point_1_y = object1_bound_box.YMin")
     } else { # object_1_start = "End
@@ -520,11 +525,20 @@ freecad_dimension_code <- function(){
   }
 
   # West wall west dimensions
-  walls = c("Wall_1", "Wall_2", "Wall_3", "Wall_4", "Wall_5")
+  walls = c("Wall_1", "Wall_2", "Wall_3", "Wall_4")
   for (i in 1:length(walls)){
     next_dimension_code <- dimension_code_for_object(walls[i], "West")
     dimension_code <- c(dimension_code, next_dimension_code)
   }
+  next_dimension_code <-
+    dimension_code_between_objects(
+      object_1_label ="Pillar_5",
+      object_2_label = "Wall_6",
+      orientation = "North-South",
+      object_1_start= "End",
+      object_2_end = "Start",
+      offset = -300)
+  dimension_code <- c(dimension_code, next_dimension_code)
 
   # North pillar north dimension
   next_dimension_code <- dimension_code_for_object("Pillar_6", "North")
@@ -562,9 +576,9 @@ freecad_dimension_code <- function(){
       object_1_label ="Wall_7",
       object_2_label = "Wall_9",
       orientation = "North-South",
-      object_1_start= "End",
-      object_2_end = "Start",
-      offset = 1400)
+      object_1_start= "Start",
+      object_2_end = "End",
+      offset = 2200)
   dimension_code <- c(dimension_code, next_dimension_code)
   # Wall 9
   next_dimension_code <-
@@ -574,7 +588,7 @@ freecad_dimension_code <- function(){
       orientation = "East-West",
       object_1_start= "Start",
       object_2_end = "End",
-      offset = -2500)
+      offset = 2500)
   dimension_code <- c(dimension_code, next_dimension_code)
   # Walls 10 & 13
   walls = c("Wall_10", "Wall_13")
@@ -590,7 +604,7 @@ freecad_dimension_code <- function(){
       orientation = "East-West",
       object_1_start= "Start",
       object_2_end = "Start",
-      offset = 2500)
+      offset = -2500)
   dimension_code <- c(dimension_code, next_dimension_code)
   # Wall 12
   next_dimension_code <-
@@ -598,8 +612,8 @@ freecad_dimension_code <- function(){
       object_1_label ="Wall_11",
       object_2_label = "Pillar_9",
       orientation = "North-South",
-      object_1_start= "End",
-      object_2_end = "Start",
+      object_1_start= "Start",
+      object_2_end = "End",
       offset = 500)
   dimension_code <- c(dimension_code, next_dimension_code)
   # Wall 14 / Space 1
@@ -612,8 +626,6 @@ freecad_dimension_code <- function(){
       object_2_end = "Start",
       offset = 0)
   dimension_code <- c(dimension_code, next_dimension_code)
-
-  # Spaces not yet done
   # Space 2
   next_dimension_code <-
     dimension_code_between_objects(
@@ -634,7 +646,7 @@ freecad_dimension_code <- function(){
       object_2_end = "Start",
       offset = 0)
   dimension_code <- c(dimension_code, next_dimension_code)
-  # Space 3
+  # Space 4
   next_dimension_code <-
     dimension_code_between_objects(
       object_1_label ="Wall_4",
@@ -653,7 +665,7 @@ freecad_dimension_code <- function(){
       orientation = "East-West",
       object_1_start= "End",
       object_2_end = "Start",
-      offset = 1300)
+      offset = -1300)
   dimension_code <- c(dimension_code, next_dimension_code)
   next_dimension_code <- dimension_code_for_object("Hole_1", "North")
   dimension_code <- c(dimension_code, next_dimension_code)
@@ -664,7 +676,7 @@ freecad_dimension_code <- function(){
       orientation = "East-West",
       object_1_start= "End",
       object_2_end = "Start",
-      offset = -500)
+      offset = 500)
   dimension_code <- c(dimension_code, next_dimension_code)
 
   # Pillars
@@ -676,15 +688,15 @@ freecad_dimension_code <- function(){
       orientation = "East-West",
       object_1_start= "End",
       object_2_end = "Start",
-      offset = -1500)
+      offset = 1500)
   dimension_code <- c(dimension_code, next_dimension_code)
   next_dimension_code <-
     dimension_code_between_objects(
       object_1_label ="Wall_7",
       object_2_label = "Pillar_7",
       orientation = "North-South",
-      object_1_start= "End",
-      object_2_end = "Start",
+      object_1_start= "Start",
+      object_2_end = "End",
       offset = -1250)
   dimension_code <- c(dimension_code, next_dimension_code)
   # Pillar 8
@@ -695,15 +707,15 @@ freecad_dimension_code <- function(){
       orientation = "East-West",
       object_1_start= "End",
       object_2_end = "Start",
-      offset = -1800)
+      offset = 1800)
   dimension_code <- c(dimension_code, next_dimension_code)
   next_dimension_code <-
     dimension_code_between_objects(
       object_1_label ="Wall_7",
       object_2_label = "Pillar_8",
       orientation = "North-South",
-      object_1_start= "End",
-      object_2_end = "Start",
+      object_1_start= "Start",
+      object_2_end = "End",
       offset = -200)
   dimension_code <- c(dimension_code, next_dimension_code)
 
@@ -740,7 +752,7 @@ freecad_2d_code <- function(){
       "Gui.activateWorkbench('TechDrawWorkbench')",
       "page = App.activeDocument().addObject('TechDraw::DrawPage','Page')",
       "template = App.activeDocument().addObject('TechDraw::DrawSVGTemplate','Template')",
-      "template.Template = '/Applications/FreeCAD.app/Contents/Resources/share/Mod/TechDraw/Templates/A3_Landscape_ISO7200TD.svg'", # Note create my own template.
+      "template.Template = '/Applications/FreeCAD.app/Contents/Resources/share/Mod/TechDraw/Templates/A4_Portrait_ISO7200Pep.svg'", # Note create my own template.
       "page.Template = App.activeDocument().Template",
       ""
     )
@@ -751,7 +763,8 @@ freecad_2d_code <- function(){
       "buildingPlan = FreeCAD.ActiveDocument.addObject('TechDraw::DrawViewArch','BuildingPlan')",
       "buildingPlan.Source = sectionPlane",
       "pageBuildingPlan = page.addView(buildingPlan)",
-      "buildingPlan.Scale = 1/50",
+      "buildingPlan.Scale = 1/75",
+      "buildingPlan.FontSize = 6",
       ""
     )
 
@@ -827,16 +840,16 @@ generate_freecad_python_code <- function(){
                                  hole_tbl  = existing_holes,
                                  building_name = "existing_building")
   new_wall_code <- freecad_wall_code(new_walls,
-                                     # window_tbl = new_windows,
-                                     building_name = "new_structure") # existing_holes a placeholder
-  reposition_code <- freecad_reposition_code()
+                                     window_tbl = new_windows,
+                                     building_name = "new_structure")
+  # reposition_code <- freecad_reposition_code()
   dimension_code <- freecad_dimension_code()
   view_2d_code <- freecad_2d_code()
   body <- c(group_code,
             pillar_code,
             wall_code,
             new_wall_code,
-            reposition_code,
+            # reposition_code,
             dimension_code,
             view_2d_code)
 

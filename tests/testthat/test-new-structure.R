@@ -115,7 +115,7 @@ describe("generate_new_windows", {
      {
        windows <- generate_new_windows()
 
-       expected_no_rows <- 1
+       expected_no_rows <- 13
        actual_no_rows <- nrow(windows)
        expect_equal(actual_no_rows, expected_no_rows)
 

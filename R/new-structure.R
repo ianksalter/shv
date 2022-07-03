@@ -1,7 +1,7 @@
 # Work around used to pass package checks
 # Without this line the following is a note for the package check
 # no visible binding for global variable ‘measurements
-utils::globalVariables(c("measurements"))
+utils::globalVariables(c("measurements", "new_windows"))
 
 # Global design parameters
 design_param <-
@@ -12,13 +12,13 @@ design_param <-
     wall_height_high = 3300, # Height of the high walls
     wall_z_start = 250, # Height at which the walls start from the base of the drawing.
     front_door_width = 1020,
-    bedroom_1_length = 4150,
+    bedroom_1_length = 4100,
     bedroom_2_overlap = 380 + 1000, #How much bedroom 2 overlaps into space 3
     kitchen_unit_space = 10 + 600 + 10 + 10 + 600 + 10 + 800 + 600 + 10, #Space for all of the units on the kitchen run.
     kitchen_unit_width = 700, #Space for width of kitchen units
     bathroom_length = 2500, # The length of the bathroom
     internal_door_width = 920, # Hole left for internal doors assumes door of width 820.
-    internal_door_height = 208, # Hole left for internal doors
+    internal_door_height = 2080, # Hole left for internal doors
     internal_door_overlap = 50 # The amount by which the surround sticks over the hole.
   )
 
@@ -380,7 +380,7 @@ generate_new_walls <- function(){
     dplyr::filter(name == "Wall_11")
   wall_bed_2_2_name <- "Steel_Wall_Bed_2_2"
   wall_bed_2_2_x_start <- wall_bed_2_1_x_start + steel_width
-  wall_bed_2_2_y_start <- wall_bed_2_1_y_start + steel_width + bedroom_2_length
+  wall_bed_2_2_y_start <- wall_bed_2_1_y_start + bedroom_2_length
   wall_bed_2_2_width <- steel_width
   wall_bed_2_2_length <- kitchen_unit_space
   wall_bed_2_2_height <- wall_height_low
@@ -393,7 +393,8 @@ generate_new_walls <- function(){
   wall_corridor_1_y_start <-
     wall_bed_1_1_y_start +
     wall_bed_1_1_length -
-    bedroom_1_door_space #TODO: Add space for the plasterboard.
+    bedroom_1_door_space -
+    steel_width #TODO: Add space for the plasterboard.
   wall_corridor_1_width <- steel_width
   wall_corridor_1_length <-
     wall_bed_1_1_x_start -
@@ -723,76 +724,356 @@ generate_new_walls <- function(){
 #' generate_new_windows()
 generate_new_windows <- function(){
 
-  utils::data("measurements", envir = environment()) #Check to see if these are used.
-  existing <- measurements
-  utils::data("existing_walls", envir = environment())
+  # utils::data("measurements", envir = environment()) #Check to see if these are used.
+  # existing <- measurements
+  # utils::data("existing_walls", envir = environment())
+  utils::data("new_walls", envir = environment())
 
-  gap <- design_param$gap
+  # gap <- design_param$gap
   steel_width <- design_param$steel_width
-  wall_height_low <- design_param$wall_height_low
-  wall_height_high <- design_param$wall_height_high
+  # wall_height_low <- design_param$wall_height_low
+  # wall_height_high <- design_param$wall_height_high
   wall_z_start <- design_param$wall_z_start
+  front_door_width <- design_param$front_door_width
+  # bedroom_1_length <- design_param$bedroom_1_length
+  # bedroom_2_overlap <- design_param$bedroom_2_overlap
+  # kitchen_unit_space <- design_param$kitchen_unit_space
+  kitchen_unit_width <- design_param$kitchen_unit_width
+  # bathroom_length <- design_param$bathroom_length
+  internal_door_width <- design_param$internal_door_width
+  internal_door_height <- design_param$internal_door_height
+  internal_door_overlap <- design_param$internal_door_overlap
+  internal_door_total_width <- internal_door_width + 2 * internal_door_overlap
 
 
-  # Prep window bvectors
-  window_names <- c()
-  window_wall_names <- c()
-  window_types <- c()
-  window_starts <- c()
-  window_widths <- c()
-  window_heights <- c()
-  window_h1s <- c()
-  window_h2s <- c()
-  window_h3s <- c()
-  window_w1s <- c()
-  window_w2s <- c()
-  window_o1s <- c()
-  window_o2s <- c()
+  # Prep window tibble
+  basic_window_tbl <- tibble::tibble(
+    name = c(),
+    wall_name = c(),
+    type = c(),
+    start = c(),
+    z_start = c(),
+    width = c(),
+    height = c(),
+    h1 = c(),
+    h2 = c(),
+    h3 = c(),
+    w1 = c(),
+    w2 = c(),
+    o1 = c(),
+    o2 = c()
+  )
 
   #Front door
-  window_name  <- "Front_Door"
-  window_wall_name <- "Steel_Wall_14_2"
-  window_type <- "Simple door"
-  window_start <- 0
-  window_width <- 1000
-  window_height <- 2000
-  window_h1 <- 100
-  window_h2 <- 100
-  window_h3 <- 100
-  window_w1 <- 200
-  window_w2 <- 100
-  window_o1 <- 0
-  window_o2 <- 100
-
-  window_names <- c(window_names, window_name)
-  window_wall_names <- c(window_wall_names, window_wall_name)
-  window_types <- c(window_types, window_type)
-  window_starts <- c(window_starts, window_start)
-  window_widths <- c(window_widths, window_width)
-  window_heights <- c(window_heights, window_height)
-  window_h1s <- c(window_h1s, window_h1)
-  window_h2s <- c(window_h2s, window_h2)
-  window_h3s <- c(window_h3s, window_h3)
-  window_w1s <- c(window_w1s, window_w1)
-  window_w2s <- c(window_w2s, window_w2)
-  window_o1s <- c(window_o1s, window_o1)
-  window_o2s <- c(window_o2s, window_o2)
-
-  basic_window_tbl <- tibble::tibble(
-    name = window_names,
-    wall_name = window_wall_names,
-    type = window_types,
-    start = window_starts,
-    width = window_widths,
-    height = window_heights,
-    h1 = window_h1s,
-    h2 = window_h2s,
-    h3 = window_h3s,
-    w1 = window_w1s,
-    w2 = window_w2s,
-    o1 = window_o1s,
-    o2 = window_o2s
+  window_row <- tibble::tibble(
+    name = "Front_Door",
+    wall_name = "Steel_Wall_14_2",
+    type = "Simple door",
+    start = 0,
+    z_start = 0,
+    width = front_door_width - 20,
+    height = 2000,
+    h1 = 100,
+    h2 = 100,
+    h3 = 100,
+    w1 = 200,
+    w2 = 100,
+    o1 = 0,
+    o2 = 0
   )
+  basic_window_tbl <- dplyr::bind_rows(basic_window_tbl, window_row)
+
+  # Bedroom 1 Door
+  window_wall_name <- "Steel_Wall_Bed_1_1"
+  wall_bed_1_1 <-
+    new_walls %>%
+    dplyr::filter(name == window_wall_name)
+  window_row <- tibble::tibble(
+    name = "Bedroom_1_Door",
+    wall_name = window_wall_name,
+    type = "Simple door",
+    start = wall_bed_1_1$length - internal_door_total_width,
+    z_start = wall_z_start,
+    width = internal_door_total_width,
+    height = internal_door_height,
+    h1 = 100,
+    h2 = 100,
+    h3 = 100,
+    w1 = 200,
+    w2 = 100,
+    o1 = 0,
+    o2 = 0
+  )
+  basic_window_tbl <- dplyr::bind_rows(basic_window_tbl, window_row)
+
+  # Bedroom 2 Door
+  window_wall_name <- "Steel_Wall_Bed_2_1"
+  wall_bed_2_1 <-
+    new_walls %>%
+    dplyr::filter(name == window_wall_name)
+  window_row <- tibble::tibble(
+    name = "Bedroom_2_Door",
+    wall_name = window_wall_name,
+    type = "Simple door",
+    start =
+      wall_bed_2_1$length -
+      internal_door_total_width -
+      steel_width -
+      kitchen_unit_width,
+    z_start = wall_z_start,
+    width = internal_door_total_width,
+    height = internal_door_height,
+    h1 = 100,
+    h2 = 100,
+    h3 = 100,
+    w1 = 200,
+    w2 = 100,
+    o1 = 0,
+    o2 = 0
+  )
+  basic_window_tbl <- dplyr::bind_rows(basic_window_tbl, window_row)
+
+  # Living Room Door
+  window_row <- tibble::tibble(
+    name = "Living_Room_Door",
+    wall_name = "Steel_Wall_Corridor_2",
+    type = "Simple door",
+    start = 0,
+    z_start = wall_z_start,
+    width = internal_door_total_width,
+    height = internal_door_height,
+    h1 = 100,
+    h2 = 100,
+    h3 = 100,
+    w1 = 200,
+    w2 = 100,
+    o1 = 0,
+    o2 = 0
+  )
+  basic_window_tbl <- dplyr::bind_rows(basic_window_tbl, window_row)
+
+  # Bathroom Door
+  window_row <- tibble::tibble(
+    name = "Bathroom_Door",
+    wall_name = "Steel_Wall_Bath_2",
+    type = "Simple door",
+    start = steel_width,
+    z_start = wall_z_start,
+    width = internal_door_total_width,
+    height = internal_door_height,
+    h1 = 100,
+    h2 = 100,
+    h3 = 100,
+    w1 = 200,
+    w2 = 100,
+    o1 = 0,
+    o2 = 0
+  )
+  basic_window_tbl <- dplyr::bind_rows(basic_window_tbl, window_row)
+
+  # Corridor Door
+  window_row <- tibble::tibble(
+    name = "Corridor_Door",
+    wall_name = "Steel_Wall_Corridor_1",
+    type = "Glass door",
+    start = steel_width,
+    z_start = wall_z_start,
+    width = internal_door_total_width,
+    height = internal_door_height,
+    h1 = 100,
+    h2 = 100,
+    h3 = 100,
+    w1 = 200,
+    w2 = 100,
+    o1 = 0,
+    o2 = 0
+  )
+  basic_window_tbl <- dplyr::bind_rows(basic_window_tbl, window_row)
+
+  # Garden Door 1
+  window_wall_name <- "Steel_Wall_6"
+  wall_6 <-
+    new_walls %>%
+    dplyr::filter(name == window_wall_name)
+  garden_1_door_width <- 1600
+  garden_door_height = 2500
+  window_border <- (wall_6$length - garden_1_door_width) / 2
+  window_row <- tibble::tibble(
+    name = "Garden_Door_1",
+    wall_name = window_wall_name,
+    type = "Open 2-pane",
+    start = window_border,
+    z_start = wall_z_start,
+    width = garden_1_door_width,
+    height = garden_door_height,
+    h1 = 100,
+    h2 = 100,
+    h3 = 100,
+    w1 = 200,
+    w2 = 100,
+    o1 = 0,
+    o2 = 0
+  )
+  basic_window_tbl <- dplyr::bind_rows(basic_window_tbl, window_row)
+
+  # Garden Door 2
+  window_row <- tibble::tibble(
+    name = "Garden_Door_2",
+    wall_name = "Steel_Wall_7",
+    type = "Open 2-pane",
+    start = window_border,
+    z_start = wall_z_start,
+    width = 2000,
+    height = garden_door_height,
+    h1 = 100,
+    h2 = 100,
+    h3 = 100,
+    w1 = 200,
+    w2 = 100,
+    o1 = 0,
+    o2 = 0
+  )
+  window_name  <- "Garden_Door_2"
+  window_wall_name <- "Steel_Wall_7"
+  window_type <- "Open 2-pane"
+  window_start <- window_border
+  window_z_start <- wall_z_start
+  window_width <- 2000
+  window_height <- 2500
+  basic_window_tbl <- dplyr::bind_rows(basic_window_tbl, window_row)
+
+  # Bedroom 2 Glass Door
+  window_wall_name <- "Steel_Wall_10_2"
+  wall_10_2 <-
+    new_walls %>%
+    dplyr::filter(name == window_wall_name)
+  wall_bed_2_2 <-
+    new_walls %>%
+    dplyr::filter(name == "Steel_Wall_Bed_2_2")
+  window_start <- 450
+  window_row <- tibble::tibble(
+    name = "Bedroom_2__Glass_Door",
+    wall_name = window_wall_name,
+    type = "Glass door",
+    start = window_start,
+    z_start = wall_z_start,
+    width = wall_bed_2_2$start_y - window_start - wall_10_2$start_y,
+    height = internal_door_height,
+    h1 = 100,
+    h2 = 100,
+    h3 = 100,
+    w1 = 200,
+    w2 = 100,
+    o1 = 0,
+    o2 = 0
+  )
+  basic_window_tbl <- dplyr::bind_rows(basic_window_tbl, window_row)
+
+  # Bedroom 1 Window
+  window_wall_name <- "Steel_Wall_14_2"
+  wall_14_2 <-
+    new_walls %>%
+    dplyr::filter(name == window_wall_name)
+  wall_bed_1_1 <-
+    new_walls %>%
+    dplyr::filter(name == "Steel_Wall_Bed_1_1")
+  window_row <- tibble::tibble(
+    name = "Bedroom_1_Window",
+    wall_name = window_wall_name,
+    type = "Open 1-pane",
+    start = wall_bed_1_1$start_x + steel_width - wall_14_2$start_x,
+    z_start = wall_z_start + 1000,
+    width = 1000,
+    height = 1200,
+    h1 = 50,
+    h2 = 50,
+    h3 = 100,
+    w1 = 200,
+    w2 = 100,
+    o1 = 0,
+    o2 = 0
+  )
+  basic_window_tbl <- dplyr::bind_rows(basic_window_tbl, window_row)
+
+  # Corridor Window
+  window_wall_name <- "Steel_Wall_14_2"
+  wall_14_2 <-
+    new_walls %>%
+    dplyr::filter(name == window_wall_name)
+  front_door <-
+    basic_window_tbl %>%
+    dplyr::filter(name == "Front_Door")
+  bedroom_1_window <-
+    basic_window_tbl %>%
+    dplyr::filter(name == "Bedroom_1_Window")
+  window_row <- tibble::tibble(
+    name = "Corridor_Window",
+    wall_name = window_wall_name,
+    type = "Open 1-pane",
+    start = front_door$start,
+    z_start = front_door$height,
+    width = front_door$width,
+    height =
+      bedroom_1_window$height +
+      bedroom_1_window$z_start -
+      front_door$height,
+    h1 = 50,
+    h2 = 50,
+    h3 = 100,
+    w1 = 200,
+    w2 = 100,
+    o1 = 0,
+    o2 = 0
+  )
+  basic_window_tbl <- dplyr::bind_rows(basic_window_tbl, window_row)
+
+  # Bathroom 1 Window
+  window_wall_name <- "Steel_Wall_9"
+  window_width <- 1000
+  wall_9 <-
+    new_walls %>%
+    dplyr::filter(name == window_wall_name)
+  window_row <- tibble::tibble(
+    name = "Bedroom_1_Window",
+    wall_name = window_wall_name,
+    type = "Open 1-pane",
+    start = wall_9$length - window_width,
+    z_start = wall_z_start + 1200,
+    width = window_width,
+    height = 1000,
+    h1 = 50,
+    h2 = 50,
+    h3 = 100,
+    w1 = 200,
+    w2 = 100,
+    o1 = 0,
+    o2 = 0
+  )
+  basic_window_tbl <- dplyr::bind_rows(basic_window_tbl, window_row)
+
+  # Kitchen Window
+  window_wall_name <- "Steel_Wall_10_1"
+  window_width <- 1000
+  wall_10_1 <-
+    new_walls %>%
+    dplyr::filter(name == window_wall_name)
+  window_row <- tibble::tibble(
+    name = "Kitchen_Window",
+    wall_name = window_wall_name,
+    type = "Open 1-pane",
+    start = (wall_10_1$length - window_width) / 2,
+    z_start = wall_z_start + 1200,
+    width = window_width,
+    height = 1000,
+    h1 = 50,
+    h2 = 50,
+    h3 = 100,
+    w1 = 200,
+    w2 = 100,
+    o1 = 0,
+    o2 = 0
+  )
+  basic_window_tbl <- dplyr::bind_rows(basic_window_tbl, window_row)
 
   created_window_tbl <- structure(
     basic_window_tbl,
